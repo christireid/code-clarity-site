@@ -27,7 +27,7 @@ export async function sendContactEmail(formData: {
     }
 
     const { data, error } = await resend.emails.send({
-      from: "Code & Clarity <onboarding@resend.dev>", // You'll need to update this to your verified domain
+      from: "Code & Clarity <info@codeclarity.ai>", // You'll need to update this to your verified domain
       to: ["info@codeclarity.ai"],
       replyTo: formData.email,
       subject: `New Contact Form Submission from ${formData.name}`,
