@@ -92,7 +92,10 @@ export function Navigation() {
               About
             </Link>
             <Button
-              onClick={scrollToContactForm}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                scrollToContactForm();
+              }}
               className="w-full primary-button font-semibold mt-2"
             >
               Get Started
