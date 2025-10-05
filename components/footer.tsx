@@ -95,22 +95,6 @@ export function Footer() {
             </ul>
           </div>
         </div>
-
-        {/* Bottom Bar */}
-        {/* <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>
-            &copy; {new Date().getFullYear()} Code & Clarity. All rights
-            reserved.
-          </p>
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-foreground transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="hover:text-foreground transition-colors">
-              Terms of Service
-            </Link>
-          </div>
-        </div> */}
       </div>
     </footer>
   );
