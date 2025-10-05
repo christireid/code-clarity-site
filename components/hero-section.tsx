@@ -38,11 +38,12 @@ export function HeroSection() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
+              asChild
               size="lg"
               variant="ghost"
               className="w-full sm:w-auto text-lg px-12 py-7 font-medium hover:bg-muted transition-all duration-300"
             >
-              Discover How It Works
+              <a href="#process">Discover How It Works</a>
             </Button>
           </div>
 
