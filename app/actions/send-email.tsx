@@ -10,6 +10,22 @@ export async function sendContactEmail(formData: {
   message: string;
 }) {
   try {
+    // In development or when API key is not configured, simulate a successful send
+    const isProd = process.env.NODE_ENV === "production";
+    const hasApiKey = Boolean(process.env.RESEND_API_KEY);
+
+    if (!isProd || !hasApiKey) {
+      console.info(
+        "sendContactEmail: simulated send (either non-production or missing RESEND_API_KEY)",
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }
+      );
+      return { success: true, data: { simulated: true } };
+    }
+
     const { data, error } = await resend.emails.send({
       from: "Code & Clarity <onboarding@resend.dev>", // You'll need to update this to your verified domain
       to: ["info@codeclarity.ai"],
