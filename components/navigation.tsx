@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { scrollToContactForm } from "./contact-form";
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,7 +45,11 @@ export function Navigation() {
           >
             About
           </Link>
-          <Button size="sm" className="primary-button font-semibold">
+          <Button
+            onClick={scrollToContactForm}
+            size="sm"
+            className="primary-button font-semibold"
+          >
             Get Started
           </Button>
         </div>
@@ -86,8 +91,11 @@ export function Navigation() {
             >
               About
             </Link>
-            <Button className="w-full primary-button font-semibold mt-2">
-              Book Call
+            <Button
+              onClick={scrollToContactForm}
+              className="w-full primary-button font-semibold mt-2"
+            >
+              Get Started
             </Button>
           </div>
         </div>

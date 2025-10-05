@@ -2,6 +2,7 @@
 
 import { ArrowRight, Code2, Layers, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { scrollToContactForm } from "./contact-form";
 
 export function FinalImpactSection() {
   return (
@@ -39,56 +40,45 @@ export function FinalImpactSection() {
 
         {/* Value props grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-20">
-          <div className="rounded-xl group relative p-8 bg-card border border-border minimal-card">
-            <div className="absolute inset-0 rounded-2xl" />
-            <div className="relative">
-              <div className="w-14 h-14 rounded-lg holographic-icon flex items-center justify-center mb-6">
-                <Layers className="w-7 h-7 text-foreground" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Full-Stack Integration
-              </h3>
-              <p className="text-gray-600">
-                Backend APIs that feel natural to use. Frontend interfaces that
-                make complex systems simple.
-              </p>
+          <div className="rounded-xl p-8 bg-card border border-border minimal-card">
+            <div className="w-14 h-14 rounded-lg holographic-icon flex items-center justify-center mb-6">
+              <Layers className="w-7 h-7 text-foreground" strokeWidth={1.5} />
             </div>
+            <h3 className="text-xl font-semibold mb-2">
+              Full-Stack Integration
+            </h3>
+            <p className="text-gray-600">
+              Backend APIs that feel natural to use. Frontend interfaces that
+              make complex systems simple.
+            </p>
           </div>
 
           <div
-            className="rounded-xl group relative p-8 bg-card border border-border minimal-card"
+            className="rounded-xl p-8 bg-card border border-border minimal-card"
             style={{ animationDelay: "0.1s" }}
           >
-            <div className="absolute inset-0 rounded-2xl" />
-            <div className="relative">
-              <div className="w-14 h-14 rounded-lg holographic-icon flex items-center justify-center mb-6">
-                <Code2 className="w-7 h-7 text-foreground" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Developer Experience
-              </h3>
-              <p className="text-gray-600">
-                We build products that developers actually want to use. Clean
-                APIs, intuitive interfaces, delightful interactions.
-              </p>
+            <div className="w-14 h-14 rounded-lg holographic-icon flex items-center justify-center mb-6">
+              <Code2 className="w-7 h-7 text-foreground" strokeWidth={1.5} />
             </div>
+            <h3 className="text-xl font-semibold mb-2">Developer Experience</h3>
+            <p className="text-gray-600">
+              We build products that developers actually want to use. Clean
+              APIs, intuitive interfaces, delightful interactions.
+            </p>
           </div>
 
           <div
-            className="rounded-xl group relative p-8 bg-card border border-border minimal-card"
+            className="rounded-xl p-8 bg-card border border-border minimal-card"
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="absolute inset-0 rounded-2xl" />
-            <div className="relative">
-              <div className="w-14 h-14 rounded-lg holographic-icon flex items-center justify-center mb-6">
-                <Rocket className="w-7 h-7 text-foreground" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Built for Builders</h3>
-              <p className="text-gray-600">
-                From AI tools to developer platforms. We specialize in products
-                that technical teams love.
-              </p>
+            <div className="w-14 h-14 rounded-lg holographic-icon flex items-center justify-center mb-6">
+              <Rocket className="w-7 h-7 text-foreground" strokeWidth={1.5} />
             </div>
+            <h3 className="text-xl font-semibold mb-2">Built for Builders</h3>
+            <p className="text-gray-600">
+              From AI tools to developer platforms. We specialize in products
+              that technical teams love.
+            </p>
           </div>
         </div>
 
@@ -109,6 +99,7 @@ export function FinalImpactSection() {
             <Button
               size="lg"
               className="primary-button px-12 py-7 text-lg font-semibold"
+              onClick={scrollToContactForm}
             >
               <span className="relative z-10 flex items-center gap-2">
                 Start a Conversation
@@ -118,10 +109,10 @@ export function FinalImpactSection() {
             <p className="text-sm text-gray-500">
               Email us at{" "}
               <a
-                href="mailto:christi@codeclarity.ai"
-                className="bg-gradient-to-r from-[oklch(0.5_0.12_280)] to-[oklch(0.6_0.1_240)] bg-clip-text text-transparent mt-0.5 font-medium"
+                href="mailto:info@codeclarity.ai"
+                className="cursor-pointer bg-gradient-to-r from-[oklch(0.5_0.12_280)] to-[oklch(0.6_0.1_240)] bg-clip-text text-transparent mt-0.5 font-medium"
               >
-                christi@codeclarity.ai
+                info@codeclarity.ai
               </a>{" "}
             </p>
           </div>

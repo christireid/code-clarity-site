@@ -75,7 +75,7 @@ export function FaqSection() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="premium-card rounded-xl sm:rounded-2xl overflow-hidden bg-card"
+              className="rounded-xl sm:rounded-2xl overflow-hidden bg-card border border-border"
             >
               <button
                 onClick={() => toggleAccordion(index)}

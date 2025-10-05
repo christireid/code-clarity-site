@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 export function AboutSection() {
   return (
@@ -130,11 +130,11 @@ export function AboutSection() {
 
           <div className="flex items-center justify-center gap-6 pt-8">
             <a
-              href="mailto:christi@codeandclarity.com"
+              href="mailto:info@codeandclarity.com"
               className="flex items-center gap-2 text-black hover:text-primary transition-colors"
             >
               <Mail className="w-5 h-5" strokeWidth={1.5} />
-              <span>christi@codeclarity.ai</span>
+              <span>info@codeclarity.ai</span>
             </a>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { scrollToContactForm } from "./contact-form";
 
 export function HeroSection() {
   return (
@@ -30,6 +31,7 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 fade-in-delay-2">
             <Button
               size="lg"
+              onClick={scrollToContactForm}
               className="w-full sm:w-auto text-lg px-12 py-7 primary-button font-semibold"
             >
               Build with Clarity
@@ -38,7 +40,7 @@ export function HeroSection() {
             <Button
               size="lg"
               variant="ghost"
-              className="w-full sm:w-auto text-lg px-12 py-7 font-medium hover:bg-muted transition-all duration-300 hover:cursor-pointer"
+              className="w-full sm:w-auto text-lg px-12 py-7 font-medium hover:bg-muted transition-all duration-300"
             >
               Discover How It Works
             </Button>
@@ -48,7 +50,7 @@ export function HeroSection() {
             <div className="w-2 h-2 rounded-full accent-dot" />
             <span>
               Available for new projects • Specializing in systems design &
-              developer platforms
+              developer tools
             </span>
           </div>
         </div>

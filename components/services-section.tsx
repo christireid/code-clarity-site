@@ -1,5 +1,6 @@
 import { Sparkles, Code2, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { scrollToContactForm } from "./contact-form";
 
 const services = [
   {
@@ -129,6 +130,7 @@ export function ServicesSection() {
 
         <div className="text-center mt-16">
           <Button
+            onClick={scrollToContactForm}
             size="lg"
             className="primary-button px-12 py-7 text-lg font-semibold"
           >

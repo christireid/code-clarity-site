@@ -85,11 +85,11 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li>
                 <a
-                  href="mailto:christi@codeclarity.ai"
+                  href="mailto:info@codeclarity.ai"
                   className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
                 >
                   <Mail className="w-4 h-4" />
-                  christi@codeclarity.ai
+                  info@codeclarity.ai
                 </a>
               </li>
             </ul>
