@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getPosts } from "@/lib/ghost";
+import { getPostBySlugWithFallback, getPostsWithFallback } from "@/lib/ghost";
 import { BlogPostContent } from "@/components/blog/blog-post-content";
 import { BlogPostHeader } from "@/components/blog/blog-post-header";
 import { BlogPostFooter } from "@/components/blog/blog-post-footer";
@@ -15,7 +15,7 @@ interface BlogPostPageProps {
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
-  const post = await getPostBySlug(params.slug);
+  const post = await getPostBySlugWithFallback(params.slug);
 
   if (!post) {
     return {
@@ -41,19 +41,14 @@ export const revalidate = 3600; // Revalidate every hour
 
 // Generate static paths for known posts
 export async function generateStaticParams() {
-  try {
-    const posts = await getPosts({ limit: 100 });
-    return posts.map((post) => ({
-      slug: post.slug,
-    }));
-  } catch (error) {
-    console.error("Error generating static params:", error);
-    return [];
-  }
+  const posts = await getPostsWithFallback({ limit: 100 });
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await getPostBySlug(params.slug);
+  const post = await getPostBySlugWithFallback(params.slug);
 
   if (!post) {
     notFound();
