@@ -1,108 +1,187 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
-import { scrollToContactForm } from "./contact-form";
+import Link from "next/link"
+import Image from "next/image"
+import { Menu, X, ArrowRight } from "lucide-react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+
+const navLinks = [
+  { href: "#demo", label: "Demo" },
+  { href: "#features", label: "Features" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "/services", label: "Services" },
+  { href: "/docs", label: "Docs" },
+]
 
 export function Navigation() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToSection = (href: string) => {
+    setMobileMenuOpen(false)
+    if (href.startsWith("#")) {
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
+    }
+  }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between max-w-7xl">
-        <Link href="/" className="flex items-center gap-3 group min-h-[44px]">
-          <div className="relative w-9 h-9 transition-transform group-hover:scale-110 duration-300">
-            <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20for%20Tech-Focused%20Business%20-%20%27Code%20%26%20Form%27-NJk6yRYWLMnV5JFzzq8MfTvBBoRRxv.png"
-              alt="Code & Clarity Logo"
-              width={36}
-              height={36}
-              className="object-contain"
-            />
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-background/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/5"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-3 group min-h-[44px]"
+          >
+            <div className="relative w-9 h-9 transition-transform group-hover:scale-110 duration-300">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20for%20Tech-Focused%20Business%20-%20%27Code%20%26%20Form%27-NJk6yRYWLMnV5JFzzq8MfTvBBoRRxv.png"
+                alt="Code & Clarity Logo"
+                width={36}
+                height={36}
+                className="object-contain"
+              />
+            </div>
+            <span className="font-bold text-xl">
+              Code & <span className="gradient-text">Clarity</span>
+            </span>
+          </Link>
+
+          {/* Desktop navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={(e) => {
+                  if (link.href.startsWith("#")) {
+                    e.preventDefault()
+                    scrollToSection(link.href)
+                  }
+                }}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
+              >
+                {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-300" />
+              </Link>
+            ))}
           </div>
-          <span className="font-bold text-xl">Code & Clarity</span>
-        </Link>
 
-        <div className="hidden md:flex items-center gap-8">
-          <Link
-            href="#services"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[oklch(0.5_0.12_280)] after:to-[oklch(0.6_0.1_240)] hover:after:w-full after:transition-all after:duration-300"
-          >
-            Services
-          </Link>
-          <Link
-            href="#process"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[oklch(0.5_0.12_280)] after:to-[oklch(0.6_0.1_240)] hover:after:w-full after:transition-all after:duration-300"
-          >
-            Process
-          </Link>
-          <Link
-            href="#about"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[oklch(0.5_0.12_280)] after:to-[oklch(0.6_0.1_240)] hover:after:w-full after:transition-all after:duration-300"
-          >
-            About
-          </Link>
-          <Button
-            onClick={scrollToContactForm}
-            size="sm"
-            className="primary-button font-semibold"
-          >
-            Get Started
-          </Button>
-        </div>
-
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
-        </button>
-      </div>
-
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background fade-in">
-          <div className="container mx-auto px-4 py-6 flex flex-col gap-4">
+          {/* CTA button */}
+          <div className="hidden md:flex items-center gap-4">
             <Link
-              href="#services"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
-            >
-              Services
-            </Link>
-            <Link
-              href="#process"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
-            >
-              Process
-            </Link>
-            <Link
-              href="#about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
-            >
-              About
-            </Link>
-            <Button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                scrollToContactForm();
-              }}
-              className="w-full primary-button font-semibold mt-2"
+              href="#contact"
+              className="cta-button px-5 py-2.5 rounded-lg text-sm font-medium inline-flex items-center gap-2 group"
             >
               Get Started
-            </Button>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
           </div>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 hover:bg-muted/50 rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
         </div>
-      )}
-    </nav>
-  );
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 md:hidden"
+          >
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-background/95 backdrop-blur-xl"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Menu content */}
+            <div className="relative pt-24 px-6">
+              <div className="flex flex-col gap-2">
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={(e) => {
+                        if (link.href.startsWith("#")) {
+                          e.preventDefault()
+                          scrollToSection(link.href)
+                        } else {
+                          setMobileMenuOpen(false)
+                        }
+                      }}
+                      className="block py-4 text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors border-b border-white/5"
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ))}
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="mt-8"
+                >
+                  <Link
+                    href="#contact"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      scrollToSection("#contact")
+                    }}
+                    className="cta-button w-full py-4 rounded-xl text-lg font-medium inline-flex items-center justify-center gap-2"
+                  >
+                    Get Started
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  )
 }
+
+export default Navigation

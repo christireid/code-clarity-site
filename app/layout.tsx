@@ -5,12 +5,58 @@ import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { Suspense } from "react"
+import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider"
 
 export const metadata: Metadata = {
-  title: "Code & Clarity | Frontend Development for AI & Developer Tools",
+  title: "Code & Clarity | Premium AI Chat Components for React",
   description:
-    "Custom React/TypeScript interfaces that make complex AI systems, automation platforms, and backend APIs accessible to developers.",
-  generator: "v0.app",
+    "Build ChatGPT-quality AI chat interfaces in hours, not months. Token-optimized, enterprise-ready React components with multi-provider support.",
+  keywords: [
+    "AI chat",
+    "React components",
+    "ChatGPT UI",
+    "token optimization",
+    "streaming chat",
+    "AI development",
+    "Clarity Chat",
+  ],
+  authors: [{ name: "Code & Clarity" }],
+  creator: "Code & Clarity",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://codeclarity.ai",
+    siteName: "Code & Clarity",
+    title: "Code & Clarity | Premium AI Chat Components",
+    description:
+      "Build ChatGPT-quality AI chat interfaces in hours, not months.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Code & Clarity - Premium AI Chat Components",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Code & Clarity | Premium AI Chat Components",
+    description:
+      "Build ChatGPT-quality AI chat interfaces in hours, not months.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 }
 
 export default function RootLayout({
@@ -19,9 +65,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}
+      >
+        <SmoothScrollProvider>
+          <Suspense
+            fallback={
+              <div className="min-h-screen bg-background flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              </div>
+            }
+          >
+            {children}
+          </Suspense>
+        </SmoothScrollProvider>
         <Analytics />
       </body>
     </html>
