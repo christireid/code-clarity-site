@@ -1,29 +1,71 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { toast } from "sonner"
 import { Send, CheckCircle, AlertCircle, Mail, MessageSquare } from "lucide-react"
+import { sendContactEmail } from "@/app/actions/send-email"
+import { fadeInUp, slideInLeft, slideInRight, viewportOnce } from "@/lib/animations"
+
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  company: z.string().optional(),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+  type: z.enum(["general", "enterprise", "consulting", "support"]),
+})
+
+type ContactFormData = z.infer<typeof contactSchema>
+
+const inquiryTypes = [
+  { value: "general" as const, label: "General Inquiry" },
+  { value: "enterprise" as const, label: "Enterprise" },
+  { value: "consulting" as const, label: "Consulting" },
+  { value: "support" as const, label: "Support" },
+]
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-    type: "general",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      type: "general",
+      name: "",
+      email: "",
+      company: "",
+      message: "",
+    },
   })
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus("loading")
+  const selectedType = watch("type")
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    setStatus("success")
-    setFormData({ name: "", email: "", company: "", message: "", type: "general" })
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      const result = await sendContactEmail(data)
 
-    setTimeout(() => setStatus("idle"), 3000)
+      if (result.success) {
+        toast.success("Message sent successfully!", {
+          description: "We'll get back to you within 24 hours.",
+        })
+        reset()
+      } else {
+        toast.error("Failed to send message", {
+          description: result.error || "Please try again later.",
+        })
+      }
+    } catch {
+      toast.error("Something went wrong", {
+        description: "Please try again later.",
+      })
+    }
   }
 
   return (
@@ -36,10 +78,10 @@ export function ContactSection() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Left column - Info */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={slideInLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
           >
             <h2 className="text-headline font-bold mb-6">
               Let's build something{" "}
@@ -84,7 +126,9 @@ export function ContactSection() {
             {/* Response time */}
             <div className="mt-8 p-4 rounded-xl bg-muted/30 border border-white/5">
               <p className="text-sm text-muted-foreground">
-                <span className="text-primary font-medium">Typical response time:</span>{" "}
+                <span className="text-primary font-medium">
+                  Typical response time:
+                </span>{" "}
                 Within 24 hours for general inquiries, same-day for enterprise.
               </p>
             </div>
@@ -92,37 +136,28 @@ export function ContactSection() {
 
           {/* Right column - Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            variants={slideInRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
           >
             <div className="premium-card p-8 rounded-2xl">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 {/* Inquiry type */}
                 <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { value: "general", label: "General Inquiry" },
-                    { value: "enterprise", label: "Enterprise" },
-                    { value: "consulting", label: "Consulting" },
-                    { value: "support", label: "Support" },
-                  ].map((option) => (
+                  {inquiryTypes.map((option) => (
                     <label
                       key={option.value}
                       className={`flex items-center justify-center px-4 py-2.5 rounded-lg cursor-pointer transition-all text-sm font-medium ${
-                        formData.type === option.value
+                        selectedType === option.value
                           ? "bg-primary text-white"
                           : "bg-muted/50 text-muted-foreground hover:bg-muted"
                       }`}
                     >
                       <input
                         type="radio"
-                        name="type"
                         value={option.value}
-                        checked={formData.type === option.value}
-                        onChange={(e) =>
-                          setFormData({ ...formData, type: e.target.value })
-                        }
+                        {...register("type")}
                         className="sr-only"
                       />
                       {option.label}
@@ -133,30 +168,44 @@ export function ContactSection() {
                 {/* Name & Email */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Name</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Name
+                    </label>
                     <input
                       type="text"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      required
-                      className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-white/5 text-sm outline-none focus:border-primary transition-colors"
+                      {...register("name")}
+                      className={`w-full px-4 py-3 rounded-xl bg-muted/50 border text-sm outline-none transition-colors ${
+                        errors.name
+                          ? "border-destructive focus:border-destructive"
+                          : "border-white/5 focus:border-primary"
+                      }`}
                       placeholder="Your name"
                     />
+                    {errors.name && (
+                      <p className="text-xs text-destructive mt-1">
+                        {errors.name.message}
+                      </p>
+                    )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Email
+                    </label>
                     <input
                       type="email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      required
-                      className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-white/5 text-sm outline-none focus:border-primary transition-colors"
+                      {...register("email")}
+                      className={`w-full px-4 py-3 rounded-xl bg-muted/50 border text-sm outline-none transition-colors ${
+                        errors.email
+                          ? "border-destructive focus:border-destructive"
+                          : "border-white/5 focus:border-primary"
+                      }`}
                       placeholder="you@company.com"
                     />
+                    {errors.email && (
+                      <p className="text-xs text-destructive mt-1">
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -167,10 +216,7 @@ export function ContactSection() {
                   </label>
                   <input
                     type="text"
-                    value={formData.company}
-                    onChange={(e) =>
-                      setFormData({ ...formData, company: e.target.value })
-                    }
+                    {...register("company")}
                     className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-white/5 text-sm outline-none focus:border-primary transition-colors"
                     placeholder="Your company"
                   />
@@ -178,39 +224,41 @@ export function ContactSection() {
 
                 {/* Message */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Message</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Message
+                  </label>
                   <textarea
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    required
+                    {...register("message")}
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-white/5 text-sm outline-none focus:border-primary transition-colors resize-none"
+                    className={`w-full px-4 py-3 rounded-xl bg-muted/50 border text-sm outline-none transition-colors resize-none ${
+                      errors.message
+                        ? "border-destructive focus:border-destructive"
+                        : "border-white/5 focus:border-primary"
+                    }`}
                     placeholder="Tell us about your project..."
                   />
+                  {errors.message && (
+                    <p className="text-xs text-destructive mt-1">
+                      {errors.message.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Submit */}
                 <button
                   type="submit"
-                  disabled={status === "loading" || status === "success"}
-                  className="w-full cta-button py-4 rounded-xl text-base font-medium inline-flex items-center justify-center gap-2 disabled:opacity-50"
+                  disabled={isSubmitting}
+                  className="w-full cta-button py-4 rounded-xl text-base font-medium inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {status === "loading" ? (
+                  {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Sending...
                     </>
-                  ) : status === "success" ? (
+                  ) : isSubmitSuccessful ? (
                     <>
                       <CheckCircle className="w-5 h-5" />
                       Message sent!
-                    </>
-                  ) : status === "error" ? (
-                    <>
-                      <AlertCircle className="w-5 h-5" />
-                      Error - Try again
                     </>
                   ) : (
                     <>

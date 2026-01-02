@@ -1,9 +1,21 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Github, Twitter, Linkedin, Mail, ArrowUpRight } from "lucide-react"
+import { Github, Twitter, Linkedin, Mail, ArrowUpRight, Loader2, CheckCircle } from "lucide-react"
 import { motion } from "framer-motion"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { toast } from "sonner"
+import { subscribeToNewsletter } from "@/app/actions/send-email"
+
+const newsletterSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+})
+
+type NewsletterFormData = z.infer<typeof newsletterSchema>
 
 const footerLinks = {
   product: [
@@ -51,6 +63,39 @@ const socialLinks = [
 ]
 
 export function Footer() {
+  const [subscribed, setSubscribed] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<NewsletterFormData>({
+    resolver: zodResolver(newsletterSchema),
+  })
+
+  const onSubmitNewsletter = async (data: NewsletterFormData) => {
+    try {
+      const result = await subscribeToNewsletter(data)
+
+      if (result.success) {
+        toast.success("Subscribed successfully!", {
+          description: "You'll receive the latest updates in your inbox.",
+        })
+        setSubscribed(true)
+        reset()
+      } else {
+        toast.error("Failed to subscribe", {
+          description: result.error || "Please try again later.",
+        })
+      }
+    } catch {
+      toast.error("Something went wrong", {
+        description: "Please try again later.",
+      })
+    }
+  }
+
   return (
     <footer className="relative border-t border-white/5 bg-background">
       {/* Background gradient */}
@@ -64,7 +109,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3 group w-fit mb-6">
               <div className="relative w-10 h-10 transition-transform group-hover:scale-110 duration-300">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20for%20Tech-Focused%20Business%20-%20%27Code%20%26%20Form%27-NJk6yRYWLMnV5JFzzq8MfTvBBoRRxv.png"
+                  src="/placeholder-logo.svg"
                   alt="Code & Clarity Logo"
                   width={40}
                   height={40}
@@ -175,19 +220,45 @@ export function Footer() {
                 Get the latest updates on Clarity Chat and AI development tips.
               </p>
             </div>
-            <form className="flex gap-3 w-full md:w-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 md:w-64 px-4 py-3 rounded-xl bg-muted text-sm outline-none focus:ring-2 focus:ring-primary transition-shadow"
-              />
-              <button
-                type="submit"
-                className="cta-button px-6 py-3 rounded-xl text-sm font-medium whitespace-nowrap"
-              >
-                Subscribe
-              </button>
-            </form>
+            {subscribed ? (
+              <div className="flex items-center gap-2 text-primary">
+                <CheckCircle className="w-5 h-5" />
+                <span className="text-sm font-medium">Thanks for subscribing!</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmitNewsletter)} className="flex flex-col gap-2 w-full md:w-auto">
+                <div className="flex gap-3">
+                  <input
+                    type="email"
+                    {...register("email")}
+                    placeholder="Enter your email"
+                    className={`flex-1 md:w-64 px-4 py-3 rounded-xl bg-muted text-sm outline-none transition-all ${
+                      errors.email
+                        ? "ring-2 ring-destructive"
+                        : "focus:ring-2 focus:ring-primary"
+                    }`}
+                    disabled={isSubmitting}
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="cta-button px-6 py-3 rounded-xl text-sm font-medium whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Subscribing...
+                      </>
+                    ) : (
+                      "Subscribe"
+                    )}
+                  </button>
+                </div>
+                {errors.email && (
+                  <p className="text-xs text-destructive">{errors.email.message}</p>
+                )}
+              </form>
+            )}
           </div>
         </div>
 

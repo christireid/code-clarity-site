@@ -1,9 +1,15 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import { ArrowRight, Sparkles, ChevronDown } from "lucide-react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import {
+  staggerContainer,
+  fadeInUp,
+  fadeInScale,
+} from "@/lib/animations"
 
 // Dynamically import the 3D canvas to avoid SSR issues
 const ParticleFieldCanvas = dynamic(
@@ -16,7 +22,40 @@ const ParticleFieldCanvas = dynamic(
   }
 )
 
-const containerVariants = {
+// Hook to detect WebGL support
+function useWebGLSupport() {
+  const [supported, setSupported] = useState(true)
+
+  useEffect(() => {
+    try {
+      const canvas = document.createElement("canvas")
+      const gl =
+        canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
+      setSupported(!!gl)
+    } catch {
+      setSupported(false)
+    }
+  }, [])
+
+  return supported
+}
+
+// Static gradient fallback for non-WebGL browsers
+function GradientFallback() {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-secondary/20 rounded-full blur-3xl animate-pulse"
+        style={{ animationDelay: "1s" }}
+      />
+    </div>
+  )
+}
+
+// Hero-specific container with slower stagger
+const heroContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -27,7 +66,8 @@ const containerVariants = {
   },
 }
 
-const itemVariants = {
+// Hero-specific item with slightly longer duration
+const heroItem = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
@@ -39,20 +79,11 @@ const itemVariants = {
   },
 }
 
-const fadeInScale = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 1,
-      ease: [0.25, 0.4, 0.25, 1] as const,
-      delay: 0.8,
-    },
-  },
-}
-
 export function HeroSection() {
+  const prefersReducedMotion = useReducedMotion()
+  const supportsWebGL = useWebGLSupport()
+  const showParticles = supportsWebGL && !prefersReducedMotion
+
   const scrollToDemo = () => {
     const demoSection = document.getElementById("demo")
     if (demoSection) {
@@ -78,8 +109,12 @@ export function HeroSection() {
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 grid-pattern opacity-50" />
 
-      {/* 3D Particle Field */}
-      <ParticleFieldCanvas className="absolute inset-0 z-0" />
+      {/* 3D Particle Field or Fallback */}
+      {showParticles ? (
+        <ParticleFieldCanvas className="absolute inset-0 z-0" />
+      ) : (
+        <GradientFallback />
+      )}
 
       {/* Radial gradient overlay for depth */}
       <div className="absolute inset-0 radial-gradient-bg pointer-events-none" />
@@ -87,12 +122,15 @@ export function HeroSection() {
       {/* Content */}
       <motion.div
         className="relative z-10 max-w-5xl mx-auto px-6 text-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+        variants={prefersReducedMotion ? undefined : heroContainer}
+        initial={prefersReducedMotion ? undefined : "hidden"}
+        animate={prefersReducedMotion ? undefined : "visible"}
       >
         {/* Eyebrow */}
-        <motion.div variants={itemVariants} className="mb-6">
+        <motion.div
+          variants={prefersReducedMotion ? undefined : heroItem}
+          className="mb-6"
+        >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary">
             <Sparkles className="w-4 h-4" />
             <span>Clarity Chat is now in Beta</span>
@@ -102,7 +140,7 @@ export function HeroSection() {
 
         {/* Headline */}
         <motion.h1
-          variants={itemVariants}
+          variants={prefersReducedMotion ? undefined : heroItem}
           className="text-display font-bold tracking-tight mb-6"
         >
           <span className="block">Build ChatGPT-quality</span>
@@ -112,7 +150,7 @@ export function HeroSection() {
 
         {/* Subheadline */}
         <motion.p
-          variants={itemVariants}
+          variants={prefersReducedMotion ? undefined : heroItem}
           className="text-body-large text-muted-foreground max-w-2xl mx-auto mb-10"
         >
           The premium React component library for AI chat applications.
@@ -122,11 +160,11 @@ export function HeroSection() {
 
         {/* CTAs */}
         <motion.div
-          variants={itemVariants}
+          variants={prefersReducedMotion ? undefined : heroItem}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <Link
-            href="#demo"
+            href="/docs/getting-started"
             className="cta-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2 group"
           >
             Get Started Free
@@ -142,7 +180,7 @@ export function HeroSection() {
 
         {/* Stats row */}
         <motion.div
-          variants={itemVariants}
+          variants={prefersReducedMotion ? undefined : heroItem}
           className="mt-16 flex flex-wrap justify-center gap-8 md:gap-16"
         >
           {[
@@ -164,9 +202,9 @@ export function HeroSection() {
 
       {/* 3D Scene Container (below content) */}
       <motion.div
-        variants={fadeInScale}
-        initial="hidden"
-        animate="visible"
+        variants={prefersReducedMotion ? undefined : fadeInScale}
+        initial={prefersReducedMotion ? undefined : "hidden"}
+        animate={prefersReducedMotion ? undefined : "visible"}
         className="relative z-10 w-full max-w-4xl mx-auto mt-16 px-6"
       >
         <div className="relative aspect-video rounded-2xl overflow-hidden glass-card glow-primary">
@@ -186,9 +224,9 @@ export function HeroSection() {
               {/* Chat messages preview */}
               <div className="flex-1 py-6 space-y-4 overflow-hidden">
                 <motion.div
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={prefersReducedMotion ? undefined : { opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.5 }}
+                  transition={{ delay: prefersReducedMotion ? 0 : 1.5 }}
                   className="flex justify-end"
                 >
                   <div className="chat-bubble-user px-4 py-2 max-w-[70%]">
@@ -197,9 +235,9 @@ export function HeroSection() {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={prefersReducedMotion ? undefined : { opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 2 }}
+                  transition={{ delay: prefersReducedMotion ? 0 : 2 }}
                   className="flex justify-start"
                 >
                   <div className="chat-bubble-ai px-4 py-3 max-w-[80%]">
@@ -219,9 +257,9 @@ export function HeroSection() {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0 }}
+                  initial={prefersReducedMotion ? undefined : { opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 2.5 }}
+                  transition={{ delay: prefersReducedMotion ? 0 : 2.5 }}
                   className="flex justify-start"
                 >
                   <div className="flex items-center gap-1 px-4 py-2">
@@ -257,9 +295,9 @@ export function HeroSection() {
 
       {/* Scroll indicator */}
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={prefersReducedMotion ? undefined : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 3 }}
+        transition={{ delay: prefersReducedMotion ? 0 : 3 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
       >
         <button

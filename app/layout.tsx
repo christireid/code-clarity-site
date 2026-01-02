@@ -3,12 +3,17 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
+import { Toaster } from "sonner"
 import "./globals.css"
 import { Suspense } from "react"
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider"
 
 export const metadata: Metadata = {
-  title: "Code & Clarity | Premium AI Chat Components for React",
+  metadataBase: new URL("https://codeclarity.ai"),
+  title: {
+    default: "Code & Clarity | Premium AI Chat Components for React",
+    template: "%s | Code & Clarity",
+  },
   description:
     "Build ChatGPT-quality AI chat interfaces in hours, not months. Token-optimized, enterprise-ready React components with multi-provider support.",
   keywords: [
@@ -80,6 +85,16 @@ export default function RootLayout({
             {children}
           </Suspense>
         </SmoothScrollProvider>
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: "hsl(240, 10%, 8%)",
+              border: "1px solid hsl(240, 5%, 17%)",
+              color: "hsl(0, 0%, 98%)",
+            },
+          }}
+        />
         <Analytics />
       </body>
     </html>

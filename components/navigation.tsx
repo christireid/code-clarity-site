@@ -56,7 +56,7 @@ export function Navigation() {
           >
             <div className="relative w-9 h-9 transition-transform group-hover:scale-110 duration-300">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20for%20Tech-Focused%20Business%20-%20%27Code%20%26%20Form%27-NJk6yRYWLMnV5JFzzq8MfTvBBoRRxv.png"
+                src="/placeholder-logo.svg"
                 alt="Code & Clarity Logo"
                 width={36}
                 height={36}
