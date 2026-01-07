@@ -7,7 +7,7 @@ import { z } from "zod"
 import { toast } from "sonner"
 import { Send, CheckCircle, Mail, MessageSquare } from "lucide-react"
 import { sendContactEmail } from "@/app/actions/send-email"
-import { fadeInUp, slideInLeft, slideInRight, viewportOnce } from "@/lib/animations"
+import { slideInLeft, slideInRight, viewportOnce } from "@/lib/animations"
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -32,7 +32,6 @@ export function ContactSection() {
     handleSubmit,
     reset,
     watch,
-    setValue,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),

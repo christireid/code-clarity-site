@@ -15,7 +15,7 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
   const { viewport } = useThree()
 
   // Generate random positions for particles
-  const [positions, colors, originalPositions] = useMemo(() => {
+  const [positions, _colors, originalPositions] = useMemo(() => {
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
     const originalPositions = new Float32Array(count * 3)
@@ -131,13 +131,13 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
 // Connection lines between nearby particles
 function ConnectionLines({
   count = 500,
-  mouse,
+  mouse: _mouse,
 }: {
   count?: number
   mouse: { x: number; y: number }
 }) {
   const linesRef = useRef<THREE.LineSegments>(null)
-  const { viewport } = useThree()
+  useThree() // viewport available if needed for future enhancements
 
   const [positions, indices] = useMemo(() => {
     const positions = new Float32Array(count * 3)

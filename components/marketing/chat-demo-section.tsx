@@ -6,7 +6,6 @@ import {
   Send,
   Settings,
   Code2,
-  Palette,
   Sparkles,
   Check,
   Copy,
@@ -493,7 +492,7 @@ function syntaxHighlight(code: string): string {
       '<span class="text-primary">$1</span>'
     )
     .replace(
-      /('[@\w\/\-.]+')/g,
+      /('[@\w/\-.]+')/g,
       '<span class="text-accent">$1</span>'
     )
     .replace(

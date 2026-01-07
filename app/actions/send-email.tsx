@@ -4,18 +4,50 @@ import { Resend } from "resend"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+/**
+ * Contact form submission data structure
+ */
 export interface ContactFormData {
+  /** User's full name */
   name: string
+  /** User's email address for replies */
   email: string
+  /** Optional company or organization name */
   company?: string
+  /** The inquiry message content */
   message: string
+  /** Type of inquiry for routing and subject line */
   type: "general" | "enterprise" | "consulting" | "support"
 }
 
+/**
+ * Newsletter subscription data structure
+ */
 export interface NewsletterFormData {
+  /** Subscriber's email address */
   email: string
 }
 
+/**
+ * Sends a contact form email using Resend API.
+ * In development or when RESEND_API_KEY is missing, simulates a successful send.
+ *
+ * @param formData - The contact form submission data
+ * @returns Promise with success status and optional data/error
+ *
+ * @example
+ * ```ts
+ * const result = await sendContactEmail({
+ *   name: "John Doe",
+ *   email: "john@example.com",
+ *   message: "Hello, I'd like to learn more...",
+ *   type: "general"
+ * })
+ * if (result.success) {
+ *   // Show success message
+ * }
+ * ```
+ */
 export async function sendContactEmail(formData: ContactFormData) {
   try {
     // In development or when API key is not configured, simulate a successful send
@@ -67,6 +99,21 @@ export async function sendContactEmail(formData: ContactFormData) {
   }
 }
 
+/**
+ * Subscribes an email to the newsletter.
+ * In development or when RESEND_API_KEY is missing, simulates a successful subscription.
+ *
+ * @param formData - The newsletter subscription data containing the email
+ * @returns Promise with success status and optional data/error
+ *
+ * @example
+ * ```ts
+ * const result = await subscribeToNewsletter({ email: "user@example.com" })
+ * if (result.success) {
+ *   // Show confirmation toast
+ * }
+ * ```
+ */
 export async function subscribeToNewsletter(formData: NewsletterFormData) {
   try {
     const isProd = process.env.NODE_ENV === "production"

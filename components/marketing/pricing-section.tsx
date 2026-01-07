@@ -116,7 +116,7 @@ export function PricingSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {tiers.map((tier, index) => (
+          {tiers.map((tier) => (
             <motion.div
               key={tier.name}
               variants={itemVariants}
