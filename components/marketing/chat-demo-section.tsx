@@ -380,8 +380,8 @@ export function ChatDemoSection() {
             {/* Demo controls */}
             <div className="px-4 py-3 border-t border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <span className="text-xs text-muted-foreground">Provider:</span>
-                <select className="text-xs bg-muted px-2 py-1 rounded">
+                <label htmlFor="demo-provider" className="text-xs text-muted-foreground">Provider:</label>
+                <select id="demo-provider" className="text-xs bg-muted px-2 py-1 rounded" aria-label="Select AI provider">
                   <option>OpenAI</option>
                   <option>Anthropic</option>
                   <option>Google</option>

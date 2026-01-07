@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
-import { Send, CheckCircle, AlertCircle, Mail, MessageSquare } from "lucide-react"
+import { Send, CheckCircle, Mail, MessageSquare } from "lucide-react"
 import { sendContactEmail } from "@/app/actions/send-email"
 import { fadeInUp, slideInLeft, slideInRight, viewportOnce } from "@/lib/animations"
 
