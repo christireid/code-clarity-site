@@ -133,7 +133,7 @@ export function HeroSection() {
         >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary">
             <Sparkles className="w-4 h-4" />
-            <span>Clarity Chat is now in Beta</span>
+            <span>Save 60-90% on AI costs with built-in token optimization</span>
             <ArrowRight className="w-4 h-4" />
           </span>
         </motion.div>
@@ -184,9 +184,9 @@ export function HeroSection() {
           className="mt-16 flex flex-wrap justify-center gap-8 md:gap-16"
         >
           {[
-            { value: "56%", label: "Smaller bundle" },
-            { value: "181/181", label: "Tests passing" },
-            { value: "WCAG 2.1", label: "AA compliant" },
+            { value: "200+", label: "Components" },
+            { value: "95+", label: "Hooks" },
+            { value: "WCAG AAA", label: "Accessible" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-2xl md:text-3xl font-bold gradient-text">

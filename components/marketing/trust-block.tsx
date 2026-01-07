@@ -1,56 +1,45 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Star, GitBranch, Users, Download } from "lucide-react"
+import { Box, Layers, Palette, Percent, Code2, Shield } from "lucide-react"
 
 const stats = [
   {
-    icon: Star,
-    value: "4.9",
-    suffix: "/5",
-    label: "Developer rating",
+    icon: Box,
+    value: "200",
+    suffix: "+",
+    label: "React Components",
   },
   {
-    icon: Download,
-    value: "10K",
+    icon: Layers,
+    value: "95",
     suffix: "+",
-    label: "Weekly downloads",
+    label: "Custom Hooks",
   },
   {
-    icon: GitBranch,
-    value: "500",
-    suffix: "+",
-    label: "GitHub stars",
+    icon: Palette,
+    value: "15",
+    suffix: "",
+    label: "Theme Presets",
   },
   {
-    icon: Users,
-    value: "1,200",
-    suffix: "+",
-    label: "Active projects",
+    icon: Percent,
+    value: "60-90",
+    suffix: "%",
+    label: "Cost Savings",
   },
 ]
 
-const testimonials = [
+const highlights = [
   {
-    quote:
-      "Clarity Chat cut our development time by 70%. The token optimization alone saved us thousands in API costs.",
-    author: "Sarah Chen",
-    role: "CTO, TechStartup",
-    avatar: "SC",
+    icon: Code2,
+    title: "100% TypeScript",
+    description: "Fully typed with strict mode enabled",
   },
   {
-    quote:
-      "Finally, a component library that understands AI. The streaming hooks are exactly what we needed.",
-    author: "Marcus Johnson",
-    role: "Lead Developer, AI Labs",
-    avatar: "MJ",
-  },
-  {
-    quote:
-      "Enterprise-ready from day one. We deployed to production in a week.",
-    author: "Emily Rodriguez",
-    role: "Engineering Manager, Fortune 500",
-    avatar: "ER",
+    icon: Shield,
+    title: "WCAG AAA",
+    description: "Accessibility-first design",
   },
 ]
 
@@ -84,9 +73,25 @@ export function TrustBlock() {
       <div className="absolute inset-0 radial-gradient-bg opacity-50" />
 
       <div className="relative max-w-7xl mx-auto px-6">
+        {/* Section header */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-headline font-bold mb-4">
+            The <span className="gradient-text">Complete</span> AI Chat Library
+          </h2>
+          <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
+            Not just a SDK - it's a production-ready UI platform with everything you need.
+          </p>
+        </motion.div>
+
         {/* Stats */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -98,10 +103,10 @@ export function TrustBlock() {
               variants={itemVariants}
               className="text-center"
             >
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl feature-icon mb-4">
-                <stat.icon className="w-6 h-6 text-primary" />
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl feature-icon mb-4">
+                <stat.icon className="w-7 h-7 text-primary" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold">
+              <div className="text-4xl md:text-5xl font-bold">
                 <span className="gradient-text">{stat.value}</span>
                 <span className="text-muted-foreground">{stat.suffix}</span>
               </div>
@@ -112,72 +117,44 @@ export function TrustBlock() {
           ))}
         </motion.div>
 
-        {/* Testimonials */}
+        {/* Highlights */}
         <motion.div
-          className="grid md:grid-cols-3 gap-6"
+          className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {testimonials.map((testimonial, index) => (
+          {highlights.map((highlight) => (
             <motion.div
-              key={testimonial.author}
+              key={highlight.title}
               variants={itemVariants}
-              className="premium-card p-6 rounded-2xl"
+              className="premium-card p-6 rounded-2xl flex items-center gap-4"
             >
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-4 h-4 fill-accent text-accent"
-                  />
-                ))}
+              <div className="w-12 h-12 rounded-xl feature-icon flex items-center justify-center">
+                <highlight.icon className="w-6 h-6 text-primary" />
               </div>
-
-              {/* Quote */}
-              <p className="text-foreground/90 mb-6">"{testimonial.quote}"</p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-sm font-semibold text-white">
-                  {testimonial.avatar}
-                </div>
-                <div>
-                  <div className="font-medium text-sm">{testimonial.author}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {testimonial.role}
-                  </div>
+              <div>
+                <div className="font-semibold">{highlight.title}</div>
+                <div className="text-sm text-muted-foreground">
+                  {highlight.description}
                 </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Company logos placeholder */}
+        {/* Bottom tagline */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="mt-20 text-center"
+          className="mt-16 text-center"
         >
-          <p className="text-sm text-muted-foreground mb-8">
-            Trusted by developers at
+          <p className="text-sm text-muted-foreground">
+            249K+ lines of meticulously crafted, tested code
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-50">
-            {["Vercel", "Stripe", "Linear", "Notion", "Figma", "GitHub"].map(
-              (company) => (
-                <div
-                  key={company}
-                  className="text-xl font-semibold text-muted-foreground"
-                >
-                  {company}
-                </div>
-              )
-            )}
-          </div>
         </motion.div>
       </div>
     </section>
