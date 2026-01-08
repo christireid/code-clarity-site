@@ -142,7 +142,9 @@ export function PricingSection() {
             className={`relative w-14 h-7 rounded-full transition-colors ${
               isYearly ? "bg-primary" : "bg-muted"
             }`}
-            aria-label="Toggle billing period"
+            role="switch"
+            aria-checked={isYearly}
+            aria-label="Toggle to yearly billing"
           >
             <motion.div
               className="absolute top-1 w-5 h-5 rounded-full bg-white shadow-sm"

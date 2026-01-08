@@ -167,10 +167,11 @@ export function ContactSection() {
                 {/* Name & Email */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">
+                    <label htmlFor="contact-name" className="block text-sm font-medium mb-2">
                       Name
                     </label>
                     <input
+                      id="contact-name"
                       type="text"
                       {...register("name")}
                       className={`w-full px-4 py-3 rounded-xl bg-muted/50 border text-sm outline-none transition-colors ${
@@ -187,10 +188,11 @@ export function ContactSection() {
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">
+                    <label htmlFor="contact-email" className="block text-sm font-medium mb-2">
                       Email
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       {...register("email")}
                       className={`w-full px-4 py-3 rounded-xl bg-muted/50 border text-sm outline-none transition-colors ${
@@ -210,10 +212,11 @@ export function ContactSection() {
 
                 {/* Company */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label htmlFor="contact-company" className="block text-sm font-medium mb-2">
                     Company (optional)
                   </label>
                   <input
+                    id="contact-company"
                     type="text"
                     {...register("company")}
                     className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-white/5 text-sm outline-none focus:border-primary transition-colors"
@@ -223,10 +226,11 @@ export function ContactSection() {
 
                 {/* Message */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label htmlFor="contact-message" className="block text-sm font-medium mb-2">
                     Message
                   </label>
                   <textarea
+                    id="contact-message"
                     {...register("message")}
                     rows={4}
                     className={`w-full px-4 py-3 rounded-xl bg-muted/50 border text-sm outline-none transition-colors resize-none ${

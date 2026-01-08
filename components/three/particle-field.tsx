@@ -15,7 +15,7 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
   const { viewport } = useThree()
 
   // Generate random positions for particles
-  const [positions, _colors, originalPositions] = useMemo(() => {
+  const [positions, colors, originalPositions] = useMemo(() => {
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
     const originalPositions = new Float32Array(count * 3)
@@ -114,7 +114,7 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
   })
 
   return (
-    <Points ref={pointsRef} positions={positions} stride={3} frustumCulled>
+    <Points ref={pointsRef} positions={positions} colors={colors} stride={3} frustumCulled>
       <PointMaterial
         transparent
         vertexColors
