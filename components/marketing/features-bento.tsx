@@ -145,7 +145,7 @@ export function FeaturesBento() {
             <div className="feature-icon w-12 h-12 rounded-xl mb-4">
               <Box className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="font-semibold mb-2">Rich Components</h3>
+            <h3 className="font-semibold mb-2">200+ Components</h3>
             <p className="text-sm text-muted-foreground">
               Production-ready UI components
             </p>
@@ -298,14 +298,14 @@ export function FeaturesBento() {
             </div>
             <h3 className="font-semibold mb-2">Enterprise Ready</h3>
             <p className="text-sm text-muted-foreground">
-              100% TypeScript strict mode with comprehensive test coverage
+              100% TypeScript strict mode • 313 tests • 80%+ coverage
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <span className="px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
                 TypeScript
               </span>
               <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400">
-                Tested
+                313 Tests
               </span>
               <span className="px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary">
                 Accessible
@@ -324,7 +324,7 @@ export function FeaturesBento() {
             <div className="feature-icon w-12 h-12 rounded-xl mb-4">
               <Zap className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="font-semibold mb-2">Powerful Hooks</h3>
+            <h3 className="font-semibold mb-2">95+ Custom Hooks</h3>
             <p className="text-sm text-muted-foreground">
               Full headless control with composable hooks
             </p>

@@ -1,7 +1,44 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Box, Layers, Palette, Percent, Code2, Shield } from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
+import { Box, Layers, Code2, Shield } from "lucide-react"
+import { useCounter } from "@/hooks/use-counter"
+
+// Animated stat counter component
+function StatCounter({
+  end,
+  suffix = "",
+  label,
+  delay = 0,
+}: {
+  end: number
+  suffix?: string
+  label: string
+  delay?: number
+}) {
+  const { value, ref } = useCounter({
+    end,
+    duration: 2000,
+    delay,
+  })
+
+  return (
+    <div className="text-center">
+      <div className="text-4xl md:text-5xl font-bold gradient-text mb-2">
+        <span ref={ref as React.RefObject<HTMLSpanElement>}>{value}</span>
+        {suffix}
+      </div>
+      <div className="text-sm text-muted-foreground">{label}</div>
+    </div>
+  )
+}
+
+const stats = [
+  { end: 200, suffix: "+", label: "React Components", delay: 0 },
+  { end: 95, suffix: "+", label: "Custom Hooks", delay: 100 },
+  { end: 249, suffix: "K+", label: "Lines of Code", delay: 200 },
+  { end: 313, suffix: "", label: "Tests (80%+ coverage)", delay: 300 },
+]
 
 const features = [
   {
@@ -14,19 +51,6 @@ const features = [
     title: "Powerful Hooks",
     description: "useChat, useMessages, useStreaming, and utilities",
   },
-  {
-    icon: Palette,
-    title: "Customizable Themes",
-    description: "Light, dark, and fully customizable theming",
-  },
-  {
-    icon: Percent,
-    title: "Token Optimization",
-    description: "Built-in tools to reduce AI API costs",
-  },
-]
-
-const highlights = [
   {
     icon: Code2,
     title: "100% TypeScript",
@@ -63,16 +87,37 @@ const itemVariants = {
 }
 
 export function TrustBlock() {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 radial-gradient-bg opacity-50" />
 
       <div className="relative max-w-7xl mx-auto px-6">
+        {/* Stats row */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-20"
+          initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          {stats.map((stat) => (
+            <StatCounter
+              key={stat.label}
+              end={stat.end}
+              suffix={stat.suffix}
+              label={stat.label}
+              delay={stat.delay}
+            />
+          ))}
+        </motion.div>
+
         {/* Section header */}
         <motion.div
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
@@ -87,8 +132,8 @@ export function TrustBlock() {
 
         {/* Features grid */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
-          variants={containerVariants}
+          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+          variants={prefersReducedMotion ? undefined : containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -96,7 +141,7 @@ export function TrustBlock() {
           {features.map((feature) => (
             <motion.div
               key={feature.title}
-              variants={itemVariants}
+              variants={prefersReducedMotion ? undefined : itemVariants}
               className="text-center p-6 rounded-2xl glass-card"
             >
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl feature-icon mb-4">
@@ -106,33 +151,6 @@ export function TrustBlock() {
               <p className="text-sm text-muted-foreground">
                 {feature.description}
               </p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Highlights */}
-        <motion.div
-          className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {highlights.map((highlight) => (
-            <motion.div
-              key={highlight.title}
-              variants={itemVariants}
-              className="premium-card p-6 rounded-2xl flex items-center gap-4"
-            >
-              <div className="w-12 h-12 rounded-xl feature-icon flex items-center justify-center">
-                <highlight.icon className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <div className="font-semibold">{highlight.title}</div>
-                <div className="text-sm text-muted-foreground">
-                  {highlight.description}
-                </div>
-              </div>
             </motion.div>
           ))}
         </motion.div>

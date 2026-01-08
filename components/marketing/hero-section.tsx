@@ -176,6 +176,26 @@ export function HeroSection() {
           </button>
         </motion.div>
 
+        {/* Stats row */}
+        <motion.div
+          variants={prefersReducedMotion ? undefined : heroItem}
+          className="mt-10 flex flex-wrap justify-center gap-6 md:gap-12"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-bold gradient-text">200+</span>
+            <span className="text-sm text-muted-foreground">Components</span>
+          </div>
+          <div className="hidden md:block h-8 w-px bg-border" />
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-bold gradient-text">95+</span>
+            <span className="text-sm text-muted-foreground">Hooks</span>
+          </div>
+          <div className="hidden md:block h-8 w-px bg-border" />
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-bold gradient-text">AAA</span>
+            <span className="text-sm text-muted-foreground">WCAG Accessible</span>
+          </div>
+        </motion.div>
       </motion.div>
 
       {/* 3D Scene Container (below content) */}
