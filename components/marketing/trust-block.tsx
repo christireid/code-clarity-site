@@ -1,30 +1,32 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useReducedMotion, useInView } from "framer-motion"
 import { Box, Layers, Palette, Percent, Code2, Shield } from "lucide-react"
+import { useRef, useState, useEffect } from "react"
 
 const stats = [
   {
     icon: Box,
-    value: "200",
+    value: 200,
     suffix: "+",
     label: "React Components",
   },
   {
     icon: Layers,
-    value: "95",
+    value: 95,
     suffix: "+",
     label: "Custom Hooks",
   },
   {
     icon: Palette,
-    value: "15",
+    value: 15,
     suffix: "",
     label: "Theme Presets",
   },
   {
     icon: Percent,
-    value: "60-90",
+    value: 90,
+    prefix: "Up to ",
     suffix: "%",
     label: "Cost Savings",
   },
@@ -66,6 +68,63 @@ const itemVariants = {
   },
 }
 
+function AnimatedCounter({
+  value,
+  prefix = "",
+  suffix = "",
+  duration = 2000,
+}: {
+  value: number
+  prefix?: string
+  suffix?: string
+  duration?: number
+}) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const prefersReducedMotion = useReducedMotion()
+  const [hasAnimated, setHasAnimated] = useState(false)
+
+  useEffect(() => {
+    if (!isInView || hasAnimated) return
+
+    if (prefersReducedMotion) {
+      setCount(value)
+      setHasAnimated(true)
+      return
+    }
+
+    const startTime = Date.now()
+    const endTime = startTime + duration
+
+    const animate = () => {
+      const now = Date.now()
+
+      if (now >= endTime) {
+        setCount(value)
+        setHasAnimated(true)
+        return
+      }
+
+      const progress = (now - startTime) / duration
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.floor(eased * value))
+
+      requestAnimationFrame(animate)
+    }
+
+    requestAnimationFrame(animate)
+  }, [isInView, hasAnimated, value, duration, prefersReducedMotion])
+
+  return (
+    <span ref={ref}>
+      {prefix}
+      <span className="gradient-text">{count}</span>
+      <span className="text-muted-foreground">{suffix}</span>
+    </span>
+  )
+}
+
 export function TrustBlock() {
   return (
     <section className="relative py-24 overflow-hidden">
@@ -85,11 +144,12 @@ export function TrustBlock() {
             The <span className="gradient-text">Complete</span> AI Chat Library
           </h2>
           <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            Not just a SDK - it's a production-ready UI platform with everything you need.
+            Not just a SDK - it&apos;s a production-ready UI platform with
+            everything you need.
           </p>
         </motion.div>
 
-        {/* Stats */}
+        {/* Stats with animated counters */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
           variants={containerVariants}
@@ -97,7 +157,7 @@ export function TrustBlock() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {stats.map((stat) => (
+          {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               variants={itemVariants}
@@ -107,8 +167,12 @@ export function TrustBlock() {
                 <stat.icon className="w-7 h-7 text-primary" />
               </div>
               <div className="text-4xl md:text-5xl font-bold">
-                <span className="gradient-text">{stat.value}</span>
-                <span className="text-muted-foreground">{stat.suffix}</span>
+                <AnimatedCounter
+                  value={stat.value}
+                  prefix={stat.prefix}
+                  suffix={stat.suffix}
+                  duration={2000 + index * 200}
+                />
               </div>
               <div className="text-sm text-muted-foreground mt-2">
                 {stat.label}
@@ -144,7 +208,7 @@ export function TrustBlock() {
           ))}
         </motion.div>
 
-        {/* Bottom tagline */}
+        {/* Bottom tagline with animated counter */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -153,7 +217,8 @@ export function TrustBlock() {
           className="mt-16 text-center"
         >
           <p className="text-sm text-muted-foreground">
-            249K+ lines of meticulously crafted, tested code
+            <AnimatedCounter value={249} suffix="K+" duration={2500} /> lines of
+            meticulously crafted, tested code
           </p>
         </motion.div>
       </div>

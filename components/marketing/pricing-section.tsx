@@ -1,13 +1,15 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Check, ArrowRight, Sparkles } from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
+import { Check, ArrowRight, Sparkles, Clock, Shield, Zap } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
 
 const tiers = [
   {
     name: "Community",
     price: "$0",
+    yearlyPrice: "$0",
     period: "forever",
     description: "Perfect for side projects and learning",
     features: [
@@ -24,6 +26,7 @@ const tiers = [
   {
     name: "Pro",
     price: "$299",
+    yearlyPrice: "$199",
     period: "/dev/year",
     description: "For teams building production AI apps",
     features: [
@@ -36,13 +39,15 @@ const tiers = [
       "Private Discord channel",
       "Early access to features",
     ],
-    cta: "Start Free Trial",
+    cta: "Start 14-Day Free Trial",
     href: "/signup?plan=pro",
     highlighted: true,
+    badge: "Most Popular",
   },
   {
     name: "Enterprise",
     price: "Custom",
+    yearlyPrice: "Custom",
     period: "",
     description: "For organizations with specific needs",
     features: [
@@ -59,6 +64,12 @@ const tiers = [
     href: "#contact",
     highlighted: false,
   },
+]
+
+const guarantees = [
+  { icon: Clock, text: "14-day free trial" },
+  { icon: Shield, text: "30-day money-back guarantee" },
+  { icon: Zap, text: "Cancel anytime" },
 ]
 
 const containerVariants = {
@@ -85,6 +96,9 @@ const itemVariants = {
 }
 
 export function PricingSection() {
+  const [isYearly, setIsYearly] = useState(true)
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <section className="relative py-24 overflow-hidden" id="pricing">
       {/* Background */}
@@ -94,12 +108,17 @@ export function PricingSection() {
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary mb-6">
+            <Sparkles className="w-4 h-4" />
+            Launch Pricing - Save 33%
+          </span>
+
           <h2 className="text-headline font-bold mb-4">
             Simple, <span className="gradient-text">transparent</span> pricing
           </h2>
@@ -108,10 +127,52 @@ export function PricingSection() {
           </p>
         </motion.div>
 
+        {/* Billing toggle */}
+        <motion.div
+          initial={prefersReducedMotion ? undefined : { opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="flex justify-center items-center gap-4 mb-12"
+        >
+          <span
+            className={`text-sm font-medium ${
+              !isYearly ? "text-foreground" : "text-muted-foreground"
+            }`}
+          >
+            Monthly
+          </span>
+          <button
+            onClick={() => setIsYearly(!isYearly)}
+            className={`relative w-14 h-7 rounded-full transition-colors ${
+              isYearly ? "bg-primary" : "bg-muted"
+            }`}
+            aria-label="Toggle billing period"
+          >
+            <motion.div
+              className="absolute top-1 w-5 h-5 rounded-full bg-white shadow-sm"
+              animate={{ left: isYearly ? "calc(100% - 24px)" : "4px" }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          </button>
+          <span
+            className={`text-sm font-medium ${
+              isYearly ? "text-foreground" : "text-muted-foreground"
+            }`}
+          >
+            Yearly
+          </span>
+          {isYearly && (
+            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">
+              Save 33%
+            </span>
+          )}
+        </motion.div>
+
         {/* Pricing cards */}
         <motion.div
           className="grid md:grid-cols-3 gap-6 lg:gap-8"
-          variants={containerVariants}
+          variants={prefersReducedMotion ? undefined : containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -119,15 +180,17 @@ export function PricingSection() {
           {tiers.map((tier) => (
             <motion.div
               key={tier.name}
-              variants={itemVariants}
-              className={`relative ${tier.highlighted ? "md:-mt-4 md:mb-4" : ""}`}
+              variants={prefersReducedMotion ? undefined : itemVariants}
+              className={`relative ${
+                tier.highlighted ? "md:-mt-4 md:mb-4" : ""
+              }`}
             >
               {/* Recommended badge */}
-              {tier.highlighted && (
+              {tier.highlighted && tier.badge && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
                   <span className="badge-gradient px-4 py-1 rounded-full text-sm inline-flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5" />
-                    Recommended
+                    {tier.badge}
                   </span>
                 </div>
               )}
@@ -144,8 +207,15 @@ export function PricingSection() {
 
                 {/* Price */}
                 <div className="mb-4">
-                  <span className="text-4xl font-bold">{tier.price}</span>
+                  <span className="text-4xl font-bold">
+                    {isYearly ? tier.yearlyPrice : tier.price}
+                  </span>
                   <span className="text-muted-foreground">{tier.period}</span>
+                  {tier.highlighted && isYearly && tier.price !== "Custom" && (
+                    <span className="ml-2 text-sm text-muted-foreground line-through">
+                      {tier.price}
+                    </span>
+                  )}
                 </div>
 
                 {/* Description */}
@@ -159,9 +229,7 @@ export function PricingSection() {
                     <li key={feature} className="flex items-start gap-3">
                       <div
                         className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          tier.highlighted
-                            ? "bg-primary/20"
-                            : "bg-muted"
+                          tier.highlighted ? "bg-primary/20" : "bg-muted"
                         }`}
                       >
                         <Check
@@ -183,31 +251,59 @@ export function PricingSection() {
                 <Link
                   href={tier.href}
                   className={`w-full py-3 px-6 rounded-xl text-center font-medium transition-all inline-flex items-center justify-center gap-2 ${
-                    tier.highlighted
-                      ? "cta-button"
-                      : "secondary-button"
+                    tier.highlighted ? "cta-button" : "secondary-button"
                   }`}
                 >
                   {tier.cta}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
+
+                {/* No credit card required */}
+                {tier.highlighted && (
+                  <p className="text-xs text-muted-foreground text-center mt-3">
+                    No credit card required
+                  </p>
+                )}
               </div>
             </motion.div>
           ))}
         </motion.div>
 
+        {/* Guarantees */}
+        <motion.div
+          initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="mt-12 flex flex-wrap justify-center gap-6 md:gap-12"
+        >
+          {guarantees.map((guarantee) => (
+            <div
+              key={guarantee.text}
+              className="flex items-center gap-2 text-sm text-muted-foreground"
+            >
+              <guarantee.icon className="w-4 h-4 text-primary" />
+              <span>{guarantee.text}</span>
+            </div>
+          ))}
+        </motion.div>
+
         {/* Additional info */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={prefersReducedMotion ? undefined : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="mt-16 text-center"
+          className="mt-12 text-center"
         >
           <p className="text-sm text-muted-foreground">
-            All plans include TypeScript definitions, SSR support, and our documentation.
+            All plans include TypeScript definitions, SSR support, and our
+            documentation.
             <br />
-            <Link href="/docs/license" className="text-primary hover:underline">
+            <Link
+              href="/docs/license"
+              className="text-primary hover:underline"
+            >
               View license details
             </Link>
           </p>
