@@ -114,11 +114,6 @@ export function PricingSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary mb-6">
-            <Sparkles className="w-4 h-4" />
-            Launch Pricing - Save 33%
-          </span>
-
           <h2 className="text-headline font-bold mb-4">
             Simple, <span className="gradient-text">transparent</span> pricing
           </h2>

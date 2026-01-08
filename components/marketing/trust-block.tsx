@@ -1,34 +1,28 @@
 "use client"
 
-import { motion, useReducedMotion, useInView } from "framer-motion"
+import { motion } from "framer-motion"
 import { Box, Layers, Palette, Percent, Code2, Shield } from "lucide-react"
-import { useRef, useState, useEffect } from "react"
 
-const stats = [
+const features = [
   {
     icon: Box,
-    value: 200,
-    suffix: "+",
-    label: "React Components",
+    title: "Rich Component Library",
+    description: "Chat bubbles, inputs, streaming indicators, and more",
   },
   {
     icon: Layers,
-    value: 95,
-    suffix: "+",
-    label: "Custom Hooks",
+    title: "Powerful Hooks",
+    description: "useChat, useMessages, useStreaming, and utilities",
   },
   {
     icon: Palette,
-    value: 15,
-    suffix: "",
-    label: "Theme Presets",
+    title: "Customizable Themes",
+    description: "Light, dark, and fully customizable theming",
   },
   {
     icon: Percent,
-    value: 90,
-    prefix: "Up to ",
-    suffix: "%",
-    label: "Cost Savings",
+    title: "Token Optimization",
+    description: "Built-in tools to reduce AI API costs",
   },
 ]
 
@@ -40,8 +34,8 @@ const highlights = [
   },
   {
     icon: Shield,
-    title: "WCAG AAA",
-    description: "Accessibility-first design",
+    title: "Accessibility First",
+    description: "WCAG compliant components",
   },
 ]
 
@@ -68,63 +62,6 @@ const itemVariants = {
   },
 }
 
-function AnimatedCounter({
-  value,
-  prefix = "",
-  suffix = "",
-  duration = 2000,
-}: {
-  value: number
-  prefix?: string
-  suffix?: string
-  duration?: number
-}) {
-  const [count, setCount] = useState(0)
-  const ref = useRef<HTMLSpanElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const prefersReducedMotion = useReducedMotion()
-  const [hasAnimated, setHasAnimated] = useState(false)
-
-  useEffect(() => {
-    if (!isInView || hasAnimated) return
-
-    if (prefersReducedMotion) {
-      setCount(value)
-      setHasAnimated(true)
-      return
-    }
-
-    const startTime = Date.now()
-    const endTime = startTime + duration
-
-    const animate = () => {
-      const now = Date.now()
-
-      if (now >= endTime) {
-        setCount(value)
-        setHasAnimated(true)
-        return
-      }
-
-      const progress = (now - startTime) / duration
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.floor(eased * value))
-
-      requestAnimationFrame(animate)
-    }
-
-    requestAnimationFrame(animate)
-  }, [isInView, hasAnimated, value, duration, prefersReducedMotion])
-
-  return (
-    <span ref={ref}>
-      {prefix}
-      <span className="gradient-text">{count}</span>
-      <span className="text-muted-foreground">{suffix}</span>
-    </span>
-  )
-}
-
 export function TrustBlock() {
   return (
     <section className="relative py-24 overflow-hidden">
@@ -144,39 +81,31 @@ export function TrustBlock() {
             The <span className="gradient-text">Complete</span> AI Chat Library
           </h2>
           <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            Not just a SDK - it&apos;s a production-ready UI platform with
-            everything you need.
+            Everything you need to build production-ready AI chat interfaces.
           </p>
         </motion.div>
 
-        {/* Stats with animated counters */}
+        {/* Features grid */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {stats.map((stat, index) => (
+          {features.map((feature) => (
             <motion.div
-              key={stat.label}
+              key={feature.title}
               variants={itemVariants}
-              className="text-center"
+              className="text-center p-6 rounded-2xl glass-card"
             >
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl feature-icon mb-4">
-                <stat.icon className="w-7 h-7 text-primary" />
+                <feature.icon className="w-7 h-7 text-primary" />
               </div>
-              <div className="text-4xl md:text-5xl font-bold">
-                <AnimatedCounter
-                  value={stat.value}
-                  prefix={stat.prefix}
-                  suffix={stat.suffix}
-                  duration={2000 + index * 200}
-                />
-              </div>
-              <div className="text-sm text-muted-foreground mt-2">
-                {stat.label}
-              </div>
+              <h3 className="font-semibold mb-2">{feature.title}</h3>
+              <p className="text-sm text-muted-foreground">
+                {feature.description}
+              </p>
             </motion.div>
           ))}
         </motion.div>
@@ -206,20 +135,6 @@ export function TrustBlock() {
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* Bottom tagline with animated counter */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="mt-16 text-center"
-        >
-          <p className="text-sm text-muted-foreground">
-            <AnimatedCounter value={249} suffix="K+" duration={2500} /> lines of
-            meticulously crafted, tested code
-          </p>
         </motion.div>
       </div>
     </section>

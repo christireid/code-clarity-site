@@ -176,26 +176,6 @@ export function HeroSection() {
           </button>
         </motion.div>
 
-        {/* Stats row */}
-        <motion.div
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="mt-16 flex flex-wrap justify-center gap-8 md:gap-16"
-        >
-          {[
-            { value: "200+", label: "Components" },
-            { value: "95+", label: "Hooks" },
-            { value: "WCAG AAA", label: "Accessible" },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-2xl md:text-3xl font-bold gradient-text">
-                {stat.value}
-              </div>
-              <div className="text-sm text-muted-foreground mt-1">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </motion.div>
       </motion.div>
 
       {/* 3D Scene Container (below content) */}

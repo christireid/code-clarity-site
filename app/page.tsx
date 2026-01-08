@@ -2,10 +2,8 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { HeroSection } from "@/components/marketing/hero-section"
 import { TrustBlock } from "@/components/marketing/trust-block"
-import { SocialProofSection } from "@/components/marketing/social-proof-section"
 import { FeaturesBento } from "@/components/marketing/features-bento"
 import { ChatDemoSection } from "@/components/marketing/chat-demo-section"
-import { CaseStudiesSection } from "@/components/marketing/case-studies-section"
 import { ServicesSection } from "@/components/marketing/services-section"
 import { ProcessSection } from "@/components/marketing/process-section"
 import { PricingSection } from "@/components/marketing/pricing-section"
@@ -25,9 +23,6 @@ export default function Home() {
         {/* Trust block with animated stats */}
         <TrustBlock />
 
-        {/* Social proof - logos and testimonials */}
-        <SocialProofSection />
-
         {/* Interactive product demo */}
         <div id="demo">
           <ChatDemoSection />
@@ -37,9 +32,6 @@ export default function Home() {
         <div id="features">
           <FeaturesBento />
         </div>
-
-        {/* Case studies */}
-        <CaseStudiesSection />
 
         {/* Services section */}
         <div id="services">

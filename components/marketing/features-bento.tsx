@@ -137,7 +137,7 @@ export function FeaturesBento() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {/* Row 1 - Components count */}
+          {/* Row 1 - Components */}
           <motion.div
             variants={itemVariants}
             className="bento-card p-6 rounded-2xl"
@@ -145,7 +145,7 @@ export function FeaturesBento() {
             <div className="feature-icon w-12 h-12 rounded-xl mb-4">
               <Box className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="font-semibold mb-2">200+ Components</h3>
+            <h3 className="font-semibold mb-2">Rich Components</h3>
             <p className="text-sm text-muted-foreground">
               Production-ready UI components
             </p>
@@ -288,7 +288,7 @@ export function FeaturesBento() {
             </div>
           </motion.div>
 
-          {/* Test Coverage */}
+          {/* Enterprise Ready */}
           <motion.div
             variants={itemVariants}
             className="bento-card p-6 rounded-2xl md:col-span-2 lg:col-span-2"
@@ -298,29 +298,25 @@ export function FeaturesBento() {
             </div>
             <h3 className="font-semibold mb-2">Enterprise Ready</h3>
             <p className="text-sm text-muted-foreground">
-              100% TypeScript strict mode, comprehensive test coverage
+              100% TypeScript strict mode with comprehensive test coverage
             </p>
-            <div className="mt-4 flex items-center gap-4">
-              <div>
-                <span className="text-3xl font-bold gradient-text">313</span>
-                <span className="text-muted-foreground"> tests</span>
-              </div>
-              <div className="h-8 w-px bg-border" />
-              <div>
-                <span className="text-3xl font-bold gradient-text">80%+</span>
-                <span className="text-muted-foreground"> coverage</span>
-              </div>
-              <div className="h-8 w-px bg-border" />
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-                <span className="text-sm text-muted-foreground">
-                  All passing
-                </span>
-              </div>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                TypeScript
+              </span>
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400">
+                Tested
+              </span>
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary">
+                Accessible
+              </span>
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
+                SSR Ready
+              </span>
             </div>
           </motion.div>
 
-          {/* Hooks count */}
+          {/* Hooks */}
           <motion.div
             variants={itemVariants}
             className="bento-card p-6 rounded-2xl"
@@ -328,12 +324,12 @@ export function FeaturesBento() {
             <div className="feature-icon w-12 h-12 rounded-xl mb-4">
               <Zap className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="font-semibold mb-2">95+ Hooks</h3>
+            <h3 className="font-semibold mb-2">Powerful Hooks</h3>
             <p className="text-sm text-muted-foreground">
-              Full headless control
+              Full headless control with composable hooks
             </p>
-            <div className="mt-4">
-              <span className="text-3xl font-bold gradient-text">95+</span>
+            <div className="mt-4 text-sm text-muted-foreground font-mono">
+              useChat, useStream...
             </div>
           </motion.div>
 
