@@ -7,6 +7,7 @@ import { Toaster } from "sonner"
 import "./globals.css"
 import { Suspense } from "react"
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider"
+import { CursorGlow } from "@/components/cursor-glow"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://codeclarity.ai"),
@@ -75,6 +76,7 @@ export default function RootLayout({
         className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
         <SmoothScrollProvider>
+          <CursorGlow />
           <Suspense
             fallback={
               <div className="min-h-screen bg-background flex items-center justify-center">

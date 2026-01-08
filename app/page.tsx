@@ -9,6 +9,7 @@ import { CaseStudiesSection } from "@/components/marketing/case-studies-section"
 import { ServicesSection } from "@/components/marketing/services-section"
 import { ProcessSection } from "@/components/marketing/process-section"
 import { PricingSection } from "@/components/marketing/pricing-section"
+import { FAQSection } from "@/components/marketing/faq-section"
 import { ContactSection } from "@/components/marketing/contact-section"
 import { FinalCTASection } from "@/components/marketing/final-cta-section"
 import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
@@ -50,6 +51,9 @@ export default function Home() {
 
         {/* Pricing */}
         <PricingSection />
+
+        {/* FAQ */}
+        <FAQSection />
 
         {/* Contact form */}
         <ContactSection />
