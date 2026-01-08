@@ -113,10 +113,10 @@ export function ProcessSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {/* Vertical line connector */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-secondary/50 to-primary/50 hidden md:block" />
+          {/* Vertical line connector - desktop only */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-secondary/50 to-primary/50 hidden md:block" />
 
-          <div className="space-y-12 md:space-y-0">
+          <div className="space-y-8 md:space-y-0">
             {steps.map((step, index) => (
               <motion.div
                 key={step.number}
@@ -130,8 +130,8 @@ export function ProcessSection() {
                   <div className={`premium-card p-6 md:p-8 rounded-2xl ${
                     index % 2 === 0 ? "md:mr-8" : "md:ml-8"
                   }`}>
-                    {/* Step number */}
-                    <span className="text-5xl font-bold gradient-text opacity-30 mb-4 block">
+                    {/* Step number - desktop only, mobile shows in inline header */}
+                    <span className="text-5xl font-bold gradient-text opacity-30 mb-4 hidden md:block">
                       {step.number}
                     </span>
 
@@ -157,11 +157,18 @@ export function ProcessSection() {
                   </div>
                 </div>
 
-                {/* Icon (center on desktop) */}
-                <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex items-center justify-center">
+                {/* Icon (center on desktop, inline on mobile) */}
+                <div className="hidden md:flex absolute md:left-1/2 md:-translate-x-1/2 items-center justify-center">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg glow-primary">
                     <step.icon className="w-6 h-6 text-white" />
                   </div>
+                </div>
+                {/* Mobile icon (inline) */}
+                <div className="md:hidden flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg flex-shrink-0">
+                    <step.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <span className="text-2xl font-bold text-muted-foreground">{step.number}</span>
                 </div>
 
                 {/* Spacer for alternating layout */}
