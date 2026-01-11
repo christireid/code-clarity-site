@@ -225,7 +225,7 @@ export function Footer() {
                 <span className="text-sm font-medium">Thanks for subscribing!</span>
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmitNewsletter)} className="flex flex-col gap-2 w-full md:w-auto">
+              <form onSubmit={handleSubmit(onSubmitNewsletter)} className="flex flex-col gap-2 w-full md:w-auto" aria-busy={isSubmitting} aria-label="Newsletter subscription">
                 <div className="flex gap-3">
                   <input
                     type="email"
@@ -254,7 +254,7 @@ export function Footer() {
                   </button>
                 </div>
                 {errors.email && (
-                  <p className="text-xs text-destructive">{errors.email.message}</p>
+                  <p className="text-xs text-destructive" role="alert" aria-live="polite">{errors.email.message}</p>
                 )}
               </form>
             )}

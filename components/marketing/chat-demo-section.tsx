@@ -247,7 +247,7 @@ export function ChatDemoSection() {
                     setDemoTheme(demoTheme === "dark" ? "light" : "dark")
                   }
                   className="p-2 rounded-lg hover:bg-muted transition-colors"
-                  title="Toggle theme"
+                  aria-label={`Switch to ${demoTheme === "dark" ? "light" : "dark"} theme`}
                 >
                   {demoTheme === "dark" ? (
                     <Sun className="w-4 h-4" />
@@ -266,7 +266,7 @@ export function ChatDemoSection() {
 
             {/* Chat area */}
             <div
-              className={`h-[400px] flex flex-col ${
+              className={`h-[300px] sm:h-[350px] md:h-[400px] flex flex-col ${
                 demoTheme === "light" ? "bg-white text-black" : ""
               }`}
             >
@@ -427,13 +427,17 @@ export function ChatDemoSection() {
             </div>
 
             {/* Code tabs */}
-            <div className="flex border-b border-white/10">
+            <div className="flex border-b border-white/10" role="tablist" aria-label="Code examples">
               {(
                 Object.keys(codeExamples) as Array<keyof typeof codeExamples>
               ).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
+                  role="tab"
+                  aria-selected={activeTab === tab}
+                  aria-controls={`tabpanel-${tab}`}
+                  id={`tab-${tab}`}
                   className={`px-4 py-2 text-sm font-medium transition-colors ${
                     activeTab === tab
                       ? "text-primary border-b-2 border-primary"
@@ -450,8 +454,13 @@ export function ChatDemoSection() {
             </div>
 
             {/* Code content */}
-            <div className="h-[400px] overflow-auto p-4">
-              <pre className="text-sm font-mono">
+            <div
+              className="h-[300px] sm:h-[350px] md:h-[400px] overflow-auto p-4"
+              role="tabpanel"
+              id={`tabpanel-${activeTab}`}
+              aria-labelledby={`tab-${activeTab}`}
+            >
+              <pre className="text-sm font-mono overflow-x-auto">
                 <code>
                   {codeExamples[activeTab].split("\n").map((line, i) => (
                     <div key={i} className="flex">

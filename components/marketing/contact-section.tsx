@@ -141,7 +141,7 @@ export function ContactSection() {
             viewport={viewportOnce}
           >
             <div className="premium-card p-8 rounded-2xl">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" aria-busy={isSubmitting} aria-label="Contact form">
                 {/* Inquiry type */}
                 <div className="grid grid-cols-2 gap-3">
                   {inquiryTypes.map((option) => (
@@ -182,7 +182,7 @@ export function ContactSection() {
                       placeholder="Your name"
                     />
                     {errors.name && (
-                      <p className="text-xs text-destructive mt-1">
+                      <p className="text-xs text-destructive mt-1" role="alert" aria-live="polite">
                         {errors.name.message}
                       </p>
                     )}
@@ -203,7 +203,7 @@ export function ContactSection() {
                       placeholder="you@company.com"
                     />
                     {errors.email && (
-                      <p className="text-xs text-destructive mt-1">
+                      <p className="text-xs text-destructive mt-1" role="alert" aria-live="polite">
                         {errors.email.message}
                       </p>
                     )}
@@ -241,7 +241,7 @@ export function ContactSection() {
                     placeholder="Tell us about your project..."
                   />
                   {errors.message && (
-                    <p className="text-xs text-destructive mt-1">
+                    <p className="text-xs text-destructive mt-1" role="alert" aria-live="polite">
                       {errors.message.message}
                     </p>
                   )}

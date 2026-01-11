@@ -94,6 +94,8 @@ export function EarlyAccessBanner() {
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="flex flex-col sm:flex-row gap-3"
+                  aria-busy={isSubmitting}
+                  aria-label="Early access signup"
                 >
                   <div className="flex-1">
                     <input
@@ -108,7 +110,7 @@ export function EarlyAccessBanner() {
                       disabled={isSubmitting}
                     />
                     {errors.email && (
-                      <p className="text-xs text-destructive mt-1">
+                      <p className="text-xs text-destructive mt-1" role="alert" aria-live="polite">
                         {errors.email.message}
                       </p>
                     )}
