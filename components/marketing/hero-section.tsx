@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { ArrowRight, Sparkles, ChevronDown } from "lucide-react"
+import { ArrowRight, Sparkles, ChevronDown, Copy, Check, Terminal } from "lucide-react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -75,6 +75,47 @@ const heroItem = {
       ease: [0.25, 0.4, 0.25, 1] as const,
     },
   },
+}
+
+// Copyable install command component
+function InstallCommand() {
+  const [copied, setCopied] = useState(false)
+  const command = "npx create-clarity-chat@latest"
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(command)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement("textarea")
+      textarea.value = command
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand("copy")
+      document.body.removeChild(textarea)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="group inline-flex items-center gap-3 px-4 py-2.5 rounded-lg bg-muted/50 border border-white/10 hover:border-primary/50 transition-all"
+      aria-label="Copy install command"
+    >
+      <Terminal className="w-4 h-4 text-muted-foreground" />
+      <code className="text-sm font-mono text-foreground">{command}</code>
+      <span className="w-px h-4 bg-border" />
+      {copied ? (
+        <Check className="w-4 h-4 text-emerald-400" />
+      ) : (
+        <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+      )}
+    </button>
+  )
 }
 
 export function HeroSection() {
@@ -176,10 +217,18 @@ export function HeroSection() {
           </button>
         </motion.div>
 
+        {/* Install command */}
+        <motion.div
+          variants={prefersReducedMotion ? undefined : heroItem}
+          className="mt-8"
+        >
+          <InstallCommand />
+        </motion.div>
+
         {/* Stats row */}
         <motion.div
           variants={prefersReducedMotion ? undefined : heroItem}
-          className="mt-10 flex flex-wrap justify-center gap-6 md:gap-12"
+          className="mt-8 flex flex-wrap justify-center gap-6 md:gap-12"
         >
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold gradient-text">200+</span>

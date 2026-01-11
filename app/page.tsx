@@ -2,9 +2,11 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { HeroSection } from "@/components/marketing/hero-section"
 import { TrustBlock } from "@/components/marketing/trust-block"
+import { EarlyAccessBanner } from "@/components/marketing/early-access-banner"
 import { FeaturesBento } from "@/components/marketing/features-bento"
 import { ChatDemoSection } from "@/components/marketing/chat-demo-section"
 import { ServicesSection } from "@/components/marketing/services-section"
+import { AboutSection } from "@/components/marketing/about-section"
 import { ProcessSection } from "@/components/marketing/process-section"
 import { PricingSection } from "@/components/marketing/pricing-section"
 import { FAQSection } from "@/components/marketing/faq-section"
@@ -23,6 +25,9 @@ export default function Home() {
         {/* Trust block with animated stats */}
         <TrustBlock />
 
+        {/* Early access banner */}
+        <EarlyAccessBanner />
+
         {/* Interactive product demo */}
         <div id="demo">
           <ChatDemoSection />
@@ -36,6 +41,11 @@ export default function Home() {
         {/* Services section */}
         <div id="services">
           <ServicesSection />
+        </div>
+
+        {/* About section */}
+        <div id="about">
+          <AboutSection />
         </div>
 
         {/* Process section */}
