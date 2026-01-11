@@ -65,6 +65,34 @@ export const metadata: Metadata = {
   },
 }
 
+// JSON-LD Structured Data for Organization
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Code & Clarity",
+  url: "https://codeclarity.ai",
+  logo: "https://codeclarity.ai/logo.png",
+  description:
+    "Premium AI chat components for React. Build ChatGPT-quality interfaces in hours, not months.",
+  sameAs: [
+    "https://github.com/christireid/Clarity-ai-chat-components",
+    "https://twitter.com/codeandclarity",
+    "https://linkedin.com/company/codeandclarity",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hello@codeclarity.ai",
+    contactType: "customer service",
+  },
+  offers: {
+    "@type": "Offer",
+    name: "Clarity Chat - AI Chat Component Library",
+    description:
+      "Token-optimized, enterprise-ready React components with multi-provider support.",
+    category: "Software",
+  },
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -72,6 +100,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
