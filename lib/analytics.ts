@@ -71,7 +71,7 @@ export function trackCTAClick(props: CTAClickProps): void {
   } catch {
     // Silently fail in development or if analytics unavailable
     if (process.env.NODE_ENV === "development") {
-      console.log("[Analytics] cta_click:", props)
+      console.info("[Analytics] cta_click:", props)
     }
   }
 }
@@ -84,7 +84,7 @@ export function trackFormSubmit(props: FormSubmitProps): void {
     track("form_submit", cleanProps(props))
   } catch {
     if (process.env.NODE_ENV === "development") {
-      console.log("[Analytics] form_submit:", props)
+      console.info("[Analytics] form_submit:", props)
     }
   }
 }
@@ -97,7 +97,7 @@ export function trackLeadCreated(props: LeadCreatedProps): void {
     track("lead_created", cleanProps(props))
   } catch {
     if (process.env.NODE_ENV === "development") {
-      console.log("[Analytics] lead_created:", props)
+      console.info("[Analytics] lead_created:", props)
     }
   }
 }
@@ -110,7 +110,7 @@ export function trackFormStart(props: FormStartProps): void {
     track("form_start", cleanProps(props))
   } catch {
     if (process.env.NODE_ENV === "development") {
-      console.log("[Analytics] form_start:", props)
+      console.info("[Analytics] form_start:", props)
     }
   }
 }
@@ -123,7 +123,7 @@ export function trackFormError(props: FormErrorProps): void {
     track("form_error", cleanProps(props))
   } catch {
     if (process.env.NODE_ENV === "development") {
-      console.log("[Analytics] form_error:", props)
+      console.info("[Analytics] form_error:", props)
     }
   }
 }
@@ -136,7 +136,7 @@ export function trackExternalLinkClick(props: ExternalLinkClickProps): void {
     track("external_link_click", cleanProps(props))
   } catch {
     if (process.env.NODE_ENV === "development") {
-      console.log("[Analytics] external_link_click:", props)
+      console.info("[Analytics] external_link_click:", props)
     }
   }
 }

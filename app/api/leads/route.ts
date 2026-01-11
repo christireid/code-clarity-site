@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     // Check honeypot (spam filter)
     if ("honeypot" in data && data.honeypot) {
       // Silently accept but don't process (fool bots)
-      console.log(`[Leads] Honeypot triggered from IP: ${ip}`)
+      console.warn(`[Leads] Honeypot triggered from IP: ${ip}`)
       return NextResponse.json({ success: true, message: "Submitted successfully" })
     }
 
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     const rateLimit = checkRateLimit(ip, rateLimitKey)
 
     if (!rateLimit.allowed) {
-      console.log(`[Leads] Rate limit exceeded for IP: ${ip}`)
+      console.warn(`[Leads] Rate limit exceeded for IP: ${ip}`)
       return NextResponse.json(
         {
           success: false,
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
     const utmParams = body.utmParams
 
     // Log the lead (structured logging for production)
-    console.log(
+    console.info(
       JSON.stringify({
         event: "lead_received",
         type: data.formType,
@@ -100,9 +100,9 @@ export async function POST(request: NextRequest) {
 
     // Skip actual email sending in development without API key
     if (!process.env.RESEND_API_KEY || process.env.NODE_ENV === "development") {
-      console.log(`[Leads] Development mode - skipping email send`)
-      console.log(`[Leads] Would send to: ${NOTIFY_EMAIL}`)
-      console.log(`[Leads] Lead data:`, data)
+      console.info(`[Leads] Development mode - skipping email send`)
+      console.info(`[Leads] Would send to: ${NOTIFY_EMAIL}`)
+      console.info(`[Leads] Lead data:`, data)
 
       // Simulate delay
       await new Promise((resolve) => setTimeout(resolve, 500))
@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
     await Promise.all(emailPromises)
 
     // Log success
-    console.log(
+    console.info(
       JSON.stringify({
         event: "lead_processed",
         type: data.formType,
