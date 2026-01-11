@@ -2,9 +2,13 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { HeroSection } from "@/components/marketing/hero-section"
 import { TrustBlock } from "@/components/marketing/trust-block"
+import { TechStack } from "@/components/marketing/tech-stack"
 import { EarlyAccessBanner } from "@/components/marketing/early-access-banner"
-import { FeaturesBento } from "@/components/marketing/features-bento"
 import { ChatDemoSection } from "@/components/marketing/chat-demo-section"
+import { CodeComparison } from "@/components/marketing/code-comparison"
+import { FeaturesBento } from "@/components/marketing/features-bento"
+import { ProvidersSection } from "@/components/marketing/providers-section"
+import { SavingsCalculator } from "@/components/marketing/savings-calculator"
 import { ServicesSection } from "@/components/marketing/services-section"
 import { AboutSection } from "@/components/marketing/about-section"
 import { ProcessSection } from "@/components/marketing/process-section"
@@ -25,6 +29,9 @@ export default function Home() {
         {/* Trust block with animated stats */}
         <TrustBlock />
 
+        {/* Technology stack badges */}
+        <TechStack />
+
         {/* Early access banner */}
         <EarlyAccessBanner />
 
@@ -33,10 +40,19 @@ export default function Home() {
           <ChatDemoSection />
         </div>
 
+        {/* Before/After code comparison */}
+        <CodeComparison />
+
         {/* Features bento grid */}
         <div id="features">
           <FeaturesBento />
         </div>
+
+        {/* Provider logos */}
+        <ProvidersSection />
+
+        {/* Token savings calculator */}
+        <SavingsCalculator />
 
         {/* Services section */}
         <div id="services">
