@@ -16,11 +16,15 @@ import { PricingSection } from "@/components/marketing/pricing-section"
 import { FAQSection } from "@/components/marketing/faq-section"
 import { ContactSection } from "@/components/marketing/contact-section"
 import { FinalCTASection } from "@/components/marketing/final-cta-section"
+import { ComparisonSection } from "@/components/marketing/comparison-section"
 import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
+import { ExitIntentPopup } from "@/components/exit-intent-popup"
+import { ScrollProgress } from "@/components/scroll-progress"
 
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <Navigation />
       <main className="min-h-screen overflow-x-hidden">
         {/* Hero with 3D particle field */}
@@ -47,6 +51,9 @@ export default function Home() {
         <div id="features">
           <FeaturesBento />
         </div>
+
+        {/* Comparison matrix */}
+        <ComparisonSection />
 
         {/* Provider logos */}
         <ProvidersSection />
@@ -83,6 +90,9 @@ export default function Home() {
 
       {/* Sticky mobile CTA */}
       <StickyMobileCTA />
+
+      {/* Exit intent popup */}
+      <ExitIntentPopup />
     </>
   )
 }
