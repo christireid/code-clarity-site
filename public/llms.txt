@@ -1,0 +1,40 @@
+# Clarity Chat by Code & Clarity
+# https://codeclarity.ai
+
+## About
+Clarity Chat is a premium React component library for building AI chat interfaces. It provides production-ready, accessible components for integrating ChatGPT-quality conversational experiences into applications.
+
+## Key Features
+- Multi-provider support (OpenAI, Anthropic, Google)
+- Token optimization with KV-cache alignment
+- WCAG 2.1 AA accessibility compliance
+- TypeScript-first with full type safety
+- React Server Components support
+- Streaming support with SSE
+- Semantic caching for cost reduction
+
+## Target Users
+- Frontend developers building AI chat features
+- Engineering teams evaluating build-vs-buy decisions
+- Product managers scoping AI integrations
+- Enterprise architects requiring accessibility compliance
+
+## Technology Stack
+- React 19
+- Next.js 15 App Router
+- TypeScript (strict mode)
+- Tailwind CSS
+- Framer Motion
+
+## Contact
+- Website: https://codeclarity.ai
+- Email: hello@codeclarity.ai
+- GitHub: https://github.com/codeandclarity
+
+## Pricing
+- Free tier available
+- Pro: $299/developer/year
+- Enterprise: Custom pricing
+
+## Status
+Currently in early access. Join the waitlist at https://codeclarity.ai
