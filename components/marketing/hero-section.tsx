@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import {
   fadeInScale,
 } from "@/lib/animations"
+import { GifPlaceholder } from "@/components/ui/image-placeholder"
 
 // Dynamically import the 3D canvas to avoid SSR issues
 const ParticleFieldCanvas = dynamic(
@@ -263,97 +264,31 @@ export function HeroSection() {
         </motion.div>
       </motion.div>
 
-      {/* 3D Scene Container (below content) */}
+      {/* Product Demo Preview */}
       <motion.div
         variants={prefersReducedMotion ? undefined : fadeInScale}
         initial={prefersReducedMotion ? undefined : "hidden"}
         animate={prefersReducedMotion ? undefined : "visible"}
         className="relative z-10 w-full max-w-4xl mx-auto mt-16 px-6"
       >
-        <div className="relative aspect-video rounded-2xl overflow-hidden glass-card glow-primary">
-          {/* Simulated chat interface preview */}
-          <div className="absolute inset-0 p-6">
-            <div className="h-full flex flex-col">
-              {/* Chat header */}
-              <div className="flex items-center gap-3 pb-4 border-b border-white/10">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="ml-4 text-sm text-muted-foreground">
-                  Clarity Chat Demo
-                </span>
-              </div>
+        {/*
+          ============================================
+          IMAGE PLACEHOLDER: hero-product-demo
+          ============================================
+          Replace with your product demo GIF or video showing:
+          - Chat interface in action
+          - Streaming responses
+          - Provider switching
 
-              {/* Chat messages preview */}
-              <div className="flex-1 py-6 space-y-4 overflow-hidden">
-                <motion.div
-                  initial={prefersReducedMotion ? undefined : { opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: prefersReducedMotion ? 0 : 1.5 }}
-                  className="flex justify-end"
-                >
-                  <div className="chat-bubble-user px-4 py-2 max-w-[70%]">
-                    How do I implement streaming?
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={prefersReducedMotion ? undefined : { opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: prefersReducedMotion ? 0 : 2 }}
-                  className="flex justify-start"
-                >
-                  <div className="chat-bubble-ai px-4 py-3 max-w-[80%]">
-                    <p className="text-sm mb-2">
-                      Here's how to implement streaming with Clarity Chat:
-                    </p>
-                    <div className="code-block rounded-lg p-3 text-xs">
-                      <code className="text-primary">
-                        const {"{"} messages, send {"}"}
-                      </code>
-                      <code className="text-muted-foreground">
-                        {" "}
-                        = useStreamingChat();
-                      </code>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={prefersReducedMotion ? undefined : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: prefersReducedMotion ? 0 : 2.5 }}
-                  className="flex justify-start"
-                >
-                  <div className="flex items-center gap-1 px-4 py-2">
-                    <span className="typing-cursor" />
-                    <span className="text-sm text-muted-foreground">
-                      AI is typing...
-                    </span>
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Input bar */}
-              <div className="border-t border-white/10 pt-4">
-                <div className="flex items-center gap-3 bg-muted/50 rounded-xl px-4 py-3">
-                  <input
-                    type="text"
-                    placeholder="Ask anything about Clarity Chat..."
-                    className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
-                    disabled
-                  />
-                  <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                    <ArrowRight className="w-4 h-4 text-white" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Glow effect overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent pointer-events-none" />
-        </div>
+          Recommended: 1280x720 GIF or MP4/WebM
+          Path: /public/images/hero-product-demo.gif
+          ============================================
+        */}
+        <GifPlaceholder
+          id="hero-product-demo"
+          label="Product Demo GIF (1280x720)"
+          className="glow-primary"
+        />
       </motion.div>
 
       {/* Scroll indicator */}

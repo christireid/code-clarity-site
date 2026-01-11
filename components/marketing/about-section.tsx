@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { Code2, Sparkles, Users, Zap } from "lucide-react"
 import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/animations"
+import { ImagePlaceholder } from "@/components/ui/image-placeholder"
 
 const highlights = [
   {
@@ -90,11 +91,29 @@ export function AboutSection() {
             </div>
           </motion.div>
 
-          {/* Right: Stats grid */}
+          {/* Right: Team visual + Stats */}
           <motion.div
             variants={prefersReducedMotion ? undefined : fadeInUp}
-            className="grid grid-cols-2 gap-4"
+            className="space-y-6"
           >
+            {/*
+              ============================================
+              IMAGE PLACEHOLDER: about-team-photo
+              ============================================
+              Replace with founder/team photo or workspace image
+              Recommended: 800x600 or similar landscape
+              Path: /public/images/about-team-photo.jpg
+              ============================================
+            */}
+            <ImagePlaceholder
+              id="about-team-photo"
+              label="Team/Founder Photo (800x600)"
+              aspectRatio="video"
+              className="mb-6"
+            />
+
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 gap-4">
             {highlights.map((item, index) => (
               <motion.div
                 key={item.label}
@@ -117,6 +136,7 @@ export function AboutSection() {
                 <div className="text-sm text-muted-foreground">{item.label}</div>
               </motion.div>
             ))}
+            </div>
           </motion.div>
         </motion.div>
       </div>

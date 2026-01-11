@@ -1,0 +1,32 @@
+# Image Placeholders Directory
+
+Add your images here to replace the placeholders throughout the site.
+
+## Required Images:
+
+### hero-product-demo.gif (or .mp4/.webm)
+- Location: Hero section
+- Size: 1280x720 recommended
+- Content: Product demo showing chat interface, streaming, provider switching
+
+### about-team-photo.jpg (or .png)
+- Location: About section
+- Size: 800x600 recommended
+- Content: Founder photo, team photo, or workspace image
+
+## How to Replace:
+
+1. Add your image to this directory with the matching filename
+2. Open the component file and replace the <ImagePlaceholder> or <GifPlaceholder>
+   with a standard next/image component:
+
+```tsx
+import Image from "next/image"
+
+<Image
+  src="/images/hero-product-demo.gif"
+  alt="Clarity Chat Demo"
+  fill
+  className="object-cover"
+/>
+```
