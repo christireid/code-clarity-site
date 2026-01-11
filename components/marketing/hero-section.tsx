@@ -217,6 +217,22 @@ export function HeroSection() {
           </button>
         </motion.div>
 
+        {/* Services CTA - for custom solutions */}
+        <motion.div
+          variants={prefersReducedMotion ? undefined : heroItem}
+          className="mt-4"
+        >
+          <Link
+            href="#contact"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Need a custom AI solution?{" "}
+            <span className="text-primary hover:underline">
+              Talk to our team →
+            </span>
+          </Link>
+        </motion.div>
+
         {/* Install command */}
         <motion.div
           variants={prefersReducedMotion ? undefined : heroItem}

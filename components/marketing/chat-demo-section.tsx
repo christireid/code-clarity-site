@@ -208,11 +208,16 @@ export function ChatDemoSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary mb-6">
+            <Code2 className="w-4 h-4" />
+            15 lines of code → Production-ready chat UI
+          </span>
           <h2 className="text-headline font-bold mb-4">
             See it in <span className="gradient-text">action</span>
           </h2>
           <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            Interactive demo of Clarity Chat components with live code preview
+            An interactive demo showing exactly how little code you need to build
+            a ChatGPT-quality interface. Try it yourself.
           </p>
         </motion.div>
 
