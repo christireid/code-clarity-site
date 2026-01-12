@@ -83,13 +83,12 @@ export function ContactSection() {
             viewport={viewportOnce}
           >
             <h2 className="text-headline font-bold mb-6">
-              Let's build something{" "}
-              <span className="gradient-text">amazing</span> together
+              Ready to <span className="gradient-text">ship faster?</span>
             </h2>
             <p className="text-body-large text-muted-foreground mb-8">
-              Whether you're looking to integrate Clarity Chat, need help with
-              token optimization, or want to discuss a custom AI project - we're
-              here to help.
+              Tell us about your AI project. Whether you need to cut token costs,
+              ship a chat feature this quarter, or just want expert guidance—we
+              respond within 24 hours.
             </p>
 
             {/* Contact options */}

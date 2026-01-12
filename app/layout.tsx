@@ -12,19 +12,20 @@ import { CursorGlow } from "@/components/cursor-glow"
 export const metadata: Metadata = {
   metadataBase: new URL("https://codeclarity.ai"),
   title: {
-    default: "Code & Clarity | Premium AI Chat Components for React",
+    default: "Clarity Chat | Ship AI Chat This Sprint. Cut Token Costs 60%.",
     template: "%s | Code & Clarity",
   },
   description:
-    "Build ChatGPT-quality AI chat interfaces in hours, not months. Token-optimized, enterprise-ready React components with multi-provider support.",
+    "Stop burning money on token costs. Ship production AI chat in 1-2 sprints with 60-90% cost savings. The React library for teams that ship.",
   keywords: [
     "AI chat",
     "React components",
-    "ChatGPT UI",
     "token optimization",
+    "reduce AI costs",
     "streaming chat",
     "AI development",
     "Clarity Chat",
+    "OpenAI cost reduction",
   ],
   authors: [{ name: "Code & Clarity" }],
   creator: "Code & Clarity",
@@ -33,23 +34,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://codeclarity.ai",
     siteName: "Code & Clarity",
-    title: "Code & Clarity | Premium AI Chat Components",
+    title: "Clarity Chat | Ship AI Chat This Sprint",
     description:
-      "Build ChatGPT-quality AI chat interfaces in hours, not months.",
+      "Stop burning money on token costs. Ship production AI chat with 60-90% cost savings.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Code & Clarity - Premium AI Chat Components",
+        alt: "Clarity Chat - Ship AI Chat This Sprint",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Code & Clarity | Premium AI Chat Components",
+    title: "Clarity Chat | Ship AI Chat This Sprint",
     description:
-      "Build ChatGPT-quality AI chat interfaces in hours, not months.",
+      "Stop burning money on token costs. Ship production AI chat with 60-90% cost savings.",
     images: ["/og-image.png"],
   },
   robots: {
