@@ -19,27 +19,22 @@ type NewsletterFormData = z.infer<typeof newsletterSchema>
 const footerLinks = {
   product: [
     { label: "Features", href: "#features" },
-    { label: "Pricing", href: "#pricing" },
     { label: "Demo", href: "#demo" },
     { label: "Documentation", href: "/docs" },
-    { label: "Changelog", href: "/changelog" },
   ],
   services: [
-    { label: "AI Chat Development", href: "/services/ai-development" },
-    { label: "Token Optimization", href: "/services/token-optimization" },
-    { label: "AI-Enhanced Docs", href: "/services/documentation" },
-    { label: "Consulting", href: "/services/consulting" },
+    { label: "All Services", href: "/services" },
+    { label: "AI Chat Development", href: "/services#ai-chat" },
+    { label: "Token Optimization", href: "/services#token-optimization" },
+    { label: "AI-Enhanced Docs", href: "/services#documentation" },
   ],
   company: [
     { label: "About", href: "/about" },
-    { label: "Blog", href: "/blog" },
-    { label: "Careers", href: "/careers" },
     { label: "Contact", href: "#contact" },
   ],
   legal: [
     { label: "Privacy", href: "/privacy" },
     { label: "Terms", href: "/terms" },
-    { label: "License", href: "/license" },
   ],
 }
 
@@ -120,8 +115,8 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-6">
-              Build ChatGPT-quality AI chat interfaces in hours, not months.
-              Premium React components for modern AI applications.
+              Ship AI chat this sprint. Cut token costs by 60-90%.
+              The React library for teams that ship.
             </p>
 
             {/* Social links */}
