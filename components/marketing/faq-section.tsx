@@ -7,34 +7,34 @@ import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/animations"
 
 const faqs = [
   {
-    question: "Can I try Clarity Chat before purchasing?",
+    question: "How quickly can we ship with Clarity Chat?",
     answer:
-      "Yes! The Community tier is completely free and includes core chat components. For Pro features, we offer a 14-day free trial with no credit card required.",
+      "Most teams go from npm install to production in 1-2 sprints. The library handles all the hard parts—streaming, token management, accessibility—so you can focus on your product, not infrastructure.",
   },
   {
-    question: "What's included in token optimization?",
+    question: "What kind of cost savings are realistic?",
     answer:
-      "Our token optimization hooks automatically compress conversation history, manage context windows, and reduce API costs by 60-90%. This includes intelligent summarization, semantic chunking, and provider-specific optimizations.",
+      "We've seen teams reduce token costs by 60-90% with our built-in optimizations. This includes KV-cache alignment, semantic caching, and intelligent context management. One Series B startup cut their OpenAI bill from $47K to $12K monthly.",
   },
   {
     question: "Do you support all AI providers?",
     answer:
-      "We support OpenAI, Anthropic (Claude), Google Gemini, Mistral, Cohere, and any OpenAI-compatible API. Multi-provider support is included in Pro and Enterprise tiers.",
+      "Yes. OpenAI, Anthropic (Claude), Google Gemini, Mistral, Cohere, and any OpenAI-compatible API. Switch providers with one line of code—no rewrite required.",
   },
   {
-    question: "Can I use Clarity Chat with my existing codebase?",
+    question: "Will this work with our existing React app?",
     answer:
-      "Absolutely. Clarity Chat is designed to integrate seamlessly with any React or Next.js application. Components are fully customizable and work with your existing styling solution (Tailwind, CSS-in-JS, etc.).",
+      "Clarity Chat integrates seamlessly with any React or Next.js application. Components work with your existing styling (Tailwind, CSS-in-JS, etc.) and we provide headless hooks if you need full control.",
   },
   {
-    question: "What kind of support do you offer?",
+    question: "What about accessibility and compliance?",
     answer:
-      "Community users get GitHub issues support and Discord access. Pro users receive priority email support with 24-hour response times and access to a private Discord channel. Enterprise includes dedicated support engineers.",
+      "Every component is WCAG AAA compliant out of the box. Full keyboard navigation, screen reader support, and high contrast modes. We handle the accessibility edge cases of AI-generated content so you don't have to.",
   },
   {
-    question: "Is there a money-back guarantee?",
+    question: "Can we get help with implementation?",
     answer:
-      "Yes, we offer a 30-day money-back guarantee for all paid plans. If you're not satisfied, we'll refund your purchase - no questions asked.",
+      "Absolutely. Beyond the library, we offer consulting services for teams that need hands-on help. From token optimization audits to full AI chat builds—we've shipped 50+ AI products and know what works.",
   },
 ]
 

@@ -173,29 +173,29 @@ export function HeroSection() {
         >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary">
             <Sparkles className="w-4 h-4" />
-            <span>Save 60-90% on AI costs with built-in token optimization</span>
+            <span>Stop burning money on token costs</span>
             <ArrowRight className="w-4 h-4" />
           </span>
         </motion.div>
 
-        {/* Headline */}
+        {/* Headline - Outcomes focused */}
         <motion.h1
           variants={prefersReducedMotion ? undefined : heroItem}
           className="text-display font-bold tracking-tight mb-6"
         >
-          <span className="block">Build ChatGPT-quality</span>
-          <span className="block gradient-text">AI chat interfaces</span>
-          <span className="block">in hours, not months.</span>
+          <span className="block">Ship AI chat this sprint.</span>
+          <span className="block gradient-text">Cut token costs by 60%.</span>
+          <span className="block text-[0.7em] text-muted-foreground font-normal mt-2">Never explain a $50K AI bill to your CFO again.</span>
         </motion.h1>
 
-        {/* Subheadline */}
+        {/* Subheadline - Consequences */}
         <motion.p
           variants={prefersReducedMotion ? undefined : heroItem}
           className="text-body-large text-muted-foreground max-w-2xl mx-auto mb-10"
         >
-          The premium React component library for AI chat applications.
+          Your AI integration is 3 months behind schedule. Token costs are spiraling.
           <br className="hidden sm:block" />
-          Token-optimized. Enterprise-ready. Multi-provider support.
+          Clarity Chat is the React library that gets you to production—with costs under control.
         </motion.p>
 
         {/* CTAs */}
@@ -204,33 +204,17 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <Link
-            href="/docs/getting-started"
+            href="#demo"
             className="cta-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2 group"
           >
-            Get Started Free
+            See How It Works
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <button
-            onClick={scrollToDemo}
-            className="secondary-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2"
-          >
-            See it in action
-          </button>
-        </motion.div>
-
-        {/* Services CTA - for custom solutions */}
-        <motion.div
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="mt-4"
-        >
           <Link
             href="#contact"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="secondary-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2"
           >
-            Need a custom AI solution?{" "}
-            <span className="text-primary hover:underline">
-              Talk to our team →
-            </span>
+            Get Early Access
           </Link>
         </motion.div>
 
@@ -242,24 +226,24 @@ export function HeroSection() {
           <InstallCommand />
         </motion.div>
 
-        {/* Stats row */}
+        {/* Outcomes row */}
         <motion.div
           variants={prefersReducedMotion ? undefined : heroItem}
-          className="mt-8 flex flex-wrap justify-center gap-6 md:gap-12"
+          className="mt-10 flex flex-wrap justify-center gap-6 md:gap-10"
         >
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-text">200+</span>
-            <span className="text-sm text-muted-foreground">Components</span>
+          <div className="text-center">
+            <span className="text-2xl font-bold gradient-text">60-90%</span>
+            <span className="block text-xs text-muted-foreground mt-1">Token cost reduction</span>
           </div>
-          <div className="hidden md:block h-8 w-px bg-border" />
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-text">95+</span>
-            <span className="text-sm text-muted-foreground">Hooks</span>
+          <div className="hidden md:block h-12 w-px bg-border" />
+          <div className="text-center">
+            <span className="text-2xl font-bold gradient-text">1 Sprint</span>
+            <span className="block text-xs text-muted-foreground mt-1">To production</span>
           </div>
-          <div className="hidden md:block h-8 w-px bg-border" />
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-text">AAA</span>
-            <span className="text-sm text-muted-foreground">WCAG Accessible</span>
+          <div className="hidden md:block h-12 w-px bg-border" />
+          <div className="text-center">
+            <span className="text-2xl font-bold gradient-text">Zero</span>
+            <span className="block text-xs text-muted-foreground mt-1">Budget surprises</span>
           </div>
         </motion.div>
       </motion.div>

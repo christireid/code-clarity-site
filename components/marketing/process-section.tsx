@@ -97,11 +97,10 @@ export function ProcessSection() {
             How We Work
           </span>
           <h2 className="text-headline font-bold mb-4">
-            A <span className="gradient-text">Clear Process</span> for Every Project
+            From <span className="gradient-text">first call to production</span>
           </h2>
           <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            From initial consultation to ongoing support, we follow a proven methodology
-            that delivers results consistently.
+            No surprises. No scope creep. Just a clear path to shipping your AI product.
           </p>
         </motion.div>
 

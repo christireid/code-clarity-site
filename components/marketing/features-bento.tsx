@@ -121,11 +121,11 @@ export function FeaturesBento() {
           className="text-center mb-16"
         >
           <h2 className="text-headline font-bold mb-4">
-            Why teams choose{" "}
-            <span className="gradient-text">Clarity Chat</span>
+            Everything you need to{" "}
+            <span className="gradient-text">ship faster</span>
           </h2>
           <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            The most complete AI chat component library available
+            Stop reinventing wheels. Start shipping features.
           </p>
         </motion.div>
 

@@ -22,15 +22,15 @@ export function FinalCTASection() {
         >
           {/* Headline */}
           <h2 className="text-headline font-bold mb-6">
-            Ready to build
+            Stop explaining AI costs.
             <br />
-            <span className="gradient-text">something amazing?</span>
+            <span className="gradient-text">Start shipping.</span>
           </h2>
 
           {/* Subheadline */}
           <p className="text-body-large text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Join thousands of developers building the next generation of AI
-            chat applications with Clarity Chat.
+            Your AI feature doesn't have to be 3 months late and 5x over budget.
+            Get to production this sprint with costs under control.
           </p>
 
           {/* CTAs */}
