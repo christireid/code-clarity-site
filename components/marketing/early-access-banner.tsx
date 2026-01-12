@@ -73,11 +73,11 @@ export function EarlyAccessBanner() {
                 </span>
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-2">
-                Get early access to Clarity Chat
+                Ship your AI feature this quarter
               </h3>
               <p className="text-muted-foreground">
-                Be the first to know when we launch. Early supporters get
-                priority access and exclusive updates.
+                Get early access and start cutting token costs before your
+                competitors figure out they're overpaying.
               </p>
             </div>
 

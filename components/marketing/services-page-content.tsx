@@ -18,6 +18,7 @@ import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/animations"
 
 const services = [
   {
+    id: "frontend",
     icon: Code2,
     title: "Frontend Development",
     description:
@@ -30,6 +31,7 @@ const services = [
     gradient: "from-emerald-500 to-teal-400",
   },
   {
+    id: "ai-chat",
     icon: MessageSquare,
     title: "AI Chat Applications",
     description:
@@ -42,6 +44,7 @@ const services = [
     gradient: "from-primary to-blue-400",
   },
   {
+    id: "token-optimization",
     icon: Coins,
     title: "Token Optimization",
     description:
@@ -54,6 +57,7 @@ const services = [
     gradient: "from-accent to-yellow-400",
   },
   {
+    id: "documentation",
     icon: BookOpen,
     title: "AI-Friendly Documentation",
     description:
@@ -66,6 +70,7 @@ const services = [
     gradient: "from-secondary to-purple-400",
   },
   {
+    id: "sdk",
     icon: Package,
     title: "SDK & API Wrappers",
     description:
@@ -78,6 +83,7 @@ const services = [
     gradient: "from-rose-500 to-pink-400",
   },
   {
+    id: "accessibility",
     icon: Accessibility,
     title: "Accessibility & Compliance",
     description:
@@ -182,8 +188,9 @@ export function ServicesPageContent() {
             {services.map((service) => (
               <motion.div
                 key={service.title}
+                id={service.id}
                 variants={prefersReducedMotion ? undefined : fadeInUp}
-                className="group relative"
+                className="group relative scroll-mt-24"
               >
                 <div className="glass-card h-full p-6 rounded-2xl flex flex-col hover:border-primary/50 transition-all">
                   <div

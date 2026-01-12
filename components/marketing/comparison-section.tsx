@@ -126,10 +126,10 @@ export function ComparisonSection() {
           className="text-center mb-12"
         >
           <h2 id="comparison-heading" className="text-headline font-bold mb-4">
-            How we <span className="gradient-text">compare</span>
+            Why teams <span className="gradient-text">switch to us</span>
           </h2>
           <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            See how Clarity Chat stacks up against other AI chat libraries
+            The features that save you weeks of development and thousands in token costs
           </p>
         </motion.div>
 
