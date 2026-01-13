@@ -5,6 +5,20 @@ import { Resend } from "resend"
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 /**
+ * Escapes HTML special characters to prevent XSS in email templates
+ */
+function escapeHtml(text: string): string {
+  const htmlEscapes: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  }
+  return text.replace(/[&<>"']/g, (char) => htmlEscapes[char])
+}
+
+/**
  * Contact form submission data structure
  */
 export interface ContactFormData {
@@ -78,12 +92,12 @@ export async function sendContactEmail(formData: ContactFormData) {
       subject: `[${typeLabels[formData.type]}] New inquiry from ${formData.name}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>Type:</strong> ${typeLabels[formData.type]}</p>
-        <p><strong>Name:</strong> ${formData.name}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        ${formData.company ? `<p><strong>Company:</strong> ${formData.company}</p>` : ""}
+        <p><strong>Type:</strong> ${escapeHtml(typeLabels[formData.type])}</p>
+        <p><strong>Name:</strong> ${escapeHtml(formData.name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(formData.email)}</p>
+        ${formData.company ? `<p><strong>Company:</strong> ${escapeHtml(formData.company)}</p>` : ""}
         <p><strong>Message:</strong></p>
-        <p>${formData.message.replace(/\n/g, "<br>")}</p>
+        <p>${escapeHtml(formData.message).replace(/\n/g, "<br>")}</p>
       `,
     })
 
@@ -136,7 +150,7 @@ export async function subscribeToNewsletter(formData: NewsletterFormData) {
       subject: `New Newsletter Subscriber: ${formData.email}`,
       html: `
         <h2>New Newsletter Subscription</h2>
-        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Email:</strong> ${escapeHtml(formData.email)}</p>
         <p>Add this email to your newsletter list.</p>
       `,
     })

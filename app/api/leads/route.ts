@@ -36,8 +36,19 @@ export async function POST(request: NextRequest) {
     // Get client IP for rate limiting
     const ip = getClientIP(request.headers)
 
-    // Parse request body
-    const body: RequestBody = await request.json()
+    // Parse request body with error handling
+    let body: RequestBody
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Invalid JSON in request body",
+        },
+        { status: 400 }
+      )
+    }
 
     // Validate with Zod
     const parseResult = LeadSchema.safeParse(body)

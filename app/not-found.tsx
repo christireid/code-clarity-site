@@ -68,7 +68,7 @@ export default function NotFound() {
               href="/"
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-5 h-5" aria-hidden="true" />
               Back to home
             </Link>
 
@@ -77,7 +77,7 @@ export default function NotFound() {
               onClick={() => window.history.back()}
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg glass-card hover:border-primary/50 transition-colors font-medium"
             >
-              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
               Go back
             </button>
           </motion.div>
