@@ -87,21 +87,21 @@ export function PodcastHighlight() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a
-                  href="https://aiintegrations.dev/episodes/11"
+                  href="https://www.linkedin.com/posts/ai-integrations_the-ai-integrations-podcast-ep-11-ai-activity-7397689527844106241-HDm9"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-button px-6 py-3 rounded-xl inline-flex items-center justify-center gap-2 group"
                 >
                   <Play className="w-4 h-4" />
-                  Listen Now
+                  Watch on LinkedIn
                 </a>
                 <a
-                  href="https://aiintegrations.dev"
+                  href="https://www.linkedin.com/company/ai-integrations"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="secondary-button px-6 py-3 rounded-xl inline-flex items-center justify-center gap-2 group"
                 >
-                  View All Episodes
+                  Follow AI Integrations
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </a>
               </div>

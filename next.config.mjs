@@ -13,6 +13,36 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
+  // Redirects for deleted routes
+  async redirects() {
+    return [
+      {
+        source: '/pricing',
+        destination: '/#contact',
+        permanent: true,
+      },
+      {
+        source: '/services/ai-development',
+        destination: '/services#ai-chat',
+        permanent: true,
+      },
+      {
+        source: '/services/token-optimization',
+        destination: '/services#token-optimization',
+        permanent: true,
+      },
+      {
+        source: '/services/documentation',
+        destination: '/services#documentation',
+        permanent: true,
+      },
+      {
+        source: '/services/consulting',
+        destination: '/services',
+        permanent: true,
+      },
+    ]
+  },
   // Security headers
   async headers() {
     return [

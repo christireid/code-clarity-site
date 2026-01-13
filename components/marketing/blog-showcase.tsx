@@ -6,32 +6,32 @@ import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/animations"
 
 const blogPosts = [
   {
-    title: "Token Optimization Strategies for Production AI Apps",
+    title: "The Invisible Frontend Layer That Turns a $10K Token Budget Into $2K",
     publication: "Medium",
     description:
-      "How we helped a Series B startup cut their OpenAI bill by 73% without sacrificing response quality. Deep dive into KV-cache alignment, semantic caching, and context window management.",
+      "How smart frontend architecture can slash your AI costs by 80%. Deep dive into KV-cache alignment, semantic caching, and the frontend patterns that save real money.",
     icon: BookOpen,
-    url: "https://medium.com/@christireid",
+    url: "https://medium.com/@buildwithcodeclarity/the-invisible-frontend-layer-that-turns-a-10k-monthly-token-budget-into-2k-01c9394e781d",
     tag: "Cost Optimization",
     tagColor: "bg-emerald-500/10 text-emerald-400",
   },
   {
-    title: "Why AI Chat Is Harder Than It Looks",
+    title: "The Hidden Complexity of AI Chat Interfaces",
     publication: "Front End Weekly",
     description:
-      "The streaming edge cases, accessibility challenges, and UX pitfalls that trip up even experienced teams. Lessons from shipping 50+ AI products.",
+      "A developer's reality check on building AI chat UIs. The streaming edge cases, accessibility challenges, and UX pitfalls that trip up even experienced teams.",
     icon: Newspaper,
-    url: "https://frontendweekly.co",
+    url: "https://medium.com/front-end-weekly/the-hidden-complexity-of-ai-chat-interfaces-a-developers-reality-check-37b9e88fb223",
     tag: "Engineering",
     tagColor: "bg-primary/10 text-primary",
   },
   {
     title: "Building Developer-Friendly AI SDKs",
-    publication: "Dev.to",
+    publication: "Coming Soon",
     description:
       "What we learned building Clarity Chat's API. Why TypeScript-first matters, how to design for composability, and the art of sensible defaults.",
     icon: FileCode,
-    url: "https://dev.to/christireid",
+    url: "#",
     tag: "Documentation",
     tagColor: "bg-secondary/10 text-secondary",
   },
