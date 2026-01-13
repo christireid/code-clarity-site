@@ -5,7 +5,7 @@ import { Home, ArrowLeft, Search } from "lucide-react"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/animations"
+import { fadeInUp, staggerContainer } from "@/lib/animations"
 
 export default function NotFound() {
   const prefersReducedMotion = useReducedMotion()
@@ -15,18 +15,17 @@ export default function NotFound() {
       <Navigation />
       <main className="min-h-screen flex items-center justify-center relative overflow-hidden">
         {/* Background effects */}
-        <div className="absolute inset-0 radial-gradient-bg opacity-30" />
-        <div className="absolute inset-0 grid-pattern opacity-20" />
+        <div className="absolute inset-0 radial-gradient-bg opacity-30" aria-hidden="true" />
+        <div className="absolute inset-0 grid-pattern opacity-20" aria-hidden="true" />
 
         {/* Floating gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" aria-hidden="true" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse delay-1000" aria-hidden="true" />
 
         <motion.div
           variants={prefersReducedMotion ? undefined : staggerContainer}
           initial={prefersReducedMotion ? undefined : "hidden"}
           animate="visible"
-          viewport={viewportOnce}
           className="relative text-center px-6 max-w-2xl mx-auto"
         >
           {/* 404 number */}
@@ -39,7 +38,7 @@ export default function NotFound() {
             </span>
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="glass-card p-6 rounded-2xl">
-                <Search className="w-12 h-12 text-primary" />
+                <Search className="w-12 h-12 text-primary" aria-hidden="true" />
               </div>
             </div>
           </motion.div>
@@ -74,6 +73,7 @@ export default function NotFound() {
             </Link>
 
             <button
+              type="button"
               onClick={() => window.history.back()}
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg glass-card hover:border-primary/50 transition-colors font-medium"
             >
