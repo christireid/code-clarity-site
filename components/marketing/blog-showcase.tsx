@@ -1,10 +1,20 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { ArrowUpRight, BookOpen, Newspaper, FileCode } from "lucide-react"
+import { ArrowUpRight, BookOpen, Newspaper, FileCode, type LucideIcon } from "lucide-react"
 import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/animations"
 
-const blogPosts = [
+interface BlogPost {
+  title: string
+  publication: string
+  description: string
+  icon: LucideIcon
+  url: string
+  tag: string
+  tagColor: string
+}
+
+const blogPosts: BlogPost[] = [
   {
     title: "The Invisible Frontend Layer That Turns a $10K Token Budget Into $2K",
     publication: "Medium",

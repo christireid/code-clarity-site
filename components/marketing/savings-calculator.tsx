@@ -50,7 +50,7 @@ export function SavingsCalculator() {
   }
 
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="calculator" className="relative py-24 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 radial-gradient-bg opacity-40" />
 

@@ -20,7 +20,7 @@ const footerLinks = {
   product: [
     { label: "Features", href: "#features" },
     { label: "Demo", href: "#demo" },
-    { label: "Documentation", href: "/docs" },
+    { label: "Calculator", href: "#calculator" },
   ],
   services: [
     { label: "All Services", href: "/services" },
