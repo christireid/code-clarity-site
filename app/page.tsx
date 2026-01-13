@@ -18,6 +18,7 @@ import { PodcastHighlight } from "@/components/marketing/podcast-highlight"
 import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
 import { ExitIntentPopup } from "@/components/exit-intent-popup"
 import { ScrollProgress } from "@/components/scroll-progress"
+import { SectionErrorBoundary } from "@/components/error-boundary"
 
 export default function Home() {
   return (
@@ -57,10 +58,14 @@ export default function Home() {
         <SavingsCalculator />
 
         {/* Blog posts showcase */}
-        <BlogShowcase />
+        <SectionErrorBoundary name="blog showcase">
+          <BlogShowcase />
+        </SectionErrorBoundary>
 
         {/* Podcast appearance highlight */}
-        <PodcastHighlight />
+        <SectionErrorBoundary name="podcast highlight">
+          <PodcastHighlight />
+        </SectionErrorBoundary>
 
         {/* Process section */}
         <ProcessSection />

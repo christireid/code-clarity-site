@@ -73,44 +73,63 @@ export function BlogShowcase() {
 
           {/* Blog cards */}
           <div className="grid md:grid-cols-3 gap-6">
-            {blogPosts.map((post) => (
-              <motion.a
-                key={post.title}
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={prefersReducedMotion ? undefined : fadeInUp}
-                className="group glass-card rounded-2xl p-6 hover:border-primary/50 transition-all duration-300"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="feature-icon w-12 h-12 rounded-xl">
-                    <post.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                </div>
+            {blogPosts.map((post) => {
+              const isComingSoon = post.url === "#"
+              const CardWrapper = isComingSoon ? "div" : motion.a
 
-                <span
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 ${post.tagColor}`}
+              return (
+                <CardWrapper
+                  key={post.title}
+                  {...(!isComingSoon && {
+                    href: post.url,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                  })}
+                  variants={prefersReducedMotion ? undefined : fadeInUp}
+                  className={`group glass-card rounded-2xl p-6 transition-all duration-300 ${
+                    isComingSoon
+                      ? "opacity-70 cursor-default"
+                      : "hover:border-primary/50"
+                  }`}
                 >
-                  {post.tag}
-                </span>
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="feature-icon w-12 h-12 rounded-xl">
+                      <post.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    {!isComingSoon && (
+                      <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    )}
+                  </div>
 
-                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
-                  {post.title}
-                </h3>
-
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                  {post.description}
-                </p>
-
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span>Published on</span>
-                  <span className="font-medium text-foreground">
-                    {post.publication}
+                  <span
+                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 ${post.tagColor}`}
+                  >
+                    {post.tag}
                   </span>
-                </div>
-              </motion.a>
-            ))}
+
+                  <h3 className={`font-semibold mb-2 ${!isComingSoon && "group-hover:text-primary"} transition-colors`}>
+                    {post.title}
+                  </h3>
+
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                    {post.description}
+                  </p>
+
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    {isComingSoon ? (
+                      <span className="text-primary font-medium">{post.publication}</span>
+                    ) : (
+                      <>
+                        <span>Published on</span>
+                        <span className="font-medium text-foreground">
+                          {post.publication}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </CardWrapper>
+              )
+            })}
           </div>
         </motion.div>
       </div>
