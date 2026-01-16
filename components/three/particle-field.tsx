@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useMemo, useEffect } from "react"
+import { useRef, useMemo, useEffect, useState, useCallback } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Points, PointMaterial } from "@react-three/drei"
 import * as THREE from "three"
@@ -33,8 +33,8 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
       const phi = Math.acos(2 * Math.random() - 1)
 
       const x = radius * Math.sin(phi) * Math.cos(theta)
-      const y = radius * Math.sin(phi) * Math.sin(theta) * 0.5 - 2
-      const z = radius * Math.cos(phi) * 0.3 - 5
+      const y = radius * Math.sin(phi) * Math.sin(theta) * 0.5
+      const z = radius * Math.cos(phi) * 0.3 - 10
 
       positions[i3] = x
       positions[i3 + 1] = y
@@ -118,11 +118,11 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
       <PointMaterial
         transparent
         vertexColors
-        size={0.08}
+        size={0.15}
         sizeAttenuation={true}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        opacity={0.8}
+        opacity={1}
       />
     </Points>
   )
@@ -196,7 +196,7 @@ function ConnectionLines({
       <lineBasicMaterial
         color={0x4a90e2}
         transparent
-        opacity={0.15}
+        opacity={0.3}
         blending={THREE.AdditiveBlending}
       />
     </lineSegments>
@@ -250,34 +250,113 @@ interface ParticleFieldCanvasProps {
 export function ParticleFieldCanvas({ className }: ParticleFieldCanvasProps) {
   const mouseRef = useRef({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isWebGLSupported, setIsWebGLSupported] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
+    
+    // Check WebGL support
+    const canvas = document.createElement("canvas")
+    const gl =
+      canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
+    if (!gl) {
+      console.warn("WebGL not supported, particle field will not render")
+      setIsWebGLSupported(false)
+      return
+    }
+    
+    console.log("WebGL supported, particle field should render")
+
     const handleMouseMove = (event: MouseEvent) => {
       if (!containerRef.current) return
       const rect = containerRef.current.getBoundingClientRect()
-      mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-      mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
+      if (rect.width > 0 && rect.height > 0) {
+        mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+        mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
+      }
     }
 
     window.addEventListener("mousemove", handleMouseMove)
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
+  // Handle WebGL context loss
+  const handleContextLost = useCallback((event: Event) => {
+    event.preventDefault()
+    setIsWebGLSupported(false)
+  }, [])
+
+  const handleContextRestored = useCallback(() => {
+    setIsWebGLSupported(true)
+  }, [])
+
+  if (!isMounted) {
+    return null // Wait for mount
+  }
+
+  if (!isWebGLSupported) {
+    return null // Gracefully degrade - don't render if WebGL is not available
+  }
+
   return (
-    <div ref={containerRef} className={className}>
+    <div 
+      ref={containerRef} 
+      className={`${className || ""} absolute inset-0 w-full h-full`}
+      style={{ 
+        position: "absolute", 
+        top: 0, 
+        left: 0, 
+        right: 0, 
+        bottom: 0,
+        width: "100%",
+        height: "100%",
+        minHeight: "100vh"
+      }}
+    >
       <Canvas
-        camera={{ position: [0, 0, 20], fov: 60 }}
+        camera={{ position: [0, 0, 25], fov: 75 }}
         dpr={[1, 2]}
         gl={{
           antialias: true,
           alpha: true,
           powerPreference: "high-performance",
+          preserveDrawingBuffer: false,
+          failIfMajorPerformanceCaveat: false,
         }}
-        style={{ background: "transparent" }}
+        onCreated={({ gl, scene, camera, size }) => {
+          console.log("Canvas created", { 
+            width: size.width, 
+            height: size.height,
+            gl: !!gl,
+            scene: !!scene,
+            camera: !!camera
+          })
+          gl.domElement.addEventListener("webglcontextlost", handleContextLost)
+          gl.domElement.addEventListener(
+            "webglcontextrestored",
+            handleContextRestored
+          )
+          // Ensure scene background is transparent
+          scene.background = null
+          // Ensure camera is positioned correctly
+          camera.position.set(0, 0, 25)
+          camera.updateProjectionMatrix()
+        }}
+        style={{ 
+          background: "transparent",
+          width: "100%",
+          height: "100%",
+          display: "block",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          zIndex: 0
+        }}
       >
-        <ambientLight intensity={0.5} />
-        <ParticleSystem count={2500} mouse={mouseRef.current} />
-        <ConnectionLines count={400} mouse={mouseRef.current} />
+        <ambientLight intensity={0.8} />
+        <ParticleSystem count={3000} mouse={mouseRef.current} />
+        <ConnectionLines count={500} mouse={mouseRef.current} />
         <GlowingOrbs />
       </Canvas>
     </div>

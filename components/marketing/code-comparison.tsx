@@ -146,8 +146,8 @@ export function CodeComparison() {
               <span className="text-xs text-muted-foreground">150+ lines</span>
             </div>
             <div className="h-[350px] overflow-auto p-4">
-              <pre className="text-xs font-mono">
-                <code className="text-muted-foreground whitespace-pre">
+              <pre className="text-xs font-mono text-foreground" style={{ color: 'hsl(0, 0%, 70%)' }}>
+                <code className="text-foreground whitespace-pre" style={{ color: 'inherit' }}>
                   {beforeCode}
                 </code>
               </pre>
@@ -171,8 +171,8 @@ export function CodeComparison() {
               <span className="text-xs text-muted-foreground">12 lines</span>
             </div>
             <div className="h-[350px] overflow-auto p-4 flex flex-col">
-              <pre className="text-sm font-mono flex-1">
-                <code>
+              <pre className="text-sm font-mono flex-1 text-foreground" style={{ color: 'hsl(0, 0%, 90%)' }}>
+                <code className="text-foreground" style={{ color: 'inherit' }}>
                   {afterCode.split("\n").map((line, i) => (
                     <div key={i} className="flex">
                       <span className="w-6 text-muted-foreground/50 select-none text-right pr-3">
@@ -233,27 +233,79 @@ export function CodeComparison() {
 }
 
 function highlightCode(line: string): string {
-  return line
-    .replace(
-      /(import|from|function|return|const)/g,
-      '<span class="text-primary">$1</span>'
-    )
-    .replace(
-      /('[@\w\-/.]+')|("[@\w\-/.]+")/g,
-      '<span class="text-accent">$1$2</span>'
-    )
-    .replace(
-      /(ClarityChat)/g,
-      '<span class="text-secondary">$1</span>'
-    )
-    .replace(
-      /(\/\/.+)/g,
-      '<span class="text-emerald-400">$1</span>'
-    )
-    .replace(
-      /(true|false)/g,
-      '<span class="text-accent">$1</span>'
-    )
+  if (!line || typeof line !== "string") return ""
+  
+  // Escape HTML to prevent XSS
+  let escaped = line
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+
+  // JSX/TSX component names (capitalized words)
+  escaped = escaped.replace(
+    /(&lt;)([A-Z][a-zA-Z0-9]+)(\s|&gt;)/g,
+    '$1<span class="text-secondary font-semibold">$2</span>$3'
+  )
+
+  // JSX props/attributes
+  escaped = escaped.replace(
+    /(\s)([a-zA-Z][a-zA-Z0-9]*)(=)/g,
+    '$1<span class="text-primary">$2</span>='
+  )
+
+  // JSX prop values (strings, booleans, objects)
+  escaped = escaped.replace(
+    /(=)(\{)([^}]+)(\})/g,
+    '=<span class="text-accent">{$3}</span>'
+  )
+  escaped = escaped.replace(
+    /(=)(&quot;)([^&]+)(&quot;)/g,
+    '=<span class="text-accent">&quot;$3&quot;</span>'
+  )
+  escaped = escaped.replace(
+    /(=)(true|false)/g,
+    '=<span class="text-primary">$2</span>'
+  )
+
+  // JavaScript keywords
+  escaped = escaped.replace(
+    /(import|from|function|const|let|var|return|true|false|await|async|export|default|if|else|for|while|switch|case|break|continue|try|catch|finally|throw|new|this|super|extends|class|interface|type|enum)/g,
+    '<span class="text-primary">$1</span>'
+  )
+
+  // Strings (single and double quotes)
+  escaped = escaped.replace(
+    /(&quot;[^&]+&quot;|&#039;[^&]+&#039;)/g,
+    '<span class="text-accent">$1</span>'
+  )
+
+  // Numbers
+  escaped = escaped.replace(
+    /(\d+)/g,
+    '<span class="text-emerald-400">$1</span>'
+  )
+
+  // Comments
+  escaped = escaped.replace(
+    /(\/\/.+|\/\*[\s\S]*?\*\/)/g,
+    '<span class="text-emerald-400 italic">$1</span>'
+  )
+
+  // Component names and hooks
+  escaped = escaped.replace(
+    /(ClarityChat|useChat|useStreamingChat|ChatContainer|MessageList|ChatInput|TokenOptimizer|TypingIndicator)/g,
+    '<span class="text-secondary">$1</span>'
+  )
+
+  // Object/array syntax
+  escaped = escaped.replace(
+    /(\[|\]|\{|\})/g,
+    '<span class="text-muted-foreground">$1</span>'
+  )
+
+  return escaped
 }
 
 export default CodeComparison

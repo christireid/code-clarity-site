@@ -1,311 +1,480 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { ArrowRight, Sparkles, ChevronDown, Copy, Check, Terminal } from "lucide-react"
-import dynamic from "next/dynamic"
+import { useEffect, useState, useCallback, Suspense } from "react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import {
-  fadeInScale,
-} from "@/lib/animations"
-import { GifPlaceholder } from "@/components/ui/image-placeholder"
+import { ParticleFieldCanvas } from "@/components/three/particle-field"
 
-// Dynamically import the 3D canvas to avoid SSR issues
-const ParticleFieldCanvas = dynamic(
-  () => import("@/components/three/particle-field"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
-    ),
-  }
-)
-
-// Hook to detect WebGL support
-function useWebGLSupport() {
-  const [supported, setSupported] = useState(true)
-
-  useEffect(() => {
-    try {
-      const canvas = document.createElement("canvas")
-      const gl =
-        canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
-      setSupported(!!gl)
-    } catch {
-      setSupported(false)
-    }
-  }, [])
-
-  return supported
+// ============================================================================
+// SYNTAX HIGHLIGHTING THEME (VS Code Dark+ inspired)
+// ============================================================================
+const syntax = {
+  keyword: "text-purple-400",      // const, import, export
+  function: "text-cyan-400",       // function names
+  string: "text-emerald-400",      // strings
+  number: "text-amber-400",        // numbers
+  comment: "text-zinc-500",        // comments
+  variable: "text-blue-400",       // variables
+  property: "text-zinc-300",       // object properties
+  operator: "text-pink-400",       // operators
+  type: "text-yellow-400",         // types
+  bracket: "text-zinc-500",        // brackets
 }
 
-// Static gradient fallback for non-WebGL browsers
-function GradientFallback() {
+// ============================================================================
+// TYPING ANIMATION HOOK
+// ============================================================================
+function useTypingAnimation(lines: string[], speed = 30, startDelay = 500) {
+  const [displayedLines, setDisplayedLines] = useState<string[]>([])
+  const [currentLineIndex, setCurrentLineIndex] = useState(0)
+  const [currentCharIndex, setCurrentCharIndex] = useState(0)
+  const [isComplete, setIsComplete] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setDisplayedLines(lines)
+      setIsComplete(true)
+      return
+    }
+
+    const startTimeout = setTimeout(() => {
+      if (currentLineIndex >= lines.length) {
+        setIsComplete(true)
+        return
+      }
+
+      const currentLine = lines[currentLineIndex]
+      
+      if (currentCharIndex < currentLine.length) {
+        const timeout = setTimeout(() => {
+          setDisplayedLines(prev => {
+            const newLines = [...prev]
+            newLines[currentLineIndex] = currentLine.slice(0, currentCharIndex + 1)
+            return newLines
+          })
+          setCurrentCharIndex(prev => prev + 1)
+        }, speed)
+        return () => clearTimeout(timeout)
+      } else {
+        const timeout = setTimeout(() => {
+          setCurrentLineIndex(prev => prev + 1)
+          setCurrentCharIndex(0)
+        }, 100)
+        return () => clearTimeout(timeout)
+      }
+    }, currentLineIndex === 0 && currentCharIndex === 0 ? startDelay : 0)
+
+    return () => clearTimeout(startTimeout)
+  }, [currentLineIndex, currentCharIndex, lines, speed, startDelay, prefersReducedMotion])
+
+  return { displayedLines, isComplete, currentLineIndex }
+}
+
+// ============================================================================
+// TERMINAL WINDOW COMPONENT
+// ============================================================================
+interface TerminalProps {
+  title?: string
+  children: React.ReactNode
+  className?: string
+  variant?: "default" | "success" | "error"
+}
+
+function Terminal({ title = "terminal", children, className = "", variant = "default" }: TerminalProps) {
+  const borderColor = {
+    default: "border-zinc-800/50",
+    success: "border-emerald-500/20",
+    error: "border-red-500/20",
+  }[variant]
+
+  const glowColor = {
+    default: "",
+    success: "shadow-emerald-500/5",
+    error: "shadow-red-500/5",
+  }[variant]
+
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-      <div
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-secondary/20 rounded-full blur-3xl animate-pulse"
-        style={{ animationDelay: "1s" }}
-      />
+    <div className={`relative group ${className}`}>
+      {/* Glow effect */}
+      <div className="absolute -inset-px bg-gradient-to-r from-emerald-500/20 via-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
+      
+      {/* Terminal window */}
+      <div className={`relative bg-zinc-950/80 backdrop-blur-xl border ${borderColor} rounded-2xl overflow-hidden shadow-2xl ${glowColor}`}>
+        {/* Title bar */}
+        <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/50 border-b border-zinc-800/50">
+          <div className="flex gap-1.5">
+            <div className="w-3 h-3 rounded-full bg-red-500/80" />
+            <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+            <div className="w-3 h-3 rounded-full bg-green-500/80" />
+          </div>
+          <span className="ml-2 text-xs text-zinc-500 font-mono">{title}</span>
+        </div>
+        
+        {/* Content */}
+        <div className="p-5 font-mono text-sm leading-relaxed">
+          {children}
+        </div>
+      </div>
     </div>
   )
 }
 
-// Hero-specific container with slower stagger
-const heroContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.3,
-    },
-  },
+// ============================================================================
+// CODE LINE COMPONENT WITH SYNTAX HIGHLIGHTING
+// ============================================================================
+interface CodeLineProps {
+  number: number
+  children: React.ReactNode
+  highlight?: boolean
 }
 
-// Hero-specific item with slightly longer duration
-const heroItem = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 0.4, 0.25, 1] as const,
-    },
-  },
-}
-
-// Copyable install command component
-function InstallCommand() {
-  const [copied, setCopied] = useState(false)
-  const command = "npx create-clarity-chat@latest"
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(command)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch {
-      // Fallback for older browsers
-      const textarea = document.createElement("textarea")
-      textarea.value = command
-      document.body.appendChild(textarea)
-      textarea.select()
-      document.execCommand("copy")
-      document.body.removeChild(textarea)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }
-  }
-
+function CodeLine({ number, children, highlight = false }: CodeLineProps) {
   return (
-    <button
-      onClick={handleCopy}
-      className="group inline-flex items-center gap-3 px-4 py-2.5 rounded-lg bg-muted/50 border border-white/10 hover:border-primary/50 transition-all"
-      aria-label="Copy install command"
-    >
-      <Terminal className="w-4 h-4 text-muted-foreground" />
-      <code className="text-sm font-mono text-foreground">{command}</code>
-      <span className="w-px h-4 bg-border" />
-      {copied ? (
-        <Check className="w-4 h-4 text-emerald-400" />
-      ) : (
-        <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-      )}
-    </button>
+    <div className={`flex ${highlight ? "bg-emerald-500/5 -mx-5 px-5" : ""}`}>
+      <span className="w-8 text-right text-zinc-600 select-none mr-4 flex-shrink-0">
+        {number}
+      </span>
+      <span className="flex-1">{children}</span>
+    </div>
   )
 }
 
+// ============================================================================
+// LIVE METRICS DISPLAY
+// ============================================================================
+function LiveMetrics() {
+  const [tokens, setTokens] = useState({ before: 0, after: 0, saved: 0 })
+  const prefersReducedMotion = useReducedMotion()
+  
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setTokens({ before: 4200, after: 1260, saved: 2940 })
+      return
+    }
+
+    const interval = setInterval(() => {
+      setTokens(prev => {
+        if (prev.before >= 4200) return prev
+        const newBefore = Math.min(prev.before + 84, 4200)
+        const newAfter = Math.round(newBefore * 0.3)
+        return {
+          before: newBefore,
+          after: newAfter,
+          saved: newBefore - newAfter,
+        }
+      })
+    }, 30)
+    
+    return () => clearInterval(interval)
+  }, [prefersReducedMotion])
+
+  const savingsPercent = tokens.before > 0 ? Math.round((tokens.saved / tokens.before) * 100) : 0
+
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800/50 rounded-xl p-4">
+        <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Input</div>
+        <div className="text-2xl font-bold font-mono text-zinc-400">
+          {tokens.before.toLocaleString()}
+        </div>
+        <div className="text-xs text-zinc-600">tokens</div>
+      </div>
+      
+      <div className="bg-zinc-900/50 backdrop-blur border border-emerald-500/20 rounded-xl p-4">
+        <div className="text-xs text-emerald-400 uppercase tracking-wider mb-1">Optimized</div>
+        <div className="text-2xl font-bold font-mono text-emerald-400">
+          {tokens.after.toLocaleString()}
+        </div>
+        <div className="text-xs text-emerald-500/60">tokens</div>
+      </div>
+      
+      <div className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 backdrop-blur border border-emerald-500/30 rounded-xl p-4">
+        <div className="text-xs text-cyan-400 uppercase tracking-wider mb-1">Saved</div>
+        <div className="text-2xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+          {savingsPercent}%
+        </div>
+        <div className="text-xs text-cyan-500/60">{tokens.saved.toLocaleString()} tokens</div>
+      </div>
+    </div>
+  )
+}
+
+// ============================================================================
+// CURSOR BLINK COMPONENT
+// ============================================================================
+function Cursor() {
+  return (
+    <span className="inline-block w-2 h-4 bg-emerald-400 animate-pulse ml-0.5" />
+  )
+}
+
+// ============================================================================
+// HERO CODE DEMO
+// ============================================================================
+function HeroCodeDemo() {
+  const codeLines = [
+    '// Before: 4,200 tokens per request',
+    'const response = await chat.send({',
+    '  messages: conversationHistory, // All 50 messages',
+    '  systemPrompt: fullSystemPrompt, // 2,000 tokens',
+    '});',
+    '',
+    '// After: 1,260 tokens with Clarity Chat',
+    'const response = await clarityChat.send({',
+    '  messages, // Smart context window',
+    '  optimization: {',
+    '    kvCache: true,      // Reuse cached prefixes',
+    '    semantic: true,     // Dedupe similar content',
+    '    compression: 0.7,   // 70% reduction target',
+    '  }',
+    '});',
+  ]
+
+  const { displayedLines, isComplete, currentLineIndex } = useTypingAnimation(codeLines, 25, 800)
+
+  return (
+    <Terminal title="token-optimization.ts" variant={isComplete ? "success" : "default"}>
+      <div className="space-y-0.5">
+        {codeLines.map((line, i) => {
+          const displayed = displayedLines[i] || ""
+          const isCurrentLine = i === currentLineIndex
+          const isTyped = i < currentLineIndex || (i === currentLineIndex && displayed.length > 0)
+          
+          if (!isTyped && i > currentLineIndex) return null
+          
+          // Syntax highlighting logic
+          let highlighted: React.ReactNode = displayed
+          
+          if (line.startsWith('//')) {
+            highlighted = <span className={syntax.comment}>{displayed}</span>
+          } else if (displayed.includes('const ')) {
+            highlighted = (
+              <>
+                <span className={syntax.keyword}>const </span>
+                <span className={syntax.variable}>{displayed.replace('const ', '').split(' ')[0]}</span>
+                <span className={syntax.property}>{displayed.slice(displayed.indexOf(' = '))}</span>
+              </>
+            )
+          } else if (displayed.includes(':')) {
+            const parts = displayed.split(':')
+            highlighted = (
+              <>
+                <span className={syntax.property}>{parts[0]}</span>
+                <span className={syntax.operator}>:</span>
+                <span className={displayed.includes('true') ? syntax.keyword : displayed.includes('0.7') ? syntax.number : syntax.string}>
+                  {parts.slice(1).join(':')}
+                </span>
+              </>
+            )
+          } else if (displayed.includes('await ')) {
+            highlighted = (
+              <>
+                <span className={syntax.keyword}>await </span>
+                <span className={syntax.function}>{displayed.replace('await ', '')}</span>
+              </>
+            )
+          }
+
+          return (
+            <CodeLine key={i} number={i + 1} highlight={i >= 6 && i <= 14}>
+              {highlighted}
+              {isCurrentLine && !isComplete && <Cursor />}
+            </CodeLine>
+          )
+        })}
+      </div>
+      
+      {isComplete && (
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-4 pt-4 border-t border-zinc-800/50"
+        >
+          <div className="flex items-center gap-2 text-emerald-400">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="text-sm">Optimization complete: 70% token reduction</span>
+          </div>
+        </motion.div>
+      )}
+    </Terminal>
+  )
+}
+
+// ============================================================================
+// STATS BAR
+// ============================================================================
+function StatsBar() {
+  const stats = [
+    { value: "70%", label: "Avg. Savings", color: "from-emerald-400 to-emerald-500" },
+    { value: "3", label: "Providers", color: "from-cyan-400 to-cyan-500" },
+    { value: "<2kb", label: "Core Size", color: "from-purple-400 to-purple-500" },
+    { value: "100%", label: "Type Safe", color: "from-pink-400 to-pink-500" },
+  ]
+
+  return (
+    <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+      {stats.map((stat, i) => (
+        <motion.div 
+          key={stat.label}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 + i * 0.1 }}
+          className="text-center"
+        >
+          <div className={`text-2xl md:text-3xl font-bold font-mono bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+            {stat.value}
+          </div>
+          <div className="text-xs text-zinc-500 uppercase tracking-wider mt-1">{stat.label}</div>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+// ============================================================================
+// MAIN HERO SECTION
+// ============================================================================
 export function HeroSection() {
   const prefersReducedMotion = useReducedMotion()
-  const supportsWebGL = useWebGLSupport()
-  const showParticles = supportsWebGL && !prefersReducedMotion
 
-  const scrollToDemo = () => {
-    const demoSection = document.getElementById("demo")
-    if (demoSection) {
-      demoSection.scrollIntoView({ behavior: "smooth" })
-    }
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   }
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      {/* Background gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="gradient-orb gradient-orb-primary w-[600px] h-[600px] -top-48 -left-48" />
-        <div
-          className="gradient-orb gradient-orb-secondary w-[500px] h-[500px] top-1/2 -right-48"
-          style={{ animationDelay: "-10s" }}
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-zinc-950">
+      {/* Background */}
+      <div className="absolute inset-0">
+        {/* 3D Particle Field */}
+        <div className="absolute inset-0 z-0 pointer-events-none" style={{ minHeight: '100vh', width: '100%' }}>
+          <Suspense fallback={null}>
+            <ParticleFieldCanvas className="w-full h-full" />
+          </Suspense>
+        </div>
+        
+        {/* Gradient mesh overlay - reduced opacity to show particles */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900 via-zinc-950/60 to-zinc-950 z-[1] pointer-events-none" />
+        
+        {/* Subtle grid */}
+        <div 
+          className="absolute inset-0 opacity-[0.015] z-[1] pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+            backgroundSize: '72px 72px',
+          }}
         />
-        <div
-          className="gradient-orb gradient-orb-primary w-[400px] h-[400px] -bottom-32 left-1/3"
-          style={{ animationDelay: "-5s" }}
-        />
+        
+        {/* Neon accent glows */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/[0.03] rounded-full blur-[100px] z-[1] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/[0.03] rounded-full blur-[100px] z-[1] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/[0.02] rounded-full blur-[120px] z-[1] pointer-events-none" />
       </div>
-
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 grid-pattern opacity-50" />
-
-      {/* 3D Particle Field or Fallback */}
-      {showParticles ? (
-        <ParticleFieldCanvas className="absolute inset-0 z-0" />
-      ) : (
-        <GradientFallback />
-      )}
-
-      {/* Radial gradient overlay for depth */}
-      <div className="absolute inset-0 radial-gradient-bg pointer-events-none" />
 
       {/* Content */}
       <motion.div
-        className="relative z-10 max-w-5xl mx-auto px-6 text-center"
-        variants={prefersReducedMotion ? undefined : heroContainer}
-        initial={prefersReducedMotion ? undefined : "hidden"}
-        animate={prefersReducedMotion ? undefined : "visible"}
+        className="relative z-10 max-w-6xl mx-auto px-6 py-20"
+        variants={prefersReducedMotion ? undefined : containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        {/* Eyebrow */}
-        <motion.div
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="mb-6"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary">
-            <Sparkles className="w-4 h-4" />
-            <span>Save 60-90% on AI costs with built-in token optimization</span>
-            <ArrowRight className="w-4 h-4" />
-          </span>
+        {/* Badge */}
+        <motion.div variants={itemVariants} className="flex justify-center mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900/80 backdrop-blur border border-zinc-800/50 rounded-full">
+            <span className="flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            </span>
+            <code className="text-sm text-zinc-400">
+              <span className="text-emerald-400">npm i</span> @clarity-chat/react
+            </code>
+          </div>
         </motion.div>
 
         {/* Headline */}
-        <motion.h1
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="text-display font-bold tracking-tight mb-6"
-        >
-          <span className="block">Build ChatGPT-quality</span>
-          <span className="block gradient-text">AI chat interfaces</span>
-          <span className="block">in hours, not months.</span>
-        </motion.h1>
+        <motion.div variants={itemVariants} className="text-center mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+            <span className="text-white">Ship AI chat.</span>
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-purple-400">
+              Save 70% on tokens.
+            </span>
+          </h1>
+        </motion.div>
 
         {/* Subheadline */}
-        <motion.p
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="text-body-large text-muted-foreground max-w-2xl mx-auto mb-10"
-        >
-          The premium React component library for AI chat applications.
-          <br className="hidden sm:block" />
-          Token-optimized. Enterprise-ready. Multi-provider support.
+        <motion.p variants={itemVariants} className="text-center text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-12">
+          Production-ready React components with built-in KV-cache alignment, 
+          semantic deduplication, and intelligent context management.
         </motion.p>
 
+        {/* Main Terminal Demo */}
+        <motion.div variants={itemVariants} className="max-w-3xl mx-auto mb-12">
+          <HeroCodeDemo />
+        </motion.div>
+
+        {/* Live Metrics */}
+        <motion.div variants={itemVariants} className="max-w-xl mx-auto mb-12">
+          <LiveMetrics />
+        </motion.div>
+
         {/* CTAs */}
-        <motion.div
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-        >
+        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <Link
-            href="/docs/getting-started"
-            className="cta-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2 group"
+            href="#demo"
+            className="group relative px-8 py-4 bg-white text-zinc-900 font-semibold rounded-xl overflow-hidden transition-all hover:scale-[1.02]"
           >
-            Get Started Free
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <button
-            onClick={scrollToDemo}
-            className="secondary-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2"
-          >
-            See it in action
-          </button>
-        </motion.div>
-
-        {/* Services CTA - for custom solutions */}
-        <motion.div
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="mt-4"
-        >
-          <Link
-            href="#contact"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Need a custom AI solution?{" "}
-            <span className="text-primary hover:underline">
-              Talk to our team →
+            <span className="relative z-10 flex items-center gap-2">
+              Try Demo
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </Link>
+          
+          <Link
+            href="#calculator"
+            className="px-8 py-4 font-medium text-zinc-300 rounded-xl border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900/50 transition-all flex items-center gap-2"
+          >
+            <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            Calculate Savings
           </Link>
         </motion.div>
 
-        {/* Install command */}
-        <motion.div
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="mt-8"
-        >
-          <InstallCommand />
+        {/* Stats */}
+        <motion.div variants={itemVariants}>
+          <StatsBar />
         </motion.div>
-
-        {/* Stats row */}
-        <motion.div
-          variants={prefersReducedMotion ? undefined : heroItem}
-          className="mt-8 flex flex-wrap justify-center gap-6 md:gap-12"
-        >
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-text">200+</span>
-            <span className="text-sm text-muted-foreground">Components</span>
-          </div>
-          <div className="hidden md:block h-8 w-px bg-border" />
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-text">95+</span>
-            <span className="text-sm text-muted-foreground">Hooks</span>
-          </div>
-          <div className="hidden md:block h-8 w-px bg-border" />
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-text">AAA</span>
-            <span className="text-sm text-muted-foreground">WCAG Accessible</span>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* Product Demo Preview */}
-      <motion.div
-        variants={prefersReducedMotion ? undefined : fadeInScale}
-        initial={prefersReducedMotion ? undefined : "hidden"}
-        animate={prefersReducedMotion ? undefined : "visible"}
-        className="relative z-10 w-full max-w-4xl mx-auto mt-16 px-6"
-      >
-        {/*
-          ============================================
-          IMAGE PLACEHOLDER: hero-product-demo
-          ============================================
-          Replace with your product demo GIF or video showing:
-          - Chat interface in action
-          - Streaming responses
-          - Provider switching
-
-          Recommended: 1280x720 GIF or MP4/WebM
-          Path: /public/images/hero-product-demo.gif
-          ============================================
-        */}
-        <GifPlaceholder
-          id="hero-product-demo"
-          label="Product Demo GIF (1280x720)"
-          className="glow-primary"
-        />
       </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
-        initial={prefersReducedMotion ? undefined : { opacity: 0 }}
+        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: prefersReducedMotion ? 0 : 3 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+        transition={{ delay: 3 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
-        <button
-          onClick={scrollToDemo}
-          className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-          aria-label="Scroll down"
-        >
-          <span className="text-xs">Scroll to explore</span>
-          <ChevronDown className="w-5 h-5 scroll-indicator" />
-        </button>
+        <a href="#calculator" className="flex flex-col items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors">
+          <span className="text-xs uppercase tracking-widest font-mono">scroll</span>
+          <svg className="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
       </motion.div>
     </section>
   )

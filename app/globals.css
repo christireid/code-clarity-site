@@ -3,6 +3,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Hide testimonials section - remove if component is found and deleted */
+section[data-cursor-ref*="testimonial"],
+section[data-cursor-element-id*="testimonial"] {
+  display: none !important;
+}
+
 /* ============================================
    CODE & CLARITY - PREMIUM DESIGN SYSTEM
    Dark Mode Default | Awwwards-Quality
@@ -97,6 +103,10 @@
   --duration-normal: 300ms;
   --duration-slow: 500ms;
   --duration-slower: 800ms;
+
+  /* Code block colors for inline styles */
+  --color-code-bg: hsla(240, 10%, 8%, 0.8);
+  --color-code-text: hsl(0, 0%, 90%);
 
   /* Animation easing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -476,11 +486,167 @@
     font-weight: 600;
   }
 
-  /* Code block styling */
+  /* Code block styling - Premium design */
   .code-block {
-    background: hsla(240, 10%, 8%, 0.8);
-    border: 1px solid hsla(0, 0%, 100%, 0.1);
-    font-family: var(--font-geist-mono), 'JetBrains Mono', monospace;
+    background: hsl(240, 10%, 6%);
+    border: 1px solid hsla(0, 0%, 100%, 0.08);
+    font-family: var(--font-geist-mono), 'JetBrains Mono', 'Fira Code', monospace;
+    color: hsl(0, 0%, 92%);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 16px -4px hsla(0, 0%, 0%, 0.3);
+    transition: all var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .code-block:hover {
+    border-color: hsla(0, 0%, 100%, 0.12);
+    box-shadow: 0 8px 24px -6px hsla(0, 0%, 0%, 0.4);
+  }
+
+  /* Code block header/title - only show if data-title attribute exists */
+  .code-block[data-title]::before {
+    content: attr(data-title);
+    display: block;
+    padding: 0.75rem 1rem;
+    background: hsla(240, 10%, 8%, 0.6);
+    border-bottom: 1px solid hsla(0, 0%, 100%, 0.08);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: hsl(0, 0%, 70%);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Code block content area */
+  .code-block > pre,
+  .code-block > div[data-language],
+  .code-block pre {
+    margin: 0;
+    padding: 1.25rem;
+    background: transparent !important;
+    overflow-x: auto;
+    border: none;
+  }
+
+  /* Ensure code block inner elements are styled correctly */
+  .code-block pre code {
+    background: transparent !important;
+    padding: 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  /* Line numbers */
+  .code-block [data-line-numbers] {
+    padding-left: 3rem;
+  }
+
+  /* Syntax highlighting overrides for better contrast */
+  .code-block [data-theme="github-dark"] {
+    background: transparent !important;
+  }
+
+  .code-block code {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: inherit;
+  }
+
+  /* Improve token colors for readability */
+  .code-block .token.keyword {
+    color: hsl(217, 91%, 70%);
+  }
+
+  .code-block .token.string {
+    color: hsl(45, 93%, 65%);
+  }
+
+  .code-block .token.comment {
+    color: hsl(0, 0%, 50%);
+    font-style: italic;
+  }
+
+  .code-block .token.function {
+    color: hsl(265, 89%, 78%);
+  }
+
+  .code-block .token.number {
+    color: hsl(160, 84%, 50%);
+  }
+
+  /* Ensure pre and code elements have visible text (excluding code-block) */
+  pre:not(.code-block pre),
+  code:not(.code-block code) {
+    color: var(--color-code-text, hsl(0, 0%, 90%));
+  }
+
+  /* Syntax highlighting for plain pre elements */
+  pre:not(.code-block pre) code,
+  pre code {
+    font-family: var(--font-geist-mono), 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  /* Syntax highlighting classes */
+  pre .text-primary,
+  code .text-primary {
+    color: hsl(217, 91%, 70%);
+  }
+
+  pre .text-secondary,
+  code .text-secondary {
+    color: hsl(265, 89%, 78%);
+  }
+
+  pre .text-accent,
+  code .text-accent {
+    color: hsl(45, 93%, 65%);
+  }
+
+  pre .text-muted-foreground,
+  code .text-muted-foreground {
+    color: hsl(0, 0%, 50%);
+  }
+
+  pre .text-emerald-400,
+  code .text-emerald-400 {
+    color: hsl(160, 84%, 50%);
+  }
+
+  pre:not(.code-block pre) {
+    background-color: var(--color-code-bg, hsla(240, 10%, 8%, 0.8));
+  }
+
+  /* Ensure code inside pre is visible */
+  pre:not(.code-block pre) code {
+    color: inherit;
+    background: transparent;
+  }
+
+  /* Fix for code blocks with inline styles - ensure text is visible */
+  pre[style*="background-color"]:not(.code-block pre) {
+    color: var(--color-code-text, hsl(0, 0%, 90%)) !important;
+  }
+
+  pre[style*="background-color"]:not(.code-block pre) code {
+    color: inherit !important;
+  }
+
+  /* Code block scrollbar styling */
+  .code-block::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .code-block::-webkit-scrollbar-track {
+    background: hsla(240, 10%, 4%, 0.5);
+  }
+
+  .code-block::-webkit-scrollbar-thumb {
+    background: hsla(0, 0%, 100%, 0.1);
+    border-radius: 4px;
+  }
+
+  .code-block::-webkit-scrollbar-thumb:hover {
+    background: hsla(0, 0%, 100%, 0.15);
   }
 
   /* Typing cursor animation */
@@ -505,6 +671,19 @@
     background: hsla(240, 10%, 15%, 0.8);
     border: 1px solid hsla(0, 0%, 100%, 0.1);
     border-radius: 18px 18px 18px 4px;
+    color: hsl(0, 0%, 90%);
+  }
+
+  .chat-bubble-ai * {
+    color: inherit;
+  }
+
+  /* Hide testimonials section */
+  section:has([data-cursor-ref*="testimonial"]),
+  section:has([data-cursor-element-id*="testimonial"]),
+  section:has-text("Loved by Developers"),
+  section:has-text("Join thousands of developers building beautiful chat experiences") {
+    display: none !important;
   }
 
   /* Scroll indicator */

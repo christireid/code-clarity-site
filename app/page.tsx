@@ -20,6 +20,7 @@ import { ComparisonSection } from "@/components/marketing/comparison-section"
 import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
 import { ExitIntentPopup } from "@/components/exit-intent-popup"
 import { ScrollProgress } from "@/components/scroll-progress"
+import { SectionErrorBoundary } from "@/components/error-boundary"
 
 export default function Home() {
   return (
@@ -41,11 +42,15 @@ export default function Home() {
 
         {/* Interactive product demo */}
         <div id="demo">
-          <ChatDemoSection />
+          <SectionErrorBoundary name="Chat Demo">
+            <ChatDemoSection />
+          </SectionErrorBoundary>
         </div>
 
         {/* Before/After code comparison */}
-        <CodeComparison />
+        <SectionErrorBoundary name="Code Comparison">
+          <CodeComparison />
+        </SectionErrorBoundary>
 
         {/* Features bento grid */}
         <div id="features">
@@ -59,7 +64,11 @@ export default function Home() {
         <ProvidersSection />
 
         {/* Token savings calculator */}
-        <SavingsCalculator />
+        <div id="calculator">
+          <SectionErrorBoundary name="Savings Calculator">
+            <SavingsCalculator />
+          </SectionErrorBoundary>
+        </div>
 
         {/* Services section */}
         <div id="services">
@@ -75,13 +84,17 @@ export default function Home() {
         <ProcessSection />
 
         {/* Pricing */}
-        <PricingSection />
+        <div id="pricing">
+          <PricingSection />
+        </div>
 
         {/* FAQ */}
         <FAQSection />
 
         {/* Contact form */}
-        <ContactSection />
+        <div id="contact">
+          <ContactSection />
+        </div>
 
         {/* Final CTA */}
         <FinalCTASection />

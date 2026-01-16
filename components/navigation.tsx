@@ -12,7 +12,6 @@ const navLinks = [
   { href: "#services", label: "Services" },
   { href: "#about", label: "About" },
   { href: "#pricing", label: "Pricing" },
-  { href: "/docs", label: "Docs" },
 ]
 
 export function Navigation() {

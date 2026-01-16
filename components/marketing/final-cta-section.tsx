@@ -36,10 +36,10 @@ export function FinalCTASection() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Link
-              href="/docs/getting-started"
+              href="#demo"
               className="cta-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2 group"
             >
-              Get Started Free
+              Try Demo
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
@@ -56,11 +56,11 @@ export function FinalCTASection() {
           {/* Quick links */}
           <div className="flex flex-wrap justify-center gap-6">
             <Link
-              href="/docs"
+              href="#features"
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
             >
               <BookOpen className="w-4 h-4" />
-              <span className="text-sm">Documentation</span>
+              <span className="text-sm">Features</span>
             </Link>
             <Link
               href="#contact"

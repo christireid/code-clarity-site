@@ -1,47 +1,52 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Github, Twitter, Linkedin, Mail, Loader2, CheckCircle } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import { toast } from "sonner"
-import { subscribeToNewsletter } from "@/app/actions/send-email"
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  Github,
+  Twitter,
+  Linkedin,
+  Mail,
+  Loader2,
+  CheckCircle,
+} from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import { subscribeToNewsletter } from "@/app/actions/send-email";
 
 const newsletterSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
-})
+});
 
-type NewsletterFormData = z.infer<typeof newsletterSchema>
+type NewsletterFormData = z.infer<typeof newsletterSchema>;
 
 const footerLinks = {
   product: [
     { label: "Features", href: "#features" },
     { label: "Pricing", href: "#pricing" },
     { label: "Demo", href: "#demo" },
-    { label: "Documentation", href: "/docs" },
-    { label: "Changelog", href: "/changelog" },
   ],
   services: [
     { label: "AI Chat Development", href: "/services/ai-development" },
     { label: "Token Optimization", href: "/services/token-optimization" },
     { label: "AI-Enhanced Docs", href: "/services/documentation" },
-    { label: "Consulting", href: "/services/consulting" },
+    { label: "Frontend Development", href: "/services/frontend-development" },
   ],
   company: [
-    { label: "About", href: "/about" },
-    { label: "Blog", href: "/blog" },
-    { label: "Careers", href: "/careers" },
+    { label: "About", href: "#about" },
+    { label: "Services", href: "#services" },
+    { label: "Pricing", href: "#pricing" },
     { label: "Contact", href: "#contact" },
   ],
   legal: [
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
-    { label: "License", href: "/license" },
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Service", href: "#" },
+    { label: "License", href: "#" },
   ],
-}
+};
 
 const socialLinks = [
   {
@@ -59,10 +64,10 @@ const socialLinks = [
     href: "https://linkedin.com/company/codeandclarity",
     icon: Linkedin,
   },
-]
+];
 
 export function Footer() {
-  const [subscribed, setSubscribed] = useState(false)
+  const [subscribed, setSubscribed] = useState(false);
 
   const {
     register,
@@ -71,29 +76,29 @@ export function Footer() {
     formState: { errors, isSubmitting },
   } = useForm<NewsletterFormData>({
     resolver: zodResolver(newsletterSchema),
-  })
+  });
 
   const onSubmitNewsletter = async (data: NewsletterFormData) => {
     try {
-      const result = await subscribeToNewsletter(data)
+      const result = await subscribeToNewsletter(data);
 
       if (result.success) {
         toast.success("Subscribed successfully!", {
           description: "You'll receive the latest updates in your inbox.",
-        })
-        setSubscribed(true)
-        reset()
+        });
+        setSubscribed(true);
+        reset();
       } else {
         toast.error("Failed to subscribe", {
           description: result.error || "Please try again later.",
-        })
+        });
       }
     } catch {
       toast.error("Something went wrong", {
         description: "Please try again later.",
-      })
+      });
     }
-  }
+  };
 
   return (
     <footer className="relative border-t border-white/5 bg-background">
@@ -109,14 +114,14 @@ export function Footer() {
               <div className="relative w-10 h-10 transition-transform group-hover:scale-110 duration-300">
                 <Image
                   src="/placeholder-logo.svg"
-                  alt="Code & Clarity Logo"
+                  alt="Code&Clarity Logo"
                   width={40}
                   height={40}
                   className="object-contain"
                 />
               </div>
               <span className="font-bold text-xl">
-                Code & <span className="gradient-text">Clarity</span>
+                Code&<span className="gradient-text">Clarity</span>
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-6">
@@ -222,10 +227,15 @@ export function Footer() {
             {subscribed ? (
               <div className="flex items-center gap-2 text-primary">
                 <CheckCircle className="w-5 h-5" />
-                <span className="text-sm font-medium">Thanks for subscribing!</span>
+                <span className="text-sm font-medium">
+                  Thanks for subscribing!
+                </span>
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmitNewsletter)} className="flex flex-col gap-2 w-full md:w-auto" aria-busy={isSubmitting} aria-label="Newsletter subscription">
+              <form
+                onSubmit={handleSubmit(onSubmitNewsletter)}
+                className="flex flex-col gap-2 w-full md:w-auto"
+              >
                 <div className="flex gap-3">
                   <input
                     type="email"
@@ -254,7 +264,9 @@ export function Footer() {
                   </button>
                 </div>
                 {errors.email && (
-                  <p className="text-xs text-destructive" role="alert" aria-live="polite">{errors.email.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.email.message}
+                  </p>
                 )}
               </form>
             )}
@@ -264,21 +276,21 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pt-8 border-t border-white/5">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Code & Clarity. All rights reserved.
+            &copy; {new Date().getFullYear()} Code&Clarity. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <a
-              href="mailto:hello@codeclarity.ai"
+              href="mailto:info@codeclarity.ai"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
             >
               <Mail className="w-4 h-4" />
-              hello@codeclarity.ai
+              info@codeclarity.ai
             </a>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

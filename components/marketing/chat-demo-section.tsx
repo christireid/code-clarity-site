@@ -122,12 +122,37 @@ export function ChatDemoSection() {
   const [copied, setCopied] = useState(false)
   const [demoTheme, setDemoTheme] = useState<"dark" | "light">("dark")
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const streamingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    // Scroll to bottom when messages change
+    if (messages.length > 0) {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      }, 100)
+    }
   }, [messages])
 
+  // Cleanup streaming interval on unmount
+  useEffect(() => {
+    return () => {
+      if (streamingIntervalRef.current) {
+        clearInterval(streamingIntervalRef.current)
+      }
+    }
+  }, [])
+
   const simulateStreaming = (text: string, messageId: string) => {
+    if (!text || !messageId) {
+      setIsTyping(false)
+      return
+    }
+
+    // Clear any existing interval
+    if (streamingIntervalRef.current) {
+      clearInterval(streamingIntervalRef.current)
+    }
+
     let index = 0
     const words = text.split(" ")
 
@@ -147,6 +172,7 @@ export function ChatDemoSection() {
         index++
       } else {
         clearInterval(interval)
+        streamingIntervalRef.current = null
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === messageId ? { ...msg, isStreaming: false } : msg
@@ -155,6 +181,22 @@ export function ChatDemoSection() {
         setIsTyping(false)
       }
     }, 50)
+
+    streamingIntervalRef.current = interval
+
+    // Safety timeout to prevent infinite streaming
+    setTimeout(() => {
+      if (streamingIntervalRef.current === interval) {
+        clearInterval(interval)
+        streamingIntervalRef.current = null
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === messageId ? { ...msg, isStreaming: false } : msg
+          )
+        )
+        setIsTyping(false)
+      }
+    }, 30000) // Max 30 seconds
   }
 
   const sendMessage = (content: string) => {
@@ -166,7 +208,11 @@ export function ChatDemoSection() {
       content: content.trim(),
     }
 
-    setMessages((prev) => [...prev, userMessage])
+    setMessages((prev) => {
+      const updated = [...prev, userMessage]
+      console.log("User message added, total messages:", updated.length)
+      return updated
+    })
     setInputValue("")
     setIsTyping(true)
 
@@ -176,22 +222,50 @@ export function ChatDemoSection() {
         aiResponses[content.trim()] ||
         "I can help you with Clarity Chat! Try asking about streaming, token optimization, or supported providers."
 
+      const messageId = `assistant-${Date.now()}`
       const assistantMessage: Message = {
-        id: `assistant-${Date.now()}`,
+        id: messageId,
         role: "assistant",
         content: "",
         isStreaming: true,
       }
 
-      setMessages((prev) => [...prev, assistantMessage])
-      simulateStreaming(responseContent, assistantMessage.id)
+      setMessages((prev) => {
+        const updated = [...prev, assistantMessage]
+        console.log("Assistant message added, total messages:", updated.length, "messageId:", messageId)
+        return updated
+      })
+      
+      // Use a small delay to ensure state is updated before streaming
+      setTimeout(() => {
+        console.log("Starting streaming for messageId:", messageId, "content length:", responseContent.length)
+        simulateStreaming(responseContent, messageId)
+      }, 100)
     }, 500)
   }
 
-  const copyCode = () => {
-    navigator.clipboard.writeText(codeExamples[activeTab])
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  const copyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(codeExamples[activeTab])
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement("textarea")
+      textArea.value = codeExamples[activeTab]
+      textArea.style.position = "fixed"
+      textArea.style.opacity = "0"
+      document.body.appendChild(textArea)
+      textArea.select()
+      try {
+        document.execCommand("copy")
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      } catch (fallbackErr) {
+        console.error("Failed to copy code:", fallbackErr)
+      }
+      document.body.removeChild(textArea)
+    }
   }
 
   return (
@@ -271,7 +345,12 @@ export function ChatDemoSection() {
               }`}
             >
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div 
+                className="flex-1 overflow-y-auto p-4 space-y-4"
+                role="log"
+                aria-live="polite"
+                aria-label="Chat messages"
+              >
                 {messages.length === 0 && (
                   <div className="h-full flex flex-col items-center justify-center text-center">
                     <Sparkles
@@ -308,40 +387,55 @@ export function ChatDemoSection() {
                   </div>
                 )}
 
-                <AnimatePresence mode="popLayout">
-                  {messages.map((message) => (
-                    <motion.div
-                      key={message.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className={`flex ${
-                        message.role === "user"
-                          ? "justify-end"
-                          : "justify-start"
-                      }`}
-                    >
-                      <div
-                        className={`max-w-[85%] px-4 py-3 ${
+                {messages.length > 0 && (
+                  <AnimatePresence mode="popLayout">
+                    {messages.map((message) => (
+                      <motion.div
+                        key={message.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className={`flex ${
                           message.role === "user"
-                            ? demoTheme === "light"
-                              ? "bg-blue-500 text-white rounded-2xl rounded-br-sm"
-                              : "chat-bubble-user"
-                            : demoTheme === "light"
-                              ? "bg-gray-100 text-gray-900 rounded-2xl rounded-bl-sm"
-                              : "chat-bubble-ai"
+                            ? "justify-end"
+                            : "justify-start"
                         }`}
                       >
-                        <div className="text-sm whitespace-pre-wrap">
-                          {message.content}
-                          {message.isStreaming && (
-                            <span className="typing-cursor" />
-                          )}
+                        <div
+                          className={`max-w-[85%] px-4 py-3 ${
+                            message.role === "user"
+                              ? demoTheme === "light"
+                                ? "bg-blue-500 text-white rounded-2xl rounded-br-sm"
+                                : "chat-bubble-user"
+                              : demoTheme === "light"
+                                ? "bg-gray-100 text-gray-900 rounded-2xl rounded-bl-sm"
+                                : "chat-bubble-ai"
+                          }`}
+                          style={{
+                            color: message.role === "user" 
+                              ? (demoTheme === "light" ? "white" : "white")
+                              : (demoTheme === "light" ? "rgb(17, 24, 39)" : "hsl(0, 0%, 90%)")
+                          }}
+                        >
+                          <div 
+                            className="text-sm whitespace-pre-wrap break-words"
+                            style={{
+                              color: message.role === "user" 
+                                ? (demoTheme === "light" ? "white" : "white")
+                                : (demoTheme === "light" ? "rgb(17, 24, 39)" : "hsl(0, 0%, 90%)")
+                            }}
+                          >
+                            {message.content || (message.isStreaming ? "..." : "")}
+                            {message.isStreaming && (
+                              <span className="typing-cursor" />
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                )}
                 <div ref={messagesEndRef} />
               </div>
 
@@ -460,8 +554,8 @@ export function ChatDemoSection() {
               id={`tabpanel-${activeTab}`}
               aria-labelledby={`tab-${activeTab}`}
             >
-              <pre className="text-sm font-mono overflow-x-auto">
-                <code>
+              <pre className="text-sm font-mono overflow-x-auto text-foreground" style={{ color: 'hsl(0, 0%, 90%)' }}>
+                <code className="text-foreground" style={{ color: 'inherit' }}>
                   {codeExamples[activeTab].split("\n").map((line, i) => (
                     <div key={i} className="flex">
                       <span className="w-8 text-muted-foreground/50 select-none text-right pr-4">
@@ -498,25 +592,81 @@ export function ChatDemoSection() {
   )
 }
 
-// Simple syntax highlighting
+// Enhanced syntax highlighting for JSX/TSX and JavaScript
 function syntaxHighlight(code: string): string {
-  return code
-    .replace(
-      /(import|from|function|const|return|true|false)/g,
-      '<span class="text-primary">$1</span>'
-    )
-    .replace(
-      /('[@\w/\-.]+')/g,
-      '<span class="text-accent">$1</span>'
-    )
-    .replace(
-      /(useChat|useStreamingChat|ChatContainer|MessageList|ChatInput|TokenOptimizer)/g,
-      '<span class="text-secondary">$1</span>'
-    )
-    .replace(
-      /(\/\/.+)/g,
-      '<span class="text-muted-foreground">$1</span>'
-    )
+  if (!code || typeof code !== "string") return ""
+  
+  // Escape HTML to prevent XSS
+  let escaped = code
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+
+  // JSX/TSX component names (capitalized words)
+  escaped = escaped.replace(
+    /(&lt;)([A-Z][a-zA-Z0-9]+)(\s|&gt;)/g,
+    '$1<span class="text-secondary font-semibold">$2</span>$3'
+  )
+
+  // JSX props/attributes
+  escaped = escaped.replace(
+    /(\s)([a-zA-Z][a-zA-Z0-9]*)(=)/g,
+    '$1<span class="text-primary">$2</span>='
+  )
+
+  // JSX prop values (strings, booleans, objects)
+  escaped = escaped.replace(
+    /(=)(\{)([^}]+)(\})/g,
+    '=<span class="text-accent">{$3}</span>'
+  )
+  escaped = escaped.replace(
+    /(=)(&quot;)([^&]+)(&quot;)/g,
+    '=<span class="text-accent">&quot;$3&quot;</span>'
+  )
+  escaped = escaped.replace(
+    /(=)(true|false)/g,
+    '=<span class="text-primary">$2</span>'
+  )
+
+  // JavaScript keywords
+  escaped = escaped.replace(
+    /(import|from|function|const|let|var|return|true|false|await|async|export|default|if|else|for|while|switch|case|break|continue|try|catch|finally|throw|new|this|super|extends|class|interface|type|enum)/g,
+    '<span class="text-primary">$1</span>'
+  )
+
+  // Strings (single and double quotes)
+  escaped = escaped.replace(
+    /(&quot;[^&]+&quot;|&#039;[^&]+&#039;)/g,
+    '<span class="text-accent">$1</span>'
+  )
+
+  // Numbers
+  escaped = escaped.replace(
+    /(\d+)/g,
+    '<span class="text-emerald-400">$1</span>'
+  )
+
+  // Comments
+  escaped = escaped.replace(
+    /(\/\/.+|\/\*[\s\S]*?\*\/)/g,
+    '<span class="text-muted-foreground italic">$1</span>'
+  )
+
+  // Component names and hooks (useXxx, XxxComponent)
+  escaped = escaped.replace(
+    /(use[A-Z][a-zA-Z0-9]+|ChatContainer|MessageList|ChatInput|TokenOptimizer|TypingIndicator)/g,
+    '<span class="text-secondary">$1</span>'
+  )
+
+  // Object/array syntax
+  escaped = escaped.replace(
+    /(\[|\]|\{|\})/g,
+    '<span class="text-muted-foreground">$1</span>'
+  )
+
+  return escaped
 }
 
 export default ChatDemoSection

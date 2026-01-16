@@ -298,10 +298,10 @@ export function PricingSection() {
             documentation.
             <br />
             <Link
-              href="/docs/license"
+              href="#contact"
               className="text-primary hover:underline"
             >
-              View license details
+              Contact us for license details
             </Link>
           </p>
         </motion.div>
