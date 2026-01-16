@@ -496,15 +496,29 @@ export function ChatDemoSection() {
 
           {/* Code preview */}
           <div className="premium-card rounded-2xl overflow-hidden">
-            {/* Code header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <Code2 className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium">Code</span>
+            {/* Code header with window controls */}
+            <div className="code-block-header">
+              {/* Window controls (traffic lights) */}
+              <div className="code-block-controls">
+                <div className="code-block-control code-block-control-close" />
+                <div className="code-block-control code-block-control-minimize" />
+                <div className="code-block-control code-block-control-maximize" />
               </div>
+              {/* Title with language tag */}
+              <div className="code-block-title">
+                {activeTab === "basic"
+                  ? "Your First Chat Window"
+                  : activeTab === "streaming"
+                    ? "Streaming Support"
+                    : "Token Optimization"}
+              </div>
+              <span className="code-block-language">
+                {activeTab === "basic" ? "TSX" : activeTab === "streaming" ? "TSX" : "TSX"}
+              </span>
+              {/* Copy button */}
               <button
                 onClick={copyCode}
-                className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors ml-auto"
               >
                 {copied ? (
                   <>
@@ -604,60 +618,60 @@ function syntaxHighlight(code: string): string {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;")
 
-  // JSX/TSX component names (capitalized words)
+  // JSX/TSX component names (capitalized words) - Light Blue/Cyan
   escaped = escaped.replace(
     /(&lt;)([A-Z][a-zA-Z0-9]+)(\s|&gt;)/g,
-    '$1<span class="text-secondary font-semibold">$2</span>$3'
+    '$1<span class="component font-semibold" style="color: hsl(195, 85%, 75%)">$2</span>$3'
   )
 
-  // JSX props/attributes
+  // JSX props/attributes - Purple/Magenta (same as keywords)
   escaped = escaped.replace(
     /(\s)([a-zA-Z][a-zA-Z0-9]*)(=)/g,
-    '$1<span class="text-primary">$2</span>='
+    '$1<span class="prop" style="color: hsl(280, 75%, 70%)">$2</span>='
   )
 
-  // JSX prop values (strings, booleans, objects)
+  // JSX prop values (strings, booleans, objects) - Orange for strings
   escaped = escaped.replace(
     /(=)(\{)([^}]+)(\})/g,
-    '=<span class="text-accent">{$3}</span>'
+    '=<span class="string" style="color: hsl(25, 95%, 65%)">{$3}</span>'
   )
   escaped = escaped.replace(
     /(=)(&quot;)([^&]+)(&quot;)/g,
-    '=<span class="text-accent">&quot;$3&quot;</span>'
+    '=<span class="string" style="color: hsl(25, 95%, 65%)">&quot;$3&quot;</span>'
   )
   escaped = escaped.replace(
     /(=)(true|false)/g,
-    '=<span class="text-primary">$2</span>'
+    '=<span class="keyword" style="color: hsl(280, 75%, 70%)">$2</span>'
   )
 
-  // JavaScript keywords
+  // JavaScript keywords - Purple/Magenta
   escaped = escaped.replace(
     /(import|from|function|const|let|var|return|true|false|await|async|export|default|if|else|for|while|switch|case|break|continue|try|catch|finally|throw|new|this|super|extends|class|interface|type|enum)/g,
-    '<span class="text-primary">$1</span>'
+    '<span class="keyword" style="color: hsl(280, 75%, 70%)">$1</span>'
   )
 
-  // Strings (single and double quotes)
+  // Strings (single and double quotes) - Orange
   escaped = escaped.replace(
     /(&quot;[^&]+&quot;|&#039;[^&]+&#039;)/g,
-    '<span class="text-accent">$1</span>'
+    '<span class="string" style="color: hsl(25, 95%, 65%)">$1</span>'
   )
 
-  // Numbers
+  // Numbers - Green
   escaped = escaped.replace(
     /(\d+)/g,
-    '<span class="text-emerald-400">$1</span>'
+    '<span class="number" style="color: hsl(142, 71%, 45%)">$1</span>'
   )
 
-  // Comments
+  // Comments - Gray italic
   escaped = escaped.replace(
     /(\/\/.+|\/\*[\s\S]*?\*\/)/g,
-    '<span class="text-muted-foreground italic">$1</span>'
+    '<span class="comment" style="color: hsl(0, 0%, 50%); font-style: italic">$1</span>'
   )
 
-  // Component names and hooks (useXxx, XxxComponent)
+  // Component names and hooks (useXxx, XxxComponent) - Light Blue/Cyan
   escaped = escaped.replace(
-    /(use[A-Z][a-zA-Z0-9]+|ChatContainer|MessageList|ChatInput|TokenOptimizer|TypingIndicator)/g,
-    '<span class="text-secondary">$1</span>'
+    /(use[A-Z][a-zA-Z0-9]+|ChatContainer|MessageList|ChatInput|TokenOptimizer|TypingIndicator|ClarityChat)/g,
+    '<span class="component" style="color: hsl(195, 85%, 75%)">$1</span>'
   )
 
   // Object/array syntax

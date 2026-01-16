@@ -486,7 +486,7 @@ section[data-cursor-element-id*="testimonial"] {
     font-weight: 600;
   }
 
-  /* Code block styling - Premium design */
+  /* Code block styling - Editor window style */
   .code-block {
     background: hsl(240, 10%, 6%);
     border: 1px solid hsla(0, 0%, 100%, 0.08);
@@ -496,6 +496,7 @@ section[data-cursor-element-id*="testimonial"] {
     overflow: hidden;
     box-shadow: 0 4px 16px -4px hsla(0, 0%, 0%, 0.3);
     transition: all var(--duration-normal) var(--ease-out-expo);
+    position: relative;
   }
 
   .code-block:hover {
@@ -503,18 +504,91 @@ section[data-cursor-element-id*="testimonial"] {
     box-shadow: 0 8px 24px -6px hsla(0, 0%, 0%, 0.4);
   }
 
-  /* Code block header/title - only show if data-title attribute exists */
-  .code-block[data-title]::before {
-    content: attr(data-title);
-    display: block;
+  /* Code block header container */
+  .code-block-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.75rem 1rem;
-    background: hsla(240, 10%, 8%, 0.6);
+    background: hsla(240, 10%, 8%, 0.8);
     border-bottom: 1px solid hsla(0, 0%, 100%, 0.08);
+    min-height: 2.75rem;
+  }
+
+  /* Window control buttons (traffic lights) */
+  .code-block-controls {
+    display: flex;
+    gap: 0.375rem;
+    align-items: center;
+  }
+
+  .code-block-control {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .code-block-control-close {
+    background: hsl(0, 100%, 65%);
+  }
+
+  .code-block-control-minimize {
+    background: hsl(45, 100%, 65%);
+  }
+
+  .code-block-control-maximize {
+    background: hsl(142, 71%, 45%);
+  }
+
+  /* Code block title */
+  .code-block-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: hsl(0, 0%, 75%);
+    flex: 1;
+    text-align: center;
+    margin: 0 0.5rem;
+  }
+
+  /* Terminal prompt indicator */
+  .code-block-prompt {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: hsl(0, 0%, 60%);
+    font-family: var(--font-geist-mono), 'JetBrains Mono', 'Fira Code', monospace;
+    margin-left: 0.5rem;
+  }
+
+  /* Language tag (e.g., TSX, JSX, JS) */
+  .code-block-language {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: hsla(240, 10%, 15%, 0.8);
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+    border-radius: 0.25rem;
     font-size: 0.75rem;
     font-weight: 600;
     color: hsl(0, 0%, 70%);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    margin-left: 0.5rem;
+  }
+
+  /* Code block with terminal style */
+  .code-block-terminal .code-block-header {
+    background: hsla(240, 10%, 12%, 0.9);
+  }
+
+  .code-block-terminal .code-block-content {
+    background: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 20%);
+    padding: 1rem;
+    border-radius: 0 0 0.75rem 0.75rem;
+  }
+
+  .code-block-terminal .code-block-content code {
+    color: hsl(0, 0%, 30%);
   }
 
   /* Code block content area */
@@ -586,30 +660,64 @@ section[data-cursor-element-id*="testimonial"] {
     font-family: var(--font-geist-mono), 'JetBrains Mono', 'Fira Code', monospace;
   }
 
-  /* Syntax highlighting classes */
+  /* Syntax highlighting classes - Matching editor theme */
+  /* Keywords (import, from, export, default, function, return) - Purple/Magenta */
   pre .text-primary,
-  code .text-primary {
-    color: hsl(217, 91%, 70%);
+  code .text-primary,
+  pre .keyword,
+  code .keyword,
+  pre span.keyword,
+  code span.keyword {
+    color: hsl(280, 75%, 70%) !important;
   }
 
+  /* Component/Function Names (ClarityChat, App) - Light Blue/Cyan */
   pre .text-secondary,
-  code .text-secondary {
-    color: hsl(265, 89%, 78%);
+  code .text-secondary,
+  pre .component,
+  code .component,
+  pre span.component,
+  code span.component {
+    color: hsl(195, 85%, 75%) !important;
   }
 
+  /* Strings - Orange */
   pre .text-accent,
-  code .text-accent {
-    color: hsl(45, 93%, 65%);
+  code .text-accent,
+  pre .string,
+  code .string,
+  pre span.string,
+  code span.string {
+    color: hsl(25, 95%, 65%) !important;
   }
 
+  /* Comments - Gray */
   pre .text-muted-foreground,
-  code .text-muted-foreground {
-    color: hsl(0, 0%, 50%);
+  code .text-muted-foreground,
+  pre .comment,
+  code .comment,
+  pre span.comment,
+  code span.comment {
+    color: hsl(0, 0%, 50%) !important;
+    font-style: italic;
   }
 
+  /* Numbers - Green */
   pre .text-emerald-400,
-  code .text-emerald-400 {
-    color: hsl(160, 84%, 50%);
+  code .text-emerald-400,
+  pre .number,
+  code .number,
+  pre span.number,
+  code span.number {
+    color: hsl(142, 71%, 45%) !important;
+  }
+
+  /* Props/Attributes - Purple/Magenta (same as keywords) */
+  pre .prop,
+  code .prop,
+  pre span.prop,
+  code span.prop {
+    color: hsl(280, 75%, 70%) !important;
   }
 
   pre:not(.code-block pre) {

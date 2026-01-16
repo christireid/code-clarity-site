@@ -345,26 +345,38 @@ export function FeaturesBento() {
             <p className="text-sm text-muted-foreground mb-4">
               Intuitive APIs designed for React developers
             </p>
-            <div className="code-block rounded-lg p-4 text-sm font-mono">
-              <div className="text-muted-foreground">
-                {"// Full chat UI in one line"}
+            <div className="code-block rounded-lg overflow-hidden">
+              {/* Header with window controls */}
+              <div className="code-block-header">
+                <div className="code-block-controls">
+                  <div className="code-block-control code-block-control-close" />
+                  <div className="code-block-control code-block-control-minimize" />
+                  <div className="code-block-control code-block-control-maximize" />
+                </div>
+                <div className="code-block-title">Developer Experience</div>
               </div>
-              <div>
-                <span className="text-primary">import</span>
-                {" { "}
-                <span className="text-secondary">ClarityChat</span>
-                {" } "}
-                <span className="text-primary">from</span>
-                <span className="text-accent"> '@clarity-chat/react'</span>
-              </div>
-              <div className="mt-2">
-                {"<"}
-                <span className="text-secondary">ClarityChat</span>
-                {" "}
-                <span className="text-accent">preset</span>
-                {"="}
-                <span className="text-accent">"professional"</span>
-                {" />"}
+              {/* Code content */}
+              <div className="p-4 text-sm font-mono">
+                <div className="comment" style={{ color: 'hsl(0, 0%, 50%)', fontStyle: 'italic' }}>
+                  {"// Full chat UI in one line"}
+                </div>
+                <div>
+                  <span className="keyword" style={{ color: 'hsl(280, 75%, 70%)' }}>import</span>
+                  {" { "}
+                  <span className="component" style={{ color: 'hsl(195, 85%, 75%)' }}>ClarityChat</span>
+                  {" } "}
+                  <span className="keyword" style={{ color: 'hsl(280, 75%, 70%)' }}>from</span>
+                  <span className="string" style={{ color: 'hsl(25, 95%, 65%)' }}> '@clarity-chat/react'</span>
+                </div>
+                <div className="mt-2">
+                  {"<"}
+                  <span className="component" style={{ color: 'hsl(195, 85%, 75%)' }}>ClarityChat</span>
+                  {" "}
+                  <span className="prop" style={{ color: 'hsl(280, 75%, 70%)' }}>preset</span>
+                  {"="}
+                  <span className="string" style={{ color: 'hsl(25, 95%, 65%)' }}>"professional"</span>
+                  {" />"}
+                </div>
               </div>
             </div>
           </motion.div>

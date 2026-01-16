@@ -136,14 +136,16 @@ export function CodeComparison() {
             }`}
             onClick={() => setActiveTab("before")}
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-red-500/10">
-              <div className="flex items-center gap-2">
-                <X className="w-4 h-4 text-red-400" />
-                <span className="text-sm font-medium text-red-400">
-                  Without Clarity Chat
-                </span>
+            <div className="code-block-header">
+              {/* Window controls */}
+              <div className="code-block-controls">
+                <div className="code-block-control code-block-control-close" />
+                <div className="code-block-control code-block-control-minimize" />
+                <div className="code-block-control code-block-control-maximize" />
               </div>
-              <span className="text-xs text-muted-foreground">150+ lines</span>
+              {/* Title */}
+              <div className="code-block-title">Without Clarity Chat</div>
+              <span className="text-xs text-muted-foreground ml-auto">150+ lines</span>
             </div>
             <div className="h-[350px] overflow-auto p-4">
               <pre className="text-xs font-mono text-foreground" style={{ color: 'hsl(0, 0%, 70%)' }}>
@@ -161,14 +163,16 @@ export function CodeComparison() {
             }`}
             onClick={() => setActiveTab("after")}
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-emerald-500/10">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-emerald-400" />
-                <span className="text-sm font-medium text-emerald-400">
-                  With Clarity Chat
-                </span>
+            <div className="code-block-header">
+              {/* Window controls */}
+              <div className="code-block-controls">
+                <div className="code-block-control code-block-control-close" />
+                <div className="code-block-control code-block-control-minimize" />
+                <div className="code-block-control code-block-control-maximize" />
               </div>
-              <span className="text-xs text-muted-foreground">12 lines</span>
+              {/* Title */}
+              <div className="code-block-title">With Clarity Chat</div>
+              <span className="text-xs text-muted-foreground ml-auto">12 lines</span>
             </div>
             <div className="h-[350px] overflow-auto p-4 flex flex-col">
               <pre className="text-sm font-mono flex-1 text-foreground" style={{ color: 'hsl(0, 0%, 90%)' }}>
@@ -243,60 +247,60 @@ function highlightCode(line: string): string {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;")
 
-  // JSX/TSX component names (capitalized words)
+  // JSX/TSX component names (capitalized words) - Light Blue/Cyan
   escaped = escaped.replace(
     /(&lt;)([A-Z][a-zA-Z0-9]+)(\s|&gt;)/g,
-    '$1<span class="text-secondary font-semibold">$2</span>$3'
+    '$1<span class="component font-semibold" style="color: hsl(195, 85%, 75%)">$2</span>$3'
   )
 
-  // JSX props/attributes
+  // JSX props/attributes - Purple/Magenta (same as keywords)
   escaped = escaped.replace(
     /(\s)([a-zA-Z][a-zA-Z0-9]*)(=)/g,
-    '$1<span class="text-primary">$2</span>='
+    '$1<span class="prop" style="color: hsl(280, 75%, 70%)">$2</span>='
   )
 
-  // JSX prop values (strings, booleans, objects)
+  // JSX prop values (strings, booleans, objects) - Orange for strings
   escaped = escaped.replace(
     /(=)(\{)([^}]+)(\})/g,
-    '=<span class="text-accent">{$3}</span>'
+    '=<span class="string" style="color: hsl(25, 95%, 65%)">{$3}</span>'
   )
   escaped = escaped.replace(
     /(=)(&quot;)([^&]+)(&quot;)/g,
-    '=<span class="text-accent">&quot;$3&quot;</span>'
+    '=<span class="string" style="color: hsl(25, 95%, 65%)">&quot;$3&quot;</span>'
   )
   escaped = escaped.replace(
     /(=)(true|false)/g,
-    '=<span class="text-primary">$2</span>'
+    '=<span class="keyword" style="color: hsl(280, 75%, 70%)">$2</span>'
   )
 
-  // JavaScript keywords
+  // JavaScript keywords - Purple/Magenta
   escaped = escaped.replace(
     /(import|from|function|const|let|var|return|true|false|await|async|export|default|if|else|for|while|switch|case|break|continue|try|catch|finally|throw|new|this|super|extends|class|interface|type|enum)/g,
-    '<span class="text-primary">$1</span>'
+    '<span class="keyword" style="color: hsl(280, 75%, 70%)">$1</span>'
   )
 
-  // Strings (single and double quotes)
+  // Strings (single and double quotes) - Orange
   escaped = escaped.replace(
     /(&quot;[^&]+&quot;|&#039;[^&]+&#039;)/g,
-    '<span class="text-accent">$1</span>'
+    '<span class="string" style="color: hsl(25, 95%, 65%)">$1</span>'
   )
 
-  // Numbers
+  // Numbers - Green
   escaped = escaped.replace(
     /(\d+)/g,
-    '<span class="text-emerald-400">$1</span>'
+    '<span class="number" style="color: hsl(142, 71%, 45%)">$1</span>'
   )
 
-  // Comments
+  // Comments - Gray italic
   escaped = escaped.replace(
     /(\/\/.+|\/\*[\s\S]*?\*\/)/g,
-    '<span class="text-emerald-400 italic">$1</span>'
+    '<span class="comment" style="color: hsl(0, 0%, 50%); font-style: italic">$1</span>'
   )
 
-  // Component names and hooks
+  // Component names and hooks - Light Blue/Cyan
   escaped = escaped.replace(
     /(ClarityChat|useChat|useStreamingChat|ChatContainer|MessageList|ChatInput|TokenOptimizer|TypingIndicator)/g,
-    '<span class="text-secondary">$1</span>'
+    '<span class="component" style="color: hsl(195, 85%, 75%)">$1</span>'
   )
 
   // Object/array syntax

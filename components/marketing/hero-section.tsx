@@ -6,19 +6,19 @@ import Link from "next/link"
 import { ParticleFieldCanvas } from "@/components/three/particle-field"
 
 // ============================================================================
-// SYNTAX HIGHLIGHTING THEME (VS Code Dark+ inspired)
+// SYNTAX HIGHLIGHTING THEME (Matching editor window style)
 // ============================================================================
 const syntax = {
-  keyword: "text-purple-400",      // const, import, export
-  function: "text-cyan-400",       // function names
-  string: "text-emerald-400",      // strings
-  number: "text-amber-400",        // numbers
-  comment: "text-zinc-500",        // comments
-  variable: "text-blue-400",       // variables
-  property: "text-zinc-300",       // object properties
-  operator: "text-pink-400",       // operators
-  type: "text-yellow-400",         // types
-  bracket: "text-zinc-500",        // brackets
+  keyword: { color: 'hsl(280, 75%, 70%)' },      // Purple/Magenta - const, import, export, await
+  function: { color: 'hsl(195, 85%, 75%)' },     // Light Blue/Cyan - function names, components
+  string: { color: 'hsl(25, 95%, 65%)' },       // Orange - strings
+  number: { color: 'hsl(142, 71%, 45%)' },      // Green - numbers
+  comment: { color: 'hsl(0, 0%, 50%)', fontStyle: 'italic' }, // Gray italic - comments
+  variable: { color: 'hsl(195, 85%, 75%)' },    // Light Blue/Cyan - variables
+  property: { color: 'hsl(280, 75%, 70%)' },    // Purple/Magenta - object properties
+  operator: { color: 'hsl(0, 0%, 70%)' },       // Light gray - operators
+  type: { color: 'hsl(195, 85%, 75%)' },         // Light Blue/Cyan - types
+  bracket: { color: 'hsl(0, 0%, 70%)' },        // Light gray - brackets
 }
 
 // ============================================================================
@@ -247,22 +247,22 @@ function HeroCodeDemo() {
           let highlighted: React.ReactNode = displayed
           
           if (line.startsWith('//')) {
-            highlighted = <span className={syntax.comment}>{displayed}</span>
+            highlighted = <span style={syntax.comment}>{displayed}</span>
           } else if (displayed.includes('const ')) {
             highlighted = (
               <>
-                <span className={syntax.keyword}>const </span>
-                <span className={syntax.variable}>{displayed.replace('const ', '').split(' ')[0]}</span>
-                <span className={syntax.property}>{displayed.slice(displayed.indexOf(' = '))}</span>
+                <span style={syntax.keyword}>const </span>
+                <span style={syntax.variable}>{displayed.replace('const ', '').split(' ')[0]}</span>
+                <span style={syntax.property}>{displayed.slice(displayed.indexOf(' = '))}</span>
               </>
             )
           } else if (displayed.includes(':')) {
             const parts = displayed.split(':')
             highlighted = (
               <>
-                <span className={syntax.property}>{parts[0]}</span>
-                <span className={syntax.operator}>:</span>
-                <span className={displayed.includes('true') ? syntax.keyword : displayed.includes('0.7') ? syntax.number : syntax.string}>
+                <span style={syntax.property}>{parts[0]}</span>
+                <span style={syntax.operator}>:</span>
+                <span style={displayed.includes('true') ? syntax.keyword : displayed.includes('0.7') ? syntax.number : syntax.string}>
                   {parts.slice(1).join(':')}
                 </span>
               </>
@@ -270,10 +270,23 @@ function HeroCodeDemo() {
           } else if (displayed.includes('await ')) {
             highlighted = (
               <>
-                <span className={syntax.keyword}>await </span>
-                <span className={syntax.function}>{displayed.replace('await ', '')}</span>
+                <span style={syntax.keyword}>await </span>
+                <span style={syntax.function}>{displayed.replace('await ', '')}</span>
               </>
             )
+          } else if (displayed.includes('clarityChat') || displayed.includes('chat.send')) {
+            // Highlight function/component names
+            const funcMatch = displayed.match(/(clarityChat|chat)\.(\w+)/)
+            if (funcMatch) {
+              highlighted = (
+                <>
+                  <span style={syntax.variable}>{funcMatch[1]}</span>
+                  <span style={syntax.operator}>.</span>
+                  <span style={syntax.function}>{funcMatch[2]}</span>
+                  <span>{displayed.slice(funcMatch[0].length)}</span>
+                </>
+              )
+            }
           }
 
           return (
@@ -392,14 +405,34 @@ export function HeroSection() {
       >
         {/* Badge */}
         <motion.div variants={itemVariants} className="flex justify-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900/80 backdrop-blur border border-zinc-800/50 rounded-full">
-            <span className="flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-            </span>
-            <code className="text-sm text-zinc-400">
-              <span className="text-emerald-400">npm i</span> @clarity-chat/react
-            </code>
+          <div className="code-block rounded-lg overflow-hidden max-w-fit shadow-lg">
+            <div className="code-block-header">
+              <div className="code-block-controls">
+                <div className="code-block-control code-block-control-close" />
+                <div className="code-block-control code-block-control-minimize" />
+                <div className="code-block-control code-block-control-maximize" />
+              </div>
+              <span className="code-block-prompt">&gt;_ bash</span>
+              <div className="code-block-title" style={{ flex: '1' }}></div>
+              <button 
+                className="ml-auto text-muted-foreground hover:text-foreground transition-colors p-1"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigator.clipboard.writeText('npm install @clarity-chat/react')
+                }}
+                aria-label="Copy command"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
+            <div className="bg-white px-4 py-3 rounded-b-lg border-t border-gray-200">
+              <code className="text-sm font-mono" style={{ color: 'hsl(0, 0%, 20%)' }}>
+                <span style={{ color: 'hsl(280, 75%, 70%)' }}>npm install</span>{' '}
+                <span style={{ color: 'hsl(25, 95%, 65%)' }}>@clarity-chat/react</span>
+              </code>
+            </div>
           </div>
         </motion.div>
 
