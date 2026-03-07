@@ -20,10 +20,10 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
     const colors = new Float32Array(count * 3)
     const originalPositions = new Float32Array(count * 3)
 
-    // Primary blue: hsl(217, 91%, 60%) = rgb(74, 144, 226)
-    const primaryColor = new THREE.Color(0x4a90e2)
-    // Secondary purple: hsl(265, 89%, 78%) = rgb(190, 149, 237)
-    const secondaryColor = new THREE.Color(0xbe95ed)
+    // Primary cyan: hsl(195, 100%, 70%)
+    const primaryColor = new THREE.Color(0x66d9ef)
+    // Secondary violet: hsl(280, 80%, 75%)
+    const secondaryColor = new THREE.Color(0xd9a0e8)
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3
@@ -194,7 +194,7 @@ function ConnectionLines({
         />
       </bufferGeometry>
       <lineBasicMaterial
-        color={0x4a90e2}
+        color={0x66d9ef}
         transparent
         opacity={0.3}
         blending={THREE.AdditiveBlending}
@@ -209,9 +209,9 @@ function GlowingOrbs() {
 
   const orbs = useMemo(() => {
     return [
-      { position: [-8, 4, -15], color: 0x4a90e2, scale: 3 },
-      { position: [10, -3, -20], color: 0xbe95ed, scale: 4 },
-      { position: [0, -8, -18], color: 0x4a90e2, scale: 2.5 },
+      { position: [-8, 4, -15], color: 0x66d9ef, scale: 3 },
+      { position: [10, -3, -20], color: 0xd9a0e8, scale: 4 },
+      { position: [0, -8, -18], color: 0xe87da8, scale: 2.5 },
     ]
   }, [])
 

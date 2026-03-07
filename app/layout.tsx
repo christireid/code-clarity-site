@@ -12,19 +12,20 @@ import { CursorGlow } from "@/components/cursor-glow"
 export const metadata: Metadata = {
   metadataBase: new URL("https://codeclarity.ai"),
   title: {
-    default: "Code & Clarity | Premium AI Chat Components for React",
+    default: "Code & Clarity | AI Strategy, Training & Development",
     template: "%s | Code & Clarity",
   },
   description:
-    "Build ChatGPT-quality AI chat interfaces in hours, not months. Token-optimized, enterprise-ready React components with multi-provider support.",
+    "Expert AI strategy, hands-on training, and custom development. We help teams navigate AI adoption with the right tools, workflows, and systems.",
   keywords: [
-    "AI chat",
-    "React components",
-    "ChatGPT UI",
-    "token optimization",
-    "streaming chat",
+    "AI strategy",
+    "AI training",
     "AI development",
-    "Clarity Chat",
+    "AI consulting",
+    "AI workshops",
+    "AI workflows",
+    "custom AI tools",
+    "AI adoption",
   ],
   authors: [{ name: "Code & Clarity" }],
   creator: "Code & Clarity",
@@ -33,23 +34,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://codeclarity.ai",
     siteName: "Code & Clarity",
-    title: "Code & Clarity | Premium AI Chat Components",
+    title: "Code & Clarity | AI Strategy, Training & Development",
     description:
-      "Build ChatGPT-quality AI chat interfaces in hours, not months.",
+      "Expert AI strategy, hands-on training, and custom development. We help teams navigate AI adoption with the right tools, workflows, and systems.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Code & Clarity - Premium AI Chat Components",
+        alt: "Code & Clarity - AI Strategy, Training & Development",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Code & Clarity | Premium AI Chat Components",
+    title: "Code & Clarity | AI Strategy, Training & Development",
     description:
-      "Build ChatGPT-quality AI chat interfaces in hours, not months.",
+      "Expert AI strategy, hands-on training, and custom development. We help teams navigate AI adoption with the right tools, workflows, and systems.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -68,28 +69,44 @@ export const metadata: Metadata = {
 // JSON-LD Structured Data for Organization
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "ProfessionalService",
   name: "Code & Clarity",
   url: "https://codeclarity.ai",
   logo: "https://codeclarity.ai/logo.png",
   description:
-    "Premium AI chat components for React. Build ChatGPT-quality interfaces in hours, not months.",
+    "AI strategy, training, and custom development consultancy. We help teams navigate AI adoption with the right tools, workflows, and systems.",
   sameAs: [
-    "https://github.com/christireid/Clarity-ai-chat-components",
     "https://twitter.com/codeandclarity",
     "https://linkedin.com/company/codeandclarity",
   ],
   contactPoint: {
     "@type": "ContactPoint",
-    email: "hello@codeclarity.ai",
+    email: "info@codeclarity.ai",
     contactType: "customer service",
   },
-  offers: {
-    "@type": "Offer",
-    name: "Clarity Chat - AI Chat Component Library",
-    description:
-      "Token-optimized, enterprise-ready React components with multi-provider support.",
-    category: "Software",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "AI Consulting Services",
+    itemListElement: [
+      {
+        "@type": "Service",
+        name: "AI Strategy",
+        description:
+          "Strategic guidance for AI adoption, tool selection, and workflow integration.",
+      },
+      {
+        "@type": "Service",
+        name: "AI Training & Workshops",
+        description:
+          "Hands-on training sessions to upskill teams on AI tools and best practices.",
+      },
+      {
+        "@type": "Service",
+        name: "Custom AI Development",
+        description:
+          "Bespoke AI tool and workflow development tailored to your business needs.",
+      },
+    ],
   },
 }
 

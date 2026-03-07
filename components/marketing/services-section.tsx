@@ -3,99 +3,54 @@
 import { motion } from "framer-motion"
 import {
   ArrowRight,
-  MessageSquare,
-  Coins,
-  BookOpen,
-  Code2,
-  Accessibility,
-  Package
+  Compass,
+  GraduationCap,
+  Wrench,
 } from "lucide-react"
 import Link from "next/link"
 
 const services = [
   {
-    icon: Code2,
-    title: "Frontend Development",
+    icon: Compass,
+    title: "AI Strategy & Research",
     description:
-      "Expert React/TypeScript development for complex applications. From UI/UX audits to full MVPs, we build interfaces that developers love.",
+      "I don't just recommend tools\u2014I use them daily. Together we'll assess your current landscape, identify the right AI systems for your workflows, and build a roadmap that actually gets implemented. No generic frameworks. No vendor bias. Just clear-eyed guidance from someone who's built it.",
     features: [
-      "UI/UX audits & redesigns",
-      "Feature development",
-      "Accessibility audits & refactors",
-      "MVP development",
+      "AI readiness assessment & gap analysis",
+      "Tool & platform evaluation (build vs. buy)",
+      "Workflow optimization & system design",
+      "Knowledge transfer & research synthesis",
     ],
-    gradient: "from-emerald-500 to-teal-400",
-    href: "/services",
+    gradient: "from-cyan-400 to-blue-500",
+    href: "#contact",
   },
   {
-    icon: MessageSquare,
-    title: "AI Chat Applications",
+    icon: GraduationCap,
+    title: "AI Training & Enablement",
     description:
-      "Build ChatGPT-quality chat interfaces using our Clarity Chat library. Production-ready AI applications delivered in weeks, not months.",
+      "With 4+ years training developers on complex technologies, I create learning experiences that stick. From interactive workshops to self-paced curriculum, your team won't just learn the tools\u2014they'll understand the thinking behind them.",
     features: [
-      "Custom AI chatbots",
-      "Enterprise chat interfaces",
-      "Multi-provider support",
-      "Built on Clarity Chat",
+      "Custom workshops & hands-on labs",
+      "Self-paced learning materials & documentation",
+      "Engineering team upskilling & mentoring",
+      "Assessment creation & progress tracking",
     ],
-    gradient: "from-primary to-blue-400",
-    href: "/services/ai-development",
+    gradient: "from-violet-400 to-purple-500",
+    href: "#contact",
   },
   {
-    icon: Coins,
-    title: "Token Optimization",
+    icon: Wrench,
+    title: "AI Development & Pilots",
     description:
-      "Reduce AI API costs by 40-70% with expert analysis. We leverage our token optimization tooling to save companies significant money.",
+      "From proof-of-concept to production. I build the custom AI tools, integrations, and workflows your team needs\u2014with the same attention to design detail and business logic that comes from 10+ years of hands-on development.",
     features: [
-      "Token expenditure assessment",
-      "KV-cache optimization",
-      "Semantic caching setup",
-      "Cost monitoring dashboards",
+      "Custom AI tool & integration development",
+      "Pilot programs & proof of concepts",
+      "Real-time data streaming applications",
+      "UI/UX development with design precision",
     ],
-    gradient: "from-accent to-yellow-400",
-    href: "/services/token-optimization",
-  },
-  {
-    icon: BookOpen,
-    title: "AI-Friendly Documentation",
-    description:
-      "Optimize your technical docs for AI consumption. Enable autocomplete, AI assistants, and ensure AI can fully leverage your software.",
-    features: [
-      "AI crawlability audits",
-      "Semantic structuring",
-      "AI doc assistant setup",
-      "Developer adoption boost",
-    ],
-    gradient: "from-secondary to-purple-400",
-    href: "/services/documentation",
-  },
-  {
-    icon: Package,
-    title: "SDK & API Wrappers",
-    description:
-      "Wrap complex AI APIs in frontend-friendly React/TypeScript SDKs. Dramatically cut developer adoption time with intuitive interfaces.",
-    features: [
-      "React/TS SDK development",
-      "API abstraction layers",
-      "Type-safe interfaces",
-      "Developer experience focus",
-    ],
-    gradient: "from-rose-500 to-pink-400",
-    href: "/services",
-  },
-  {
-    icon: Accessibility,
-    title: "Accessibility & Compliance",
-    description:
-      "Ensure your AI applications are accessible to everyone. WCAG AAA audits, remediation, and ongoing compliance monitoring.",
-    features: [
-      "WCAG AAA audits",
-      "Accessibility remediation",
-      "Screen reader optimization",
-      "Keyboard navigation",
-    ],
-    gradient: "from-indigo-500 to-violet-400",
-    href: "/services",
+    gradient: "from-rose-400 to-pink-500",
+    href: "#contact",
   },
 ]
 
@@ -141,14 +96,13 @@ export function ServicesSection() {
           className="text-center mb-16"
         >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary mb-6">
-            Consulting Services
+            What I Do
           </span>
           <h2 className="text-headline font-bold mb-4">
-            Expert <span className="gradient-text">Development</span> & Consulting
+            Strategy. Training. <span className="gradient-text">Development.</span>
           </h2>
           <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            Code & Clarity builds AI-powered applications and helps teams ship faster.
-            From MVPs to enterprise solutions, we deliver excellence.
+            Three pillars of AI adoption, delivered by someone who lives in the tools every day.
           </p>
         </motion.div>
 
@@ -219,13 +173,13 @@ export function ServicesSection() {
           className="text-center mt-16"
         >
           <p className="text-muted-foreground mb-6">
-            Not sure which service you need? Let's talk about your project.
+            Not sure where to start? Let's figure it out together.
           </p>
           <Link
             href="#contact"
             className="cta-button inline-flex items-center gap-2 px-8 py-4 rounded-xl text-lg"
           >
-            Book a Consultation
+            Book a Discovery Call
             <ArrowRight className="w-5 h-5" />
           </Link>
         </motion.div>

@@ -2,16 +2,14 @@
 
 import { motion } from "framer-motion"
 import {
-  Zap,
-  Coins,
-  Radio,
-  Accessibility,
-  Plug,
+  Wrench,
   Brain,
+  Eye,
+  Layers,
   Shield,
-  Code2,
-  Box,
-  Palette,
+  Users,
+  Zap,
+  BookOpen,
 } from "lucide-react"
 
 const containerVariants = {
@@ -38,73 +36,6 @@ const itemVariants = {
   },
 }
 
-// Animated token savings visualization
-function TokenChart() {
-  return (
-    <div className="mt-4 flex items-end gap-2 h-20">
-      {[40, 65, 85, 55, 90, 45, 75].map((height, i) => (
-        <motion.div
-          key={i}
-          className="flex-1 rounded-t-sm bg-gradient-to-t from-primary/50 to-primary"
-          initial={{ height: 0 }}
-          whileInView={{ height: `${height}%` }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
-        />
-      ))}
-    </div>
-  )
-}
-
-// Animated streaming dots
-function StreamingVisual() {
-  return (
-    <div className="mt-4 flex items-center gap-2">
-      <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden">
-        <motion.div
-          className="h-full bg-gradient-to-r from-primary to-secondary"
-          initial={{ width: 0 }}
-          whileInView={{ width: "100%" }}
-          viewport={{ once: true }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-        />
-      </div>
-      <div className="flex gap-1">
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            className="w-2 h-2 rounded-full bg-primary"
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-              delay: i * 0.2,
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// Component count visualization
-function ComponentGrid() {
-  return (
-    <div className="mt-4 grid grid-cols-8 gap-1">
-      {[...Array(24)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="aspect-square rounded-sm bg-primary"
-          initial={{ opacity: 0, scale: 0 }}
-          whileInView={{ opacity: 0.3 + (i % 3) * 0.2, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 + i * 0.02 }}
-        />
-      ))}
-    </div>
-  )
-}
-
 export function FeaturesBento() {
   return (
     <section className="relative py-24 overflow-hidden">
@@ -120,13 +51,13 @@ export function FeaturesBento() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary mb-6">
+            Why Work With Me
+          </span>
           <h2 className="text-headline font-bold mb-4">
-            Why teams choose{" "}
-            <span className="gradient-text">Clarity Chat</span>
+            The advantage of working with someone who{" "}
+            <span className="gradient-text">lives in the tools</span>
           </h2>
-          <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            The most complete AI chat component library available
-          </p>
         </motion.div>
 
         {/* Bento Grid */}
@@ -137,248 +68,126 @@ export function FeaturesBento() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {/* Row 1 - Components */}
+          {/* 1. Practitioner First (1 col) */}
           <motion.div
             variants={itemVariants}
             className="bento-card p-6 rounded-2xl"
           >
             <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Box className="w-6 h-6 text-primary" />
+              <Wrench className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="font-semibold mb-2">200+ Components</h3>
+            <h3 className="font-semibold mb-2">Practitioner First</h3>
             <p className="text-sm text-muted-foreground">
-              Production-ready UI components
+              I use every tool I recommend, every single day.
             </p>
-            <ComponentGrid />
           </motion.div>
 
-          {/* Token Optimization - Large */}
+          {/* 2. Engineer + Educator (2 col) */}
           <motion.div
             variants={itemVariants}
             className="bento-card p-6 rounded-2xl md:col-span-2 lg:col-span-2"
-          >
-            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Coins className="w-6 h-6 text-accent" />
-            </div>
-            <h3 className="font-semibold mb-2">Token Optimization</h3>
-            <p className="text-sm text-muted-foreground">
-              Built-in budget tracking, KV-cache alignment, and semantic caching
-            </p>
-            <div className="flex items-baseline gap-2 mt-4">
-              <span className="text-4xl font-bold gradient-text-gold">
-                60-90%
-              </span>
-              <span className="text-muted-foreground">cost savings</span>
-            </div>
-            <TokenChart />
-          </motion.div>
-
-          {/* Themes */}
-          <motion.div
-            variants={itemVariants}
-            className="bento-card p-6 rounded-2xl"
-          >
-            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Palette className="w-6 h-6 text-primary" />
-            </div>
-            <h3 className="font-semibold mb-2">15 Theme Presets</h3>
-            <p className="text-sm text-muted-foreground">
-              Instant customization
-            </p>
-            <div className="mt-4 flex gap-1">
-              {["bg-primary", "bg-secondary", "bg-accent", "bg-emerald-500", "bg-rose-500"].map((bg, i) => (
-                <motion.div
-                  key={i}
-                  className={`w-6 h-6 rounded-full ${bg}`}
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + i * 0.1 }}
-                />
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Row 2 - Streaming */}
-          <motion.div
-            variants={itemVariants}
-            className="bento-card p-6 rounded-2xl md:col-span-2 lg:col-span-2"
-          >
-            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Radio className="w-6 h-6 text-secondary" />
-            </div>
-            <h3 className="font-semibold mb-2">Streaming Excellence</h3>
-            <p className="text-sm text-muted-foreground">
-              SSE & WebSocket hooks with real-time UI updates and optimistic rendering
-            </p>
-            <StreamingVisual />
-          </motion.div>
-
-          {/* Multi-Provider */}
-          <motion.div
-            variants={itemVariants}
-            className="bento-card p-6 rounded-2xl"
-          >
-            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Plug className="w-6 h-6 text-primary" />
-            </div>
-            <h3 className="font-semibold mb-2">Multi-Provider</h3>
-            <p className="text-sm text-muted-foreground">
-              One API, any provider
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {["OpenAI", "Claude", "Gemini"].map((provider) => (
-                <span
-                  key={provider}
-                  className="text-xs px-2 py-1 rounded-full bg-muted"
-                >
-                  {provider}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Memory */}
-          <motion.div
-            variants={itemVariants}
-            className="bento-card p-6 rounded-2xl"
           >
             <div className="feature-icon w-12 h-12 rounded-xl mb-4">
               <Brain className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="font-semibold mb-2">Built-in Memory</h3>
+            <h3 className="font-semibold mb-2">Engineer + Educator</h3>
             <p className="text-sm text-muted-foreground">
-              Zero-config persistence
+              A rare combination: deep technical expertise with proven ability to teach and translate complex concepts into clear, actionable workflows. I&apos;ve trained hundreds of developers across both proprietary and open source technologies.
             </p>
-            <div className="mt-4">
-              <div className="flex gap-1">
-                {[...Array(8)].map((_, i) => (
-                  <div
-                    key={i}
-                    className={`h-6 w-2 rounded-sm ${
-                      i < 5 ? "bg-primary" : "bg-muted"
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
           </motion.div>
 
-          {/* Row 3 - Accessibility */}
-          <motion.div
-            variants={itemVariants}
-            className="bento-card p-6 rounded-2xl md:col-span-2 lg:col-span-2"
-          >
-            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Accessibility className="w-6 h-6 text-primary" />
-            </div>
-            <h3 className="font-semibold mb-2">WCAG AAA Accessible</h3>
-            <p className="text-sm text-muted-foreground">
-              Full keyboard navigation, screen reader support, high contrast modes
-            </p>
-            <div className="mt-4 flex items-center gap-4">
-              <span className="text-3xl font-bold gradient-text">AAA</span>
-              <div className="h-8 w-px bg-border" />
-              <div className="flex items-center gap-2">
-                <kbd className="px-2 py-1 bg-muted rounded text-xs">Tab</kbd>
-                <span className="text-sm text-muted-foreground">
-                  Keyboard-first
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Enterprise Ready */}
-          <motion.div
-            variants={itemVariants}
-            className="bento-card p-6 rounded-2xl md:col-span-2 lg:col-span-2"
-          >
-            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Shield className="w-6 h-6 text-primary" />
-            </div>
-            <h3 className="font-semibold mb-2">Enterprise Ready</h3>
-            <p className="text-sm text-muted-foreground">
-              100% TypeScript strict mode • 313 tests • 80%+ coverage
-            </p>
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <span className="px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                TypeScript
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400">
-                313 Tests
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary">
-                Accessible
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
-                SSR Ready
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Hooks */}
+          {/* 3. Design Eye (1 col) */}
           <motion.div
             variants={itemVariants}
             className="bento-card p-6 rounded-2xl"
           >
             <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Zap className="w-6 h-6 text-primary" />
+              <Eye className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="font-semibold mb-2">95+ Custom Hooks</h3>
+            <h3 className="font-semibold mb-2">Design Eye</h3>
             <p className="text-sm text-muted-foreground">
-              Full headless control with composable hooks
+              UI/UX development with obsessive attention to visual detail.
             </p>
-            <div className="mt-4 text-sm text-muted-foreground font-mono">
-              useChat, useStream...
+          </motion.div>
+
+          {/* 4. Full-Stack AI Fluency (2 col) */}
+          <motion.div
+            variants={itemVariants}
+            className="bento-card p-6 rounded-2xl md:col-span-2 lg:col-span-2"
+          >
+            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
+              <Layers className="w-6 h-6 text-primary" />
+            </div>
+            <h3 className="font-semibold mb-2">Full-Stack AI Fluency</h3>
+            <p className="text-sm text-muted-foreground">
+              From Claude to GPT-4 to Gemini to open source models—I work across the entire AI landscape and stay current on the latest developments, so you don&apos;t have to.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["Claude", "GPT-4", "Gemini", "Open Source"].map((badge) => (
+                <span
+                  key={badge}
+                  className="text-xs px-2 py-1 rounded-full bg-muted"
+                >
+                  {badge}
+                </span>
+              ))}
             </div>
           </motion.div>
 
-          {/* DX */}
+          {/* 5. Battle-Tested (1 col) */}
           <motion.div
             variants={itemVariants}
-            className="bento-card p-6 rounded-2xl lg:col-span-3"
+            className="bento-card p-6 rounded-2xl"
           >
             <div className="feature-icon w-12 h-12 rounded-xl mb-4">
-              <Code2 className="w-6 h-6 text-primary" />
+              <Shield className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="font-semibold mb-2">Developer Experience</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Intuitive APIs designed for React developers
+            <h3 className="font-semibold mb-2">Battle-Tested</h3>
+            <p className="text-sm text-muted-foreground">
+              10+ years shipping production software.
             </p>
-            <div className="code-block rounded-lg overflow-hidden">
-              {/* Header with window controls */}
-              <div className="code-block-header">
-                <div className="code-block-controls">
-                  <div className="code-block-control code-block-control-close" />
-                  <div className="code-block-control code-block-control-minimize" />
-                  <div className="code-block-control code-block-control-maximize" />
-                </div>
-                <div className="code-block-title">Developer Experience</div>
-              </div>
-              {/* Code content */}
-              <div className="p-4 text-sm font-mono">
-                <div className="comment" style={{ color: 'hsl(0, 0%, 50%)', fontStyle: 'italic' }}>
-                  {"// Full chat UI in one line"}
-                </div>
-                <div>
-                  <span className="keyword" style={{ color: 'hsl(280, 75%, 70%)' }}>import</span>
-                  {" { "}
-                  <span className="component" style={{ color: 'hsl(195, 85%, 75%)' }}>ClarityChat</span>
-                  {" } "}
-                  <span className="keyword" style={{ color: 'hsl(280, 75%, 70%)' }}>from</span>
-                  <span className="string" style={{ color: 'hsl(25, 95%, 65%)' }}> '@clarity-chat/react'</span>
-                </div>
-                <div className="mt-2">
-                  {"<"}
-                  <span className="component" style={{ color: 'hsl(195, 85%, 75%)' }}>ClarityChat</span>
-                  {" "}
-                  <span className="prop" style={{ color: 'hsl(280, 75%, 70%)' }}>preset</span>
-                  {"="}
-                  <span className="string" style={{ color: 'hsl(25, 95%, 65%)' }}>"professional"</span>
-                  {" />"}
-                </div>
-              </div>
+          </motion.div>
+
+          {/* 6. Human-Centered (1 col) */}
+          <motion.div
+            variants={itemVariants}
+            className="bento-card p-6 rounded-2xl"
+          >
+            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
+              <Users className="w-6 h-6 text-primary" />
             </div>
+            <h3 className="font-semibold mb-2">Human-Centered</h3>
+            <p className="text-sm text-muted-foreground">
+              AI adoption is about people, not just technology.
+            </p>
+          </motion.div>
+
+          {/* 7. Real-Time Expertise (2 col) */}
+          <motion.div
+            variants={itemVariants}
+            className="bento-card p-6 rounded-2xl md:col-span-2 lg:col-span-2"
+          >
+            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
+              <Zap className="w-6 h-6 text-primary" />
+            </div>
+            <h3 className="font-semibold mb-2">Real-Time Expertise</h3>
+            <p className="text-sm text-muted-foreground">
+              Specialized experience in real-time data streaming applications, complex business logic, and critical workflow handling.
+            </p>
+          </motion.div>
+
+          {/* 8. Curriculum Designer (2 col) */}
+          <motion.div
+            variants={itemVariants}
+            className="bento-card p-6 rounded-2xl md:col-span-2 lg:col-span-2"
+          >
+            <div className="feature-icon w-12 h-12 rounded-xl mb-4">
+              <BookOpen className="w-6 h-6 text-primary" />
+            </div>
+            <h3 className="font-semibold mb-2">Curriculum Designer</h3>
+            <p className="text-sm text-muted-foreground">
+              Custom educational assets: workshops, self-paced materials, assessments, and documentation designed to create lasting competence, not just awareness.
+            </p>
           </motion.div>
         </motion.div>
       </div>

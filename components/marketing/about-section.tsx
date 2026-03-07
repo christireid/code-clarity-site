@@ -1,30 +1,29 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { Code2, Sparkles, Users, Zap } from "lucide-react"
+import { Code2, GraduationCap, Sparkles, Zap } from "lucide-react"
 import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/animations"
-import { ImagePlaceholder } from "@/components/ui/image-placeholder"
 
 const highlights = [
   {
     icon: Code2,
-    stat: "9+",
-    label: "Years of AI & Frontend Experience",
+    stat: "10+",
+    label: "Years Building Software",
+  },
+  {
+    icon: GraduationCap,
+    stat: "4+",
+    label: "Years Training Engineers",
   },
   {
     icon: Sparkles,
-    stat: "50+",
-    label: "AI Products Shipped",
-  },
-  {
-    icon: Users,
-    stat: "100K+",
-    label: "Developers Reached",
+    stat: "Daily",
+    label: "AI Tool Usage",
   },
   {
     icon: Zap,
-    stat: "60-90%",
-    label: "Typical Token Savings",
+    stat: "100%",
+    label: "Hands-On Experience",
   },
 ]
 
@@ -47,72 +46,66 @@ export function AboutSection() {
           {/* Left: Story */}
           <motion.div variants={prefersReducedMotion ? undefined : fadeInUp}>
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary mb-6">
-              About Code & Clarity
+              About Me
             </span>
             <h2 className="text-headline font-bold mb-6">
-              Built by engineers who've
+              An engineer who speaks
               <br />
-              <span className="gradient-text">shipped AI at scale</span>
+              <span className="gradient-text">human</span>
             </h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                Code & Clarity was founded on a simple observation: building
-                great AI chat interfaces is harder than it looks. After years of
-                helping startups turn raw AI models into polished products, we
-                kept solving the same problems over and over.
+                With over a decade in software development, I've spent the last
+                four years doing something most engineers avoid: teaching.
+                Training developers on complex technologies—both open source and
+                proprietary—across curriculum development, mentoring, live
+                instruction, and assessment creation.
               </p>
               <p>
-                Token management. Streaming edge cases. Context window juggling.
-                Accessibility for AI-generated content. These aren't just
-                technical challenges—they're UX challenges that can make or
-                break AI adoption.
+                I specialize in distilling complex technologies into concepts,
+                strategies, and workflows that actually make sense. Real-time
+                data streaming. Client-facing applications. Intricate UI/UX
+                development. Complex business logic handling critical workflows.
+                I've built it all, and more importantly, I've taught others to
+                build it too.
               </p>
               <p>
-                So we built Clarity Chat: a component library that encapsulates
-                everything we've learned about building AI interfaces that users
-                actually love. And for teams that need more than components,
-                we're here to help build the whole experience.
+                I found a unique gap in the market: the human touch of curation
+                and real experience, combined with the acceleration that AI
+                development brings. I don't just recommend AI tools—I use them
+                every day. I stay on top of the latest technology and personally
+                work with every tool I suggest.
               </p>
             </div>
             <div className="mt-8 flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                <div className="w-2 h-2 rounded-full bg-cyan-400" />
                 <span className="text-sm text-muted-foreground">
-                  Based in New York
+                  10+ Years Development
                 </span>
               </div>
               <div className="h-4 w-px bg-border" />
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary" />
+                <div className="w-2 h-2 rounded-full bg-purple-400" />
                 <span className="text-sm text-muted-foreground">
-                  Remote-first team
+                  4+ Years Training
+                </span>
+              </div>
+              <div className="h-4 w-px bg-border" />
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-rose-400" />
+                <span className="text-sm text-muted-foreground">
+                  AI-Native Workflows
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Right: Team visual + Stats */}
+          {/* Right: Stats grid */}
           <motion.div
             variants={prefersReducedMotion ? undefined : fadeInUp}
             className="space-y-6"
           >
-            {/*
-              ============================================
-              IMAGE PLACEHOLDER: about-team-photo
-              ============================================
-              Replace with founder/team photo or workspace image
-              Recommended: 800x600 or similar landscape
-              Path: /public/images/about-team-photo.jpg
-              ============================================
-            */}
-            <ImagePlaceholder
-              id="about-team-photo"
-              label="Team/Founder Photo (800x600)"
-              aspectRatio="video"
-              className="mb-6"
-            />
-
-            {/* Stats grid */}
             <div className="grid grid-cols-2 gap-4">
             {highlights.map((item, index) => (
               <motion.div

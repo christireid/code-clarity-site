@@ -24,27 +24,20 @@ const newsletterSchema = z.object({
 type NewsletterFormData = z.infer<typeof newsletterSchema>;
 
 const footerLinks = {
-  product: [
-    { label: "Features", href: "#features" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Demo", href: "#demo" },
-  ],
   services: [
-    { label: "AI Chat Development", href: "/services/ai-development" },
-    { label: "Token Optimization", href: "/services/token-optimization" },
-    { label: "AI-Enhanced Docs", href: "/services/documentation" },
-    { label: "Frontend Development", href: "/services/frontend-development" },
+    { label: "AI Strategy", href: "#services" },
+    { label: "AI Training", href: "#services" },
+    { label: "AI Development", href: "#services" },
   ],
   company: [
     { label: "About", href: "#about" },
-    { label: "Services", href: "#services" },
-    { label: "Pricing", href: "#pricing" },
+    { label: "Approach", href: "#approach" },
+    { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ],
   legal: [
     { label: "Privacy Policy", href: "#" },
     { label: "Terms of Service", href: "#" },
-    { label: "License", href: "#" },
   ],
 };
 
@@ -107,7 +100,7 @@ export function Footer() {
 
       <div className="relative max-w-7xl mx-auto px-6 py-16">
         {/* Main footer grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 lg:gap-12 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
           {/* Brand column */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-3 group w-fit mb-6">
@@ -125,8 +118,8 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-6">
-              Build ChatGPT-quality AI chat interfaces in hours, not months.
-              Premium React components for modern AI applications.
+              Expert AI strategy, hands-on training, and custom development.
+              Helping teams navigate AI adoption with clarity.
             </p>
 
             {/* Social links */}
@@ -144,23 +137,6 @@ export function Footer() {
                 </a>
               ))}
             </div>
-          </div>
-
-          {/* Product */}
-          <div>
-            <h3 className="font-semibold mb-4 text-sm">Product</h3>
-            <ul className="space-y-3">
-              {footerLinks.product.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Services */}
@@ -219,9 +195,9 @@ export function Footer() {
         <div className="glass-card rounded-2xl p-6 md:p-8 mb-16">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <h3 className="font-semibold text-lg mb-2">Stay updated</h3>
+              <h3 className="font-semibold text-lg mb-2">Stay in the loop</h3>
               <p className="text-sm text-muted-foreground">
-                Get the latest updates on Clarity Chat and AI development tips.
+                Get insights on AI strategy, tools, and workflows. No spam, just signal.
               </p>
             </div>
             {subscribed ? (

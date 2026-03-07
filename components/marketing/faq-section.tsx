@@ -7,34 +7,34 @@ import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/animations"
 
 const faqs = [
   {
-    question: "Can I try Clarity Chat before purchasing?",
+    question: "What kind of companies do you work with?",
     answer:
-      "Yes! The Community tier is completely free and includes core chat components. For Pro features, we offer a 14-day free trial with no credit card required.",
+      "I work with teams of all sizes\u2014from startups exploring their first AI integration to established companies looking to upskill their engineering teams. If you\u2019re serious about AI adoption and want guidance from someone who actually uses the tools, we\u2019re a good fit.",
   },
   {
-    question: "What's included in token optimization?",
+    question: "What does a typical engagement look like?",
     answer:
-      "Our token optimization hooks automatically compress conversation history, manage context windows, and reduce API costs by 60-90%. This includes intelligent summarization, semantic chunking, and provider-specific optimizations.",
+      "Every engagement starts with a discovery call to understand your needs. From there, we might do a focused strategy sprint, a multi-week training program, or an ongoing development partnership. I tailor the approach to what actually makes sense for your team.",
   },
   {
-    question: "Do you support all AI providers?",
+    question: "Do you only work with AI-specific projects?",
     answer:
-      "We support OpenAI, Anthropic (Claude), Google Gemini, Mistral, Cohere, and any OpenAI-compatible API. Multi-provider support is included in Pro and Enterprise tiers.",
+      "While AI strategy and training is my focus, my background spans a decade of full-stack development. I bring deep expertise in frontend development, real-time applications, UI/UX design, and complex business logic\u2014all of which inform how I approach AI integration.",
   },
   {
-    question: "Can I use Clarity Chat with my existing codebase?",
+    question: "How do your training programs work?",
     answer:
-      "Absolutely. Clarity Chat is designed to integrate seamlessly with any React or Next.js application. Components are fully customizable and work with your existing styling solution (Tailwind, CSS-in-JS, etc.).",
+      "I design custom curriculum based on your team\u2019s skill level and goals. This can include live workshops, hands-on labs, self-paced learning materials, documentation, assessments, and ongoing mentoring. The goal is lasting competence, not just a one-day overview.",
   },
   {
-    question: "What kind of support do you offer?",
+    question: "What AI tools and platforms do you specialize in?",
     answer:
-      "Community users get GitHub issues support and Discord access. Pro users receive priority email support with 24-hour response times and access to a private Discord channel. Enterprise includes dedicated support engineers.",
+      "I work across the full AI landscape\u2014Claude, GPT-4, Gemini, open source models, and the tooling ecosystems around them. I stay current on the latest developments and personally use every tool I recommend.",
   },
   {
-    question: "Is there a money-back guarantee?",
+    question: "How do I get started?",
     answer:
-      "Yes, we offer a 30-day money-back guarantee for all paid plans. If you're not satisfied, we'll refund your purchase - no questions asked.",
+      "Reach out through the contact form or email me at info@codeclarity.ai. We\u2019ll schedule a discovery call to discuss your goals and figure out the best path forward. No pressure, no sales pitch\u2014just a genuine conversation.",
   },
 ]
 
@@ -116,7 +116,7 @@ export function FAQSection() {
             variants={prefersReducedMotion ? undefined : fadeInUp}
             className="text-body-large text-muted-foreground"
           >
-            Everything you need to know about Clarity Chat
+            Everything you need to know about working together
           </motion.p>
         </motion.div>
 
@@ -149,13 +149,13 @@ export function FAQSection() {
           className="mt-12 text-center"
         >
           <p className="text-muted-foreground mb-4">
-            Still have questions? We&apos;re here to help.
+            Still have questions? I&apos;m here to help.
           </p>
           <a
             href="#contact"
             className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
           >
-            Contact our team
+            Get in touch
           </a>
         </motion.div>
       </div>

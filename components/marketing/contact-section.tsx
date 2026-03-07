@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
-import { Send, CheckCircle, Mail, MessageSquare } from "lucide-react"
+import { Send, CheckCircle, Mail } from "lucide-react"
 import { sendContactEmail } from "@/app/actions/send-email"
 import { slideInLeft, slideInRight, viewportOnce } from "@/lib/animations"
 
@@ -14,16 +14,16 @@ const contactSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   company: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
-  type: z.enum(["general", "enterprise", "consulting", "support"]),
+  type: z.enum(["strategy", "training", "development", "general"]),
 })
 
 type ContactFormData = z.infer<typeof contactSchema>
 
 const inquiryTypes = [
-  { value: "general" as const, label: "General Inquiry" },
-  { value: "enterprise" as const, label: "Enterprise" },
-  { value: "consulting" as const, label: "Consulting" },
-  { value: "support" as const, label: "Support" },
+  { value: "strategy" as const, label: "Strategy" },
+  { value: "training" as const, label: "Training" },
+  { value: "development" as const, label: "Development" },
+  { value: "general" as const, label: "General" },
 ]
 
 export function ContactSection() {
@@ -36,7 +36,7 @@ export function ContactSection() {
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      type: "general",
+      type: "strategy",
       name: "",
       email: "",
       company: "",
@@ -83,13 +83,12 @@ export function ContactSection() {
             viewport={viewportOnce}
           >
             <h2 className="text-headline font-bold mb-6">
-              Let's build something{" "}
-              <span className="gradient-text">amazing</span> together
+              Let&apos;s build your{" "}
+              <span className="gradient-text">AI advantage</span>
             </h2>
             <p className="text-body-large text-muted-foreground mb-8">
-              Whether you're looking to integrate Clarity Chat, need help with
-              token optimization, or want to discuss a custom AI project - we're
-              here to help.
+              Whether you need a clear AI strategy, hands-on team training, or
+              custom development&mdash;I&apos;d love to hear about what you&apos;re working on.
             </p>
 
             {/* Contact options */}
@@ -99,25 +98,13 @@ export function ContactSection() {
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Email us</h3>
+                  <h3 className="font-semibold mb-1">Email me</h3>
                   <a
-                    href="mailto:hello@codeclarity.ai"
+                    href="mailto:info@codeclarity.ai"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    hello@codeclarity.ai
+                    info@codeclarity.ai
                   </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="feature-icon w-12 h-12 rounded-xl">
-                  <MessageSquare className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Join our Discord</h3>
-                  <p className="text-muted-foreground">
-                    Get help from the community and our team
-                  </p>
                 </div>
               </div>
             </div>

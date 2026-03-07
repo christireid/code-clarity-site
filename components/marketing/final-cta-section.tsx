@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowRight, Github, BookOpen, MessageSquare } from "lucide-react"
+import { ArrowRight, Mail, BookOpen, Users } from "lucide-react"
 import Link from "next/link"
 
 export function FinalCTASection() {
@@ -22,52 +22,50 @@ export function FinalCTASection() {
         >
           {/* Headline */}
           <h2 className="text-headline font-bold mb-6">
-            Ready to build
+            Ready to make AI work
             <br />
-            <span className="gradient-text">something amazing?</span>
+            <span className="gradient-text">for your team?</span>
           </h2>
 
           {/* Subheadline */}
           <p className="text-body-large text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Join thousands of developers building the next generation of AI
-            chat applications with Clarity Chat.
+            Let&apos;s have a conversation about where you are, where you want to
+            go, and how to get there.
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Link
-              href="#demo"
+              href="#contact"
               className="cta-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2 group"
             >
-              Try Demo
+              Book a Strategy Call
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              href="https://github.com/codeandclarity/clarity-chat"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:info@codeclarity.ai"
               className="secondary-button px-8 py-4 rounded-xl text-lg inline-flex items-center gap-2"
             >
-              <Github className="w-5 h-5" />
-              View on GitHub
+              <Mail className="w-5 h-5" />
+              Email Me
             </Link>
           </div>
 
           {/* Quick links */}
           <div className="flex flex-wrap justify-center gap-6">
             <Link
-              href="#features"
+              href="#services"
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
             >
               <BookOpen className="w-4 h-4" />
-              <span className="text-sm">Features</span>
+              <span className="text-sm">Services</span>
             </Link>
             <Link
-              href="#contact"
+              href="#about"
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
             >
-              <MessageSquare className="w-4 h-4" />
-              <span className="text-sm">Contact us</span>
+              <Users className="w-4 h-4" />
+              <span className="text-sm">About</span>
             </Link>
           </div>
         </motion.div>

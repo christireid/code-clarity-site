@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Search, Lightbulb, Code2, Rocket, ArrowRight } from "lucide-react"
+import { Search, Lightbulb, GraduationCap, Rocket, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 const steps = [
@@ -10,11 +10,11 @@ const steps = [
     icon: Search,
     title: "Discovery",
     description:
-      "We start by understanding your goals, technical landscape, and pain points. Whether it's an AI integration, accessibility audit, or documentation overhaul, we map out exactly what success looks like.",
+      "We start with a deep dive into your current tech landscape, workflows, and AI maturity. I assess where you are, where you want to go, and what's actually achievable. No assumptions—just clear-eyed analysis.",
     details: [
-      "Technical requirements gathering",
-      "Codebase & architecture review",
-      "Stakeholder alignment",
+      "Current state assessment",
+      "Goal alignment & prioritization",
+      "AI readiness evaluation",
     ],
   },
   {
@@ -22,35 +22,35 @@ const steps = [
     icon: Lightbulb,
     title: "Strategy",
     description:
-      "Based on discovery, we create a detailed implementation plan. You'll know the timeline, deliverables, and exactly how we'll tackle each challenge.",
+      "Based on discovery, I craft a tailored AI strategy. Which tools fit your workflow. Whether to build custom or adopt existing solutions. How to integrate AI without disrupting what already works.",
     details: [
-      "Solution architecture",
-      "Technology recommendations",
-      "Clear milestones & timeline",
+      "Tool & platform recommendations",
+      "Build vs. buy analysis",
+      "Implementation roadmap",
     ],
   },
   {
     number: "03",
-    icon: Code2,
-    title: "Build",
+    icon: GraduationCap,
+    title: "Train & Enable",
     description:
-      "Our team executes with precision. Regular check-ins keep you informed, and our iterative approach means you can provide feedback throughout the process.",
+      "Your team gets hands-on training—workshops, documentation, self-paced materials. I don't just show them the tools; I teach them the thinking. Technical skills and soft skills, because adoption is about people.",
     details: [
-      "Agile development sprints",
-      "Continuous integration",
-      "Weekly progress updates",
+      "Custom workshops & labs",
+      "Documentation & learning materials",
+      "Ongoing mentoring & support",
     ],
   },
   {
     number: "04",
     icon: Rocket,
-    title: "Launch & Support",
+    title: "Build & Deploy",
     description:
-      "We don't just ship and disappear. We ensure smooth deployment, provide documentation, and offer ongoing support to keep everything running perfectly.",
+      "When custom tooling is needed, I build it. Pilots, integrations, production systems—delivered with the attention to detail that comes from a decade of hands-on development.",
     details: [
-      "Production deployment",
-      "Knowledge transfer",
-      "Ongoing maintenance options",
+      "Pilot programs & POCs",
+      "Custom AI tool development",
+      "Production deployment & handoff",
     ],
   },
 ]
@@ -80,7 +80,7 @@ const itemVariants = {
 
 export function ProcessSection() {
   return (
-    <section id="process" className="relative py-24 overflow-hidden bg-muted/20">
+    <section id="approach" className="relative py-24 overflow-hidden bg-muted/20">
       {/* Background */}
       <div className="absolute inset-0 grid-pattern opacity-30" />
 
@@ -94,14 +94,13 @@ export function ProcessSection() {
           className="text-center mb-16"
         >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-primary mb-6">
-            How We Work
+            How I Work
           </span>
           <h2 className="text-headline font-bold mb-4">
-            A <span className="gradient-text">Clear Process</span> for Every Project
+            A <span className="gradient-text">Proven Process</span> for AI Adoption
           </h2>
           <p className="text-body-large text-muted-foreground max-w-2xl mx-auto">
-            From initial consultation to ongoing support, we follow a proven methodology
-            that delivers results consistently.
+            From discovery to deployment, every engagement follows a methodology designed to deliver real, lasting results.
           </p>
         </motion.div>
 
@@ -187,15 +186,15 @@ export function ProcessSection() {
           className="text-center mt-20"
         >
           <div className="glass-card inline-block p-8 rounded-2xl">
-            <h3 className="text-xl font-semibold mb-3">Ready to Get Started?</h3>
+            <h3 className="text-xl font-semibold mb-3">Ready to start your AI journey?</h3>
             <p className="text-muted-foreground text-sm mb-6 max-w-md">
-              Tell us about your project and we'll schedule a free consultation to discuss how we can help.
+              Book a discovery call and let&apos;s explore how AI can transform your team&apos;s workflow.
             </p>
             <Link
               href="#contact"
               className="cta-button inline-flex items-center gap-2 px-6 py-3 rounded-xl"
             >
-              Start Your Project
+              Book a Discovery Call
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

@@ -1,26 +1,16 @@
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { HeroSection } from "@/components/marketing/hero-section"
-import { TrustBlock } from "@/components/marketing/trust-block"
-import { TechStack } from "@/components/marketing/tech-stack"
-import { EarlyAccessBanner } from "@/components/marketing/early-access-banner"
-import { ChatDemoSection } from "@/components/marketing/chat-demo-section"
-import { CodeComparison } from "@/components/marketing/code-comparison"
 import { FeaturesBento } from "@/components/marketing/features-bento"
-import { ProvidersSection } from "@/components/marketing/providers-section"
-import { SavingsCalculator } from "@/components/marketing/savings-calculator"
 import { ServicesSection } from "@/components/marketing/services-section"
 import { AboutSection } from "@/components/marketing/about-section"
 import { ProcessSection } from "@/components/marketing/process-section"
-import { PricingSection } from "@/components/marketing/pricing-section"
 import { FAQSection } from "@/components/marketing/faq-section"
 import { ContactSection } from "@/components/marketing/contact-section"
 import { FinalCTASection } from "@/components/marketing/final-cta-section"
-import { ComparisonSection } from "@/components/marketing/comparison-section"
 import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
 import { ExitIntentPopup } from "@/components/exit-intent-popup"
 import { ScrollProgress } from "@/components/scroll-progress"
-import { SectionErrorBoundary } from "@/components/error-boundary"
 
 export default function Home() {
   return (
@@ -28,83 +18,34 @@ export default function Home() {
       <ScrollProgress />
       <Navigation />
       <main className="min-h-screen overflow-x-hidden">
-        {/* Hero with 3D particle field */}
         <HeroSection />
 
-        {/* Trust block with animated stats */}
-        <TrustBlock />
-
-        {/* Technology stack badges */}
-        <TechStack />
-
-        {/* Early access banner */}
-        <EarlyAccessBanner />
-
-        {/* Interactive product demo */}
-        <div id="demo">
-          <SectionErrorBoundary name="Chat Demo">
-            <ChatDemoSection />
-          </SectionErrorBoundary>
-        </div>
-
-        {/* Before/After code comparison */}
-        <SectionErrorBoundary name="Code Comparison">
-          <CodeComparison />
-        </SectionErrorBoundary>
-
-        {/* Features bento grid */}
-        <div id="features">
-          <FeaturesBento />
-        </div>
-
-        {/* Comparison matrix */}
-        <ComparisonSection />
-
-        {/* Provider logos */}
-        <ProvidersSection />
-
-        {/* Token savings calculator */}
-        <div id="calculator">
-          <SectionErrorBoundary name="Savings Calculator">
-            <SavingsCalculator />
-          </SectionErrorBoundary>
-        </div>
-
-        {/* Services section */}
         <div id="services">
           <ServicesSection />
         </div>
 
-        {/* About section */}
+        <div id="capabilities">
+          <FeaturesBento />
+        </div>
+
         <div id="about">
           <AboutSection />
         </div>
 
-        {/* Process section */}
         <ProcessSection />
 
-        {/* Pricing */}
-        <div id="pricing">
-          <PricingSection />
-        </div>
-
-        {/* FAQ */}
         <FAQSection />
 
-        {/* Contact form */}
         <div id="contact">
           <ContactSection />
         </div>
 
-        {/* Final CTA */}
         <FinalCTASection />
       </main>
       <Footer />
 
-      {/* Sticky mobile CTA */}
       <StickyMobileCTA />
 
-      {/* Exit intent popup */}
       <ExitIntentPopup />
     </>
   )
