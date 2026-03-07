@@ -35,7 +35,7 @@ const services = [
       "Engineering team upskilling & mentoring",
       "Assessment creation & progress tracking",
     ],
-    gradient: "from-violet-400 to-purple-500",
+    gradient: "from-rose-400 to-rose-500",
     href: "#contact",
   },
   {

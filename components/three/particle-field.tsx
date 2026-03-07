@@ -20,10 +20,12 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
     const colors = new Float32Array(count * 3)
     const originalPositions = new Float32Array(count * 3)
 
-    // Primary cyan: hsl(195, 100%, 70%)
-    const primaryColor = new THREE.Color(0x66d9ef)
-    // Secondary violet: hsl(280, 80%, 75%)
-    const secondaryColor = new THREE.Color(0xd9a0e8)
+    // Primary cyan: hsl(200, 100%, 65%)
+    const primaryColor = new THREE.Color(0x4dc0ff)
+    // Warm amber: hsl(38, 100%, 62%)
+    const secondaryColor = new THREE.Color(0xffab3d)
+    // Rose/magenta accent
+    const accentColor = new THREE.Color(0xed2b6e)
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3
@@ -44,9 +46,14 @@ function ParticleSystem({ count = 3000, mouse }: ParticleFieldProps) {
       originalPositions[i3 + 1] = y
       originalPositions[i3 + 2] = z
 
-      // Gradient color based on position
+      // Gradient color based on position - 3-way blend
       const t = Math.random()
-      const color = primaryColor.clone().lerp(secondaryColor, t)
+      let color: THREE.Color
+      if (t < 0.4) {
+        color = primaryColor.clone().lerp(accentColor, t / 0.4)
+      } else {
+        color = accentColor.clone().lerp(secondaryColor, (t - 0.4) / 0.6)
+      }
       colors[i3] = color.r
       colors[i3 + 1] = color.g
       colors[i3 + 2] = color.b
@@ -194,9 +201,9 @@ function ConnectionLines({
         />
       </bufferGeometry>
       <lineBasicMaterial
-        color={0x66d9ef}
+        color={0x4dc0ff}
         transparent
-        opacity={0.3}
+        opacity={0.25}
         blending={THREE.AdditiveBlending}
       />
     </lineSegments>
@@ -209,9 +216,9 @@ function GlowingOrbs() {
 
   const orbs = useMemo(() => {
     return [
-      { position: [-8, 4, -15], color: 0x66d9ef, scale: 3 },
-      { position: [10, -3, -20], color: 0xd9a0e8, scale: 4 },
-      { position: [0, -8, -18], color: 0xe87da8, scale: 2.5 },
+      { position: [-8, 4, -15], color: 0x4dc0ff, scale: 3 },
+      { position: [10, -3, -20], color: 0xffab3d, scale: 4 },
+      { position: [0, -8, -18], color: 0xed2b6e, scale: 2.5 },
     ]
   }, [])
 

@@ -86,7 +86,7 @@ export function AboutSection() {
               </div>
               <div className="h-4 w-px bg-border" />
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-purple-400" />
+                <div className="w-2 h-2 rounded-full bg-amber-400" />
                 <span className="text-sm text-muted-foreground">
                   4+ Years Training
                 </span>

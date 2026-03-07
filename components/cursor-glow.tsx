@@ -49,7 +49,7 @@ export function CursorGlow() {
         className="absolute w-[500px] h-[500px] rounded-full"
         style={{
           background:
-            "radial-gradient(circle, hsla(195, 100%, 70%, 0.06) 0%, hsla(280, 80%, 75%, 0.03) 40%, transparent 70%)",
+            "radial-gradient(circle, hsla(200, 100%, 65%, 0.06) 0%, hsla(12, 90%, 55%, 0.03) 40%, transparent 70%)",
           transform: "translate(-50%, -50%)",
         }}
         animate={{

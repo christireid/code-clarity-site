@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import { useEffect, useState, Suspense } from "react"
 import Link from "next/link"
 import { ParticleFieldCanvas } from "@/components/three/particle-field"
+import { ShaderBackground } from "@/components/three/shader-background"
 
 // ============================================================================
 // TYPING ANIMATION HOOK
@@ -77,7 +78,7 @@ function Terminal({ title = "terminal", children, className = "" }: TerminalProp
   return (
     <div className={`relative group ${className}`}>
       {/* Glow effect */}
-      <div className="absolute -inset-px bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-rose-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
+      <div className="absolute -inset-px bg-gradient-to-r from-amber-500/20 via-rose-500/20 to-cyan-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
 
       {/* Terminal window */}
       <div className="relative bg-zinc-950/80 backdrop-blur-xl border border-zinc-800/50 rounded-2xl overflow-hidden shadow-2xl">
@@ -117,11 +118,11 @@ function HeroTerminalDemo() {
 
   const promptColors = [
     "text-cyan-400",
-    "text-purple-400",
+    "text-amber-400",
     "text-rose-400",
+    "text-orange-400",
     "text-cyan-400",
-    "text-purple-400",
-    "text-rose-400",
+    "text-amber-400",
   ]
 
   return (
@@ -142,7 +143,7 @@ function HeroTerminalDemo() {
             <div key={i} className="flex">
               <span className={`${promptColors[i]} font-bold`}>{promptChar}</span>
               <span className={i === terminalLines.length - 1 && isComplete
-                ? "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-rose-400 font-semibold"
+                ? "text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-rose-400 to-cyan-400 font-semibold"
                 : "text-zinc-300"
               }>
                 {rest}
@@ -159,7 +160,7 @@ function HeroTerminalDemo() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-4 pt-4 border-t border-zinc-800/50"
         >
-          <div className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-rose-400">
+          <div className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-rose-400 to-cyan-400">
             <svg className="w-4 h-4 text-cyan-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
@@ -178,9 +179,9 @@ const pillars = [
   {
     title: "Strategy",
     description: "Right tools. Right systems. Right approach.",
-    gradient: "from-cyan-500/20 to-cyan-500/5",
-    border: "border-cyan-500/20",
-    accent: "text-cyan-400",
+    gradient: "from-amber-500/20 to-amber-500/5",
+    border: "border-amber-500/20",
+    accent: "text-amber-400",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
@@ -190,9 +191,9 @@ const pillars = [
   {
     title: "Training",
     description: "Workshops, documentation, and hands-on enablement.",
-    gradient: "from-purple-500/20 to-purple-500/5",
-    border: "border-purple-500/20",
-    accent: "text-purple-400",
+    gradient: "from-rose-500/20 to-rose-500/5",
+    border: "border-rose-500/20",
+    accent: "text-rose-400",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
@@ -202,9 +203,9 @@ const pillars = [
   {
     title: "Development",
     description: "Custom AI tools, pilots, and production systems.",
-    gradient: "from-rose-500/20 to-rose-500/5",
-    border: "border-rose-500/20",
-    accent: "text-rose-400",
+    gradient: "from-cyan-500/20 to-cyan-500/5",
+    border: "border-cyan-500/20",
+    accent: "text-cyan-400",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
@@ -236,19 +237,27 @@ export function HeroSection() {
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-zinc-950">
       {/* Background */}
       <div className="absolute inset-0">
-        {/* 3D Particle Field */}
-        <div className="absolute inset-0 z-0 pointer-events-none" style={{ minHeight: '100vh', width: '100%' }}>
+        {/* WebGL Shader Background - dramatic light streaks */}
+        <Suspense fallback={null}>
+          <ShaderBackground
+            className="absolute inset-0 z-0 pointer-events-none"
+            opacity={0.65}
+          />
+        </Suspense>
+
+        {/* 3D Particle Field overlay */}
+        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ minHeight: '100vh', width: '100%' }}>
           <Suspense fallback={null}>
             <ParticleFieldCanvas className="w-full h-full" />
           </Suspense>
         </div>
 
-        {/* Gradient mesh overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900 via-zinc-950/60 to-zinc-950 z-[1] pointer-events-none" />
+        {/* Gradient mesh overlay - darkens top for readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-transparent to-zinc-950/90 z-[2] pointer-events-none" />
 
         {/* Subtle grid */}
         <div
-          className="absolute inset-0 opacity-[0.015] z-[1] pointer-events-none"
+          className="absolute inset-0 opacity-[0.012] z-[2] pointer-events-none"
           style={{
             backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
@@ -256,10 +265,10 @@ export function HeroSection() {
           }}
         />
 
-        {/* Prismatic accent glows */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/[0.03] rounded-full blur-[100px] z-[1] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/[0.03] rounded-full blur-[100px] z-[1] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-rose-500/[0.02] rounded-full blur-[120px] z-[1] pointer-events-none" />
+        {/* Warm accent glows */}
+        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-amber-500/[0.04] rounded-full blur-[120px] z-[2] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-rose-500/[0.03] rounded-full blur-[100px] z-[2] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/[0.02] rounded-full blur-[120px] z-[2] pointer-events-none" />
       </div>
 
       {/* Content */}
@@ -273,7 +282,7 @@ export function HeroSection() {
         <motion.div variants={itemVariants} className="text-center mb-6">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
             <span className="text-white">Your </span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-rose-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-rose-400 to-cyan-400">
               AI strategy
             </span>
             <br />
@@ -285,7 +294,7 @@ export function HeroSection() {
         <motion.p variants={itemVariants} className="text-center text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto mb-12">
           An engineer-turned-strategist who lives in the tools, builds the systems,
           and trains teams to actually use them.{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-rose-400 font-medium">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-rose-400 to-cyan-400 font-medium">
             Strategy. Training. Development.
           </span>
         </motion.p>
@@ -307,14 +316,14 @@ export function HeroSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-400 to-rose-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-400 via-rose-400 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
 
           <Link
             href="#services"
             className="px-8 py-4 font-medium text-zinc-300 rounded-xl border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900/50 transition-all flex items-center gap-2"
           >
-            <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
             Explore Services
